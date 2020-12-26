@@ -21,6 +21,7 @@ foreach (glob('./src/Pages/*', GLOB_ONLYDIR) as $dir) {
    $page_name = basename($dir);
 
    $page_php = Phug::compileFile("./src/Pages/{$page_name}/{$page_name}.pug");
+   $page_php = replace_dev_links($page_php);
    $file_start = generate_vars_start($page_name);
    $page_php = $file_start . $page_php;
 
@@ -60,6 +61,11 @@ $vars_string
 ";
 
    return $file_start;
+}
+
+function replace_dev_links($page_php)
+{
+   return str_replace('?page=', '../', $page_php);
 }
 
 function table($row, $sizes)

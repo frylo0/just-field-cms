@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "OpenSans-Regular";
-  src: url(../Attach/Fonts/OpenSans-Regular.ttf) format("truetype");
+  src: url(./../../../Attach/Fonts/OpenSans-Regular.ttf) format("truetype");
 }
 :root {
   --f-os-r: "OpenSans-Regular", sans-serif;
@@ -21,7 +21,7 @@
 
 @font-face {
   font-family: "OpenSans-Light";
-  src: url(../Attach/Fonts/OpenSans-Light.ttf) format("truetype");
+  src: url(./../../../Attach/Fonts/OpenSans-Light.ttf) format("truetype");
 }
 :root {
   --f-os-l: "OpenSans-Light", sans-serif;
@@ -33,7 +33,7 @@
 
 @font-face {
   font-family: "OpenSans-LightItalic";
-  src: url(../Attach/Fonts/OpenSans-LightItalic.ttf) format("truetype");
+  src: url(./../../../Attach/Fonts/OpenSans-LightItalic.ttf) format("truetype");
 }
 :root {
   --f-os-li: "OpenSans-LightItalic", sans-serif;

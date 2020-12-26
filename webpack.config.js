@@ -109,7 +109,7 @@ const config = {
               name: '[path][name].[ext]',
               context: path.resolve(__dirname, 'src/Attach'),
               outputPath: 'dist/Attach',
-              publicPath: '../Attach/',
+              publicPath: (mode == 'development' ? './../../../Attach/' : '../Attach/'),
               useRelativePaths: true,
             },
           },
