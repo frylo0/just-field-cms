@@ -28,12 +28,12 @@ const config = {
     path: path.resolve(__dirname), //target folder
   },
   plugins: [
-    //new CleanWebpackPlugin({
-    //  cleanOnceBeforeBuildPatterns: ['./dist/**/*'], //dist folder clean up
-    //}),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['./dist/**/*'], //dist folder clean up
+    }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/Attach', to: 'dist/Attach' },
+        //{ from: 'src/Attach', to: 'dist/Attach' },
         { from: 'php', to: 'dist/php' },
       ],
     }),
@@ -70,7 +70,7 @@ const config = {
           {
             loader: 'css-loader', //CSS to CommonJS, make possible require and import css files in js files
             options: {
-              url: false, //don't resolve url links in css files
+              //url: false, //don't resolve url links in css files
             }
           },
           'postcss-loader', //added to use autoprefixer
@@ -93,12 +93,27 @@ const config = {
           {
             loader: 'css-loader', //CSS to CommonJS, make possible require and import css files in js files
             options: {
-              url: false, //don't resolve url links in css files
+              //url: false, //don't resolve url links in css files
             }
           },
           'postcss-loader', //added to use autoprefixer
           'sass-loader', //complie SASS to CSS
         ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|ttf|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              context: path.resolve(__dirname, 'src/Attach'),
+              outputPath: 'dist/Attach',
+              publicPath: '../Attach/',
+              useRelativePaths: true,
+            },
+          },
+        ],
       },
     ]
   }

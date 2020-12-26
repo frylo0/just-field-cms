@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack --mode=development",
-    "prod": "webpack --mode=production"
+    "prod": "webpack --mode=production && php ./prod.php"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +26,8 @@
     "style-loader": "^2.0.0",
     "webpack": "^5.11.0",
     "webpack-cli": "^4.2.0"
+  },
+  "devDependencies": {
+    "file-loader": "^6.2.0"
   }
 }

@@ -1,6 +1,8 @@
 <?php
 
 $VER = '1.0';
+$ATTACH = './../Attach/';
+$PHP = './../php/';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -17,15 +19,6 @@ Phug::setOption('debug', false); // remove debug and performance info from outpu
 foreach (glob('./src/Pages/*', GLOB_ONLYDIR) as $dir) {
    $page_folder_path = $dir;
    $page_name = basename($dir);
-
-   //$renderer = new Phug\Renderer([
-   //   //'link' => "./{$page_name}",
-   //   //'ver' => "$VER",
-   //   //'orm' => $orm,
-   //   //'$_POST' => $_POST,
-   //   //'$_GET' => $_GET,
-   //   //'$_COOKIE' => $_COOKIE,
-   //]);
 
    $page_php = Phug::compileFile("./src/Pages/{$page_name}/{$page_name}.pug");
    $file_start = generate_vars_start($page_name);
@@ -81,20 +74,4 @@ function table($row, $sizes)
       $row_str .= $col;
    }
    return $row_str;
-}
-
-function recurse_copy($src, $dst)
-{
-   $dir = opendir($src);
-   @mkdir($dst);
-   while (false !== ($file = readdir($dir))) {
-      if (($file != '.') && ($file != '..')) {
-         if (is_dir($src . '/' . $file)) {
-            recurse_copy($src . '/' . $file, $dst . '/' . $file);
-         } else {
-            copy($src . '/' . $file, $dst . '/' . $file);
-         }
-      }
-   }
-   closedir($dir);
 }
