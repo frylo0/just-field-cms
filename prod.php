@@ -65,7 +65,7 @@ $vars_string
 
 function replace_dev_links($page_php)
 {
-   return str_replace('?page=', '../', $page_php);
+   return str_replace('dev.php?page=', '../', $page_php);
 }
 
 function table($row, $sizes)
