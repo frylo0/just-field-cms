@@ -1,3 +1,4 @@
-mixin input(placeholder, name)
-   input.input(placeholder=placeholder, name=(name || ''))&attributes(attributes)
-      
+mixin input(placeholder, name='', type='')
+   .input.rel&attributes(attributes)
+      input(name=name, type=type)
+      .input__placeholder.abs.w100.h100.row.aic= placeholder

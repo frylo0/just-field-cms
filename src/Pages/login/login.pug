@@ -1,3 +1,8 @@
+- session_start();
+if ($_SESSION['id'])
+   - header('Location: ./dev.php?page=main');
+   - die;
+
 include ../../bundle.pug
 
 <!DOCTYPE html>
@@ -6,22 +11,15 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
-      title Вход, Регистрация | Vodopoj
+      title Login | Just Field
       link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
-   body.rel
-      +devicer().row.jcc.aic
-         main.m1.p1
-            h1.m0.fz1 Волонтерская помощь
-            h2.m0.mb1o25.fzo75 Вода. Симферополь
-            form(action="./PHP/account/check.php" method="post")
-               +input('Логин/Email/Телефон', 'login').w100
-               +input('Пароль', 'password')(type="password").w100.mto75.mb1o25
-               .row.mbo25.buttons
-                  +link('', '#').mro75
-                     +button('Вход', 'filled', 'c3').w100(type="submit")
-                  +link('', './dev.php?page=register')
-                     +button('Регистрация', 'outlined', 'c3').w100(type="button")
-            .row.jcc
-               +link('Забыли пароль?', './forgot-password').fzo75
-         .abs.bottomo5.fzo75
-            +link('Разработано командой FRITY', 'http://frity.ru').frity-link
+   body.row.jcc.aic
+      main.p1.brado5
+         h1.mtb0.ff-os Login 
+         h2.mt0.ff-os.fwn Just Field CMS
+         form(action='./dev.php?page=scripts&script=login' method="post").col
+            +input('Login', 'login', 'text').mbo5
+            +input('Password', 'password', 'password').mb1(type="password")#password
+            +button('Войти', 'filled', 'c2')
+
+   script(src=`${link}.bundle.js`)

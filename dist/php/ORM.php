@@ -70,7 +70,7 @@ class ORM {
 
       switch ($this->last_operation) {
          case 'select':
-            $sql = "SELECT {$this->selector} FROM {$this->table} WHERE {$where_str};";
+            $sql = "SELECT {$this->selector} FROM `{$this->table}` WHERE {$where_str};";
             break;
 
          case 'update':
@@ -82,7 +82,7 @@ class ORM {
             }
             $query_str = mb_substr($query_str, 0, mb_strlen($query_str) - 2);
 
-            $sql = "UPDATE {$this->table} SET {$query_str} WHERE {$where_str};";
+            $sql = "UPDATE `{$this->table}` SET {$query_str} WHERE {$where_str};";
             break;
 
          case 'insert':
@@ -97,7 +97,7 @@ class ORM {
             }
             $vals_str = mb_substr($vals_str, 0, mb_strlen($vals_str) - 2);
 
-            $sql = "INSERT INTO {$this->table} ({$keys_str}) VALUES ({$vals_str});";
+            $sql = "INSERT INTO `{$this->table}` ({$keys_str}) VALUES ({$vals_str});";
             break;
 
          default;
@@ -152,6 +152,7 @@ class ORM {
    private function console_log($message)
    {
       if ($this->is_log) {
+         $message = str_replace('`', '\`', $message);
          echo "<script>console.log(`$message`);</script>";
       }
    }

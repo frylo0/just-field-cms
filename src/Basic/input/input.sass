@@ -1,12 +1,28 @@
 .input
-   padding: 0.25em 0.3em
-   border: 1px solid $-c3
-   border-radius: to_em(3px)
-   box-shadow: inset 0px 7px 10px rgba(0, 0, 0, 0.05)
-   outline: none
-   color: $-c6
-   font-family: var(--f-os)
+   $padding: 0.25em 0.3em
+   input
+      padding: $padding
+      border: none
+      border-radius: to_em(3px)
+      outline: none
+      color: $-c6
+      font: inherit
+      font-family: var(--f-os)
 
-   &::placeholder
+   &_not-free .input__placeholder
+      top: -1rem
+      left: 0
       color: $-c2
-      font-family: var(--f-os-li)
+      font-size: 0.75em
+      padding: 0
+
+   &__placeholder
+      pointer-events: none
+      user-select: none
+      top: 0
+      left: 0.1rem
+      font-size: 0.9em
+      padding: $padding
+      color: $-c2
+      font-family: var(--f-os)
+      transition: font-size 0.25s, color 0.25s, top 0.25s ease-out, left 0.25s ease-out, padding 0.25s ease-out

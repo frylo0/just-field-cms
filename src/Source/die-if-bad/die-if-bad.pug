@@ -1,0 +1,7 @@
+mixin die-if-bad(php_folder='./')
+   - session_start();
+
+   if (!isset($_SESSION['id']))
+      - session_destroy();
+      - header(`Location: ./dev.php?page=login`);
+      - die;

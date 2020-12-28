@@ -1,0 +1,31 @@
+if isset($_GET['script'])
+   - var script = $_GET['script'];
+
+   if script == 'exit'
+      - session_start();
+      - unset_session_id();
+      - session_destroy();
+
+      - header("Location: ./dev.php?page=login");
+      - die;
+
+
+   else if script == 'login'
+      if isset($_POST['login']) && isset($_POST['password'])
+         - session_start();
+
+         - var login = $_POST['login'];
+         - var password = $_POST['password'];
+
+         - orm.is_log = true;
+
+         - var id = orm.from('account').select('id_account').where(`account_login = '${login}' AND account_password = '${password}'`)();
+
+         if (!id)
+            - header('Location: ./dev.php?page=login');
+         else
+            - var id = id[0]['id_account'];
+            - $_SESSION['id'] = id;
+            - header('Location: ./dev.php?page=main');
+      else
+         - echo('NO POST');

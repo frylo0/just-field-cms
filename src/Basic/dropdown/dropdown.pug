@@ -1,0 +1,8 @@
+mixin dropdown(title)
+   .dropdown(data-opened="false").rel&attributes(attributes)
+      .dropdown__title.row.aic.cup.po5
+         +arrow('right', '#000', 14, 5)
+         span.ml1o25= title
+      .dropdown__content.dn
+         if block
+            block

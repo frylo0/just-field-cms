@@ -2,7 +2,7 @@
 
 $VER = '1.0';
 $ATTACH = './../Attach/';
-$PHP = './../php/';
+$PHP = './../php';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -42,11 +42,12 @@ $orm->close();
 
 function generate_vars_start($page_name)
 {
-   global $VER;
+   global $VER, $PHP;
 
    $vars = [
       'link' => "./{$page_name}",
       'ver' => "$VER",
+      'php' => $PHP,
    ];
 
    $vars_string = '';
@@ -55,7 +56,10 @@ function generate_vars_start($page_name)
    }
    $file_start = "
 <?php
-// comment
+require_once __DIR__ . '$PHP/orm.config.php';
+
+\$unset_session_id = function () { unset(\$_SESSION['id']); };
+
 $vars_string
 ?>
 ";
@@ -65,7 +69,9 @@ $vars_string
 
 function replace_dev_links($page_php)
 {
-   return str_replace('dev.php?page=', '../', $page_php);
+   $page_php = preg_replace('/dev.php\?page=(\w+)(&amp;|&)/', '../$1/?', $page_php);
+   $page_php = str_replace('dev.php?page=', '../', $page_php);
+   return $page_php;
 }
 
 function table($row, $sizes)

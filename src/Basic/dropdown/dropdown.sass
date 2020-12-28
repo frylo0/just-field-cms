@@ -1,0 +1,32 @@
+.dropdown
+   &__title
+      user-select: none
+      transition: background-color 0.25s ease-out
+
+      > .arrow
+         margin-top: -0.25em
+         svg
+            transition: transform 0.25s ease
+
+      &:hover
+         background: $-c2
+
+   &__content
+      padding-left: 1.75em
+
+      &::before
+         content: ''
+         display: block
+         height: calc(100% - 2em)
+         width: 1px
+         position: absolute
+         left: 1em
+         top: 2em
+         border-left: 1px solid #00000030
+
+      > .dropdown 
+         margin-left: -0.75em
+         .dropdown
+            &__title
+               
+            &__content

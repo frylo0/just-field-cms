@@ -1,11 +1,14 @@
 <?php
 
 $VER = '1.0';
+$ATTACH = './src/Attach/';
+$PHP = './php';
 
 use JsPhpize\JsPhpizePhug;
 
 include_once __DIR__ . '/vendor/autoload.php';
 include_once __DIR__ . '/php/ORM.php';
+require_once __DIR__ . '/php/unset-session.php';
 
 require_once './php/orm.config.php';
 $orm->table_prefix = 'jf-cms_';
@@ -20,6 +23,8 @@ Phug::share([
    '$_POST' => $_POST,
    '$_GET' => $_GET,
    '$_COOKIE' => $_COOKIE,
+   'php' => $PHP,
+   'unset_session_id' => $unset_session_id,
 ]);
 Phug::displayFile("./src/Pages/{$page_name}/{$page_name}.pug",);
 
