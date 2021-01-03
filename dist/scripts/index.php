@@ -2,11 +2,13 @@
 <?php
 require_once __DIR__ . './../php/orm.config.php';
 
-$unset_session_id = function () { unset($_SESSION['id']); };
+$unset_session_prop = function ($prop) { unset($_SESSION[$prop]); };
 
 $link = './scripts';
-$ver = '1.0';
+$ver = '1.1';
 $php = './../php';
+$attach = './../Attach';
+$root = './..';
 
 ?>
 <?php $GLOBALS['__jpv_dotWithArrayPrototype'] = function ($base) {
@@ -656,10 +658,10 @@ foreach (array_keys(get_defined_vars()) as $__pug_key) {
         ? $_pug_temp->__toBoolean()
         : $_pug_temp) { ?><?php $script = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_GET, 'script') ?><?php if (method_exists($_pug_temp = (isset($script) ? $script : null) == 'exit', "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php (function_exists('unset_session_id') ? unset_session_id() : $unset_session_id()) ?><?php (function_exists('session_destroy') ? session_destroy() : $session_destroy()) ?><?php (function_exists('header') ? header("Location: ./../login") : $header("Location: ./../login")) ?><?php $die ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'login', "__toBoolean")
+        : $_pug_temp) { ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php (function_exists('unset_session_prop') ? unset_session_prop('id') : $unset_session_prop('id')) ?><?php (function_exists('session_destroy') ? session_destroy() : $session_destroy()) ?><?php (function_exists('header') ? header("Location: ./../login") : $header("Location: ./../login")) ?><?php $die ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'login', "__toBoolean")
         ? $_pug_temp->__toBoolean()
         : $_pug_temp) { ?><?php if (method_exists($_pug_temp = $GLOBALS['__jpv_and'](isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['login']), function () { return isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['password']); }), "__toBoolean")
         ? $_pug_temp->__toBoolean()
         : $_pug_temp) { ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php $login = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'login') ?><?php $password = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'password') ?><?php $orm = $GLOBALS['__jpv_set_with_ref']($orm, 'is_log', '=', true) ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($orm, 'from')('account'), 'select')('id_account'), 'where')('account_login = \'' . $login . '\' AND account_password = \'' . $password . '\'')() ?><?php if (method_exists($_pug_temp = (!(isset($id) ? $id : null)), "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php (function_exists('header') ? header('Location: ./../login') : $header('Location: ./../login')) ?><?php } else { ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($id, 0, 'id_account') ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'id', '=', $id) ?><?php (function_exists('header') ? header('Location: ./../main') : $header('Location: ./../main')) ?><?php } ?><?php } else { ?><?php echo('NO POST') ?><?php } ?><?php } ?><?php } ?>
+        : $_pug_temp) { ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'login_error', '=', 'uncorrect login or password') ?><?php (function_exists('header') ? header('Location: ./../login') : $header('Location: ./../login')) ?><?php } else { ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($id, 0, 'id_account') ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'id', '=', $id) ?><?php (function_exists('unset_session_prop') ? unset_session_prop('login_error') : $unset_session_prop('login_error')) ?><?php (function_exists('header') ? header('Location: ./../main') : $header('Location: ./../main')) ?><?php } ?><?php } else { ?><?php echo('NO POST') ?><?php } ?><?php } ?><?php } ?>

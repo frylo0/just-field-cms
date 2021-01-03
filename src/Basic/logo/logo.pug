@@ -1,0 +1,35 @@
+mixin logo(shadow)
+   if !shadow
+      svg.logo(
+         viewBox='0 0 50 50' 
+         fill='none' 
+         xmlns='http://www.w3.org/2000/svg'
+      )&attributes(attributes)
+         g(clip-path='url(#clip0)')
+            path(d='M33.0447 9.87597C33.3487 9.01785 34.2907 8.5686 35.1489 8.87255L48.0542 13.4437L30.4171 63.2376C30.1131 64.0957 29.1711 64.5449 28.3129 64.241L15.4076 59.6698L33.0447 9.87597Z' fill='#E6E6E6')
+            path(d='M16.1526 -5.10426C16.4565 -5.96238 17.3986 -6.41162 18.2567 -6.10767L30.696 -1.70163L15.9493 39.9315C15.6454 40.7897 14.7033 41.2389 13.8452 40.935L1.40596 36.5289L16.1526 -5.10426Z' fill='#E6E6E6')
+            path(fill-rule='evenodd' clip-rule='evenodd' d='M25 9.67329C18.7414 9.63097 12.8629 13.5104 10.6556 19.7421C8.46611 25.9236 10.5403 32.5803 15.3466 36.5L25 9.67329ZM34.5 13.1146L25 39.9006C31.1824 39.8587 36.9579 35.9961 39.1413 29.8318C41.3233 23.6716 39.2709 17.0396 34.5 13.1146Z' fill='white')
+            path(d='M25.7996 4.68757L13.6919 38.8704L3.04983e-05 38.8704' stroke='black' stroke-width='5.49451' stroke-linejoin='round')
+            path(d='M23.392 45.2206L29.4459 28.1292M50 11.0378L35.4997 11.0378L29.4459 28.1292M29.4459 28.1292L39.0763 21.9225' stroke='black' stroke-width='5.49451' stroke-linejoin='round')
+         defs
+            clippath#clip0
+               rect(width='50' height='50' fill='white')
+   else
+      svg.logo(width='222' height='245' viewBox='0 0 222 245' fill='none' xmlns='http://www.w3.org/2000/svg')&attributes(attributes)
+         g(filter='url(#filter0_d)')
+            path(d='M138.352 66.5782C139.386 63.6606 142.589 62.1331 145.506 63.1666L189.385 78.7084L145.36 203L90.0311 203L138.352 66.5782Z' fill='#C4C4C4')
+            path(d='M80.228 168.767C79.1946 171.685 75.9917 173.212 73.074 172.179L30.7805 157.198L74.772 33L128.317 33L80.228 168.767Z' fill='#C4C4C4')
+            path(fill-rule='evenodd' clip-rule='evenodd' d='M111 65.8891C89.7207 65.7452 69.7341 78.9351 62.2293 100.123C54.7849 121.14 61.8373 143.773 78.1786 157.1L111 65.8891ZM143.3 77.5896L111 168.662C132.02 168.52 151.657 155.387 159.081 134.428C166.499 113.483 159.521 90.9346 143.3 77.5896Z' fill='white')
+            path(d='M113.719 48.9377L72.5525 165.159L26.0001 165.159' stroke='black' stroke-width='18.6813' stroke-linejoin='round')
+            path(d='M105.533 186.75L126.116 128.639M196 70.5283L146.699 70.5285L126.116 128.639M126.116 128.639L158.859 107.536' stroke='black' stroke-width='18.6813' stroke-linejoin='round')
+         defs
+            filter#filter0_d(x='0.505342' y='0.891874' width='220.989' height='243.496' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB')
+               feflood(flood-opacity='0' result='BackgroundImageFix')
+               fecolormatrix(in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0')
+               feoffset(dy='4.35897')
+               fegaussianblur(stdDeviation='9.80769')
+               fecolormatrix(type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0')
+               feblend(mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow')
+               feblend(mode='normal' in='SourceGraphic' in2='effect1_dropShadow' result='shape')
+
+

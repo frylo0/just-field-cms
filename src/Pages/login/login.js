@@ -8,8 +8,9 @@ globalEventone();
 
 $(document).ready(() => {
    $('form').on('submit', e => {
-      const $password = $('#password input');
-      const password = $password.val();
+      const $password = $('#password');
+      const $passwordView = $('#password-view');
+      const password = $passwordView.val();
       $password.val(md5(password));
       return true;
    });

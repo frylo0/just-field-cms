@@ -13,13 +13,30 @@ html(lang="en")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Login | Just Field
       link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
+      +favicon(root)
    body.row.jcc.aic
-      main.p1.brado5
-         h1.mtb0.ff-os Login 
-         h2.mt0.ff-os.fwn Just Field CMS
-         form(action='./dev.php?page=scripts&script=login' method="post").col
-            +input('Login', 'login', 'text').mbo5
-            +input('Password', 'password', 'password').mb1(type="password")#password
-            +button('Войти', 'filled', 'c2')
+      main.rel
+         .jf-cms-span 
+            .jf-cms-span_1 JUST&nbsp;
+            .jf-cms-span_2 FIELD&nbsp;
+            .jf-cms-span_3 CM
+            .jf-cms-span-ll S
+
+         section.row.aic.jcsb
+            +logo(true).mlv1(style="overflow: visible")
+            form(action='./dev.php?page=scripts&script=login' method="post").col.mr1
+               +input('Login', 'login', 'text')
+               +input('Password', 'password-view', 'password')#password-view
+               +input('Password', 'password', 'hidden')#password
+               +button('Sign in', 'filled', 'c2')
+
+         .jf-cms-span.jf-cms-span_updown JUST FIELD CM
+            .jf-cms-span-ll S
+
+         +link('frity corp.', 'http://frity.ru').abs.fzo75.ct-abs_x(target="_blank")
+
+         if ($_SESSION['login_error'])
+            .login-error.abs.ct-abs_x
+               = $_SESSION['login_error']
 
    script(src=`${link}.bundle.js`)

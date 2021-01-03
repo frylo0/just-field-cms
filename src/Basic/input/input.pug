@@ -1,4 +1,2 @@
 mixin input(placeholder, name='', type='')
-   .input.rel&attributes(attributes)
-      input(name=name, type=type)
-      .input__placeholder.abs.w100.h100.row.aic= placeholder
+   +block('input', 'light').input.rel(name=name, type=type, placeholder=placeholder)&attributes(attributes)

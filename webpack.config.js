@@ -35,6 +35,7 @@ const config = {
       patterns: [
         //{ from: 'src/Attach', to: 'dist/Attach' },
         { from: 'php', to: 'dist/php' },
+        { from: 'src/Root', to: 'dist' },
       ],
     }),
     new MiniCssExtractPlugin({ //scss compilation //./dist/index.css

@@ -3,7 +3,7 @@ if isset($_GET['script'])
 
    if script == 'exit'
       - session_start();
-      - unset_session_id();
+      - unset_session_prop('id');
       - session_destroy();
 
       - header("Location: ./dev.php?page=login");
@@ -22,10 +22,12 @@ if isset($_GET['script'])
          - var id = orm.from('account').select('id_account').where(`account_login = '${login}' AND account_password = '${password}'`)();
 
          if (!id)
+            - $_SESSION['login_error'] = 'uncorrect login or password';
             - header('Location: ./dev.php?page=login');
          else
             - var id = id[0]['id_account'];
             - $_SESSION['id'] = id;
+            - unset_session_prop('login_error');
             - header('Location: ./dev.php?page=main');
       else
          - echo('NO POST');

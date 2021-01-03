@@ -13,3 +13,6 @@ import './Basic/aside/aside';
 import './Basic/dropdown/dropdown';
 import './Basic/arrow/arrow';
 import './Source/die-if-bad/die-if-bad';
+import './Basic/block/block';
+import './Basic/logo/logo';
+import './Basic/favicon/favicon';

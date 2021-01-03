@@ -1,10 +1,62 @@
 @import ../../bundle
 
 body
-   min-height: calc(100vh - 60px)
+   min-height: calc(100vh)
+   background: $-c4
 
 main
-   background: $-c1
+   width: to_em(637px)
+   background: linear-gradient(248.09deg, rgba(255, 255, 255, 0) 0%, rgba(136, 241, 255, 0.44) 100%), linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(291.91deg, #7755FF 0%, rgba(255, 255, 255, 0) 100%)
+   padding: 3em
 
-h2
+.login-error
+   color: red
+   font-family: var(--f-pts-b)
+   top: -1.75em
+
+.jf-cms-span
+   letter-spacing: 1.920105em
+   text-align: center
+
+   > *
+      display: inline-block
+
+   &-ll
+      letter-spacing: 0
+
+   &_1
+      color: rgba(0, 151, 172, 0.3)
+   &_2
+      color: rgba(49, 0, 130, 0.29)
+   &_3
+      color: rgba(0, 0, 0, 0.29)
+
+   &_updown
+      display: block
+      transform: rotate(180deg)
+      transform-origin: center
+      color: rgba(0, 0, 0, 0.20)
+
+
+section
+   margin-top: to_em(50px)
+   margin-bottom: to_em(50px)
+
+   .input
+      background: $-c5-50
+      color: $-c1
+
+      &::placeholder
+         color: $-c2
    
+   .button
+      background: $-c1
+      color: $-c5
+      font-family: var(--f-pts-b)
+
+.link
+   color: $-c2
+   bottom: -1.75em
+
+form
+   width: to_em(280px)

@@ -1,0 +1,12 @@
+mixin aside__item(name, type='dropdown', options)
+   if type == 'dropdown'
+      +dropdown(name).aside__item&attributes(attributes)
+         if block
+            block
+         +aside__item(`New ${options['new_name']}`, 'button', {type: 'filled', color: 'c3'}).fzo75.mo5.ml1o25
+   else if type == 'link'
+      a(href=options['href']).aside__item.aside__item_raw&attributes(attributes).cup.po5.w100.db.tdn
+         = name
+
+   else if type == 'button'
+      +button(name, options['type'], options['color']).aside__item&attributes(attributes)

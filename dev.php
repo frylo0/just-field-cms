@@ -1,8 +1,9 @@
 <?php
 
 $VER = '1.0';
-$ATTACH = './src/Attach/';
+$ATTACH = './src/Attach';
 $PHP = './php';
+$ROOT = './src/Root';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -24,7 +25,9 @@ Phug::share([
    '$_GET' => $_GET,
    '$_COOKIE' => $_COOKIE,
    'php' => $PHP,
-   'unset_session_id' => $unset_session_id,
+   'attach' => $ATTACH,
+   'root' => $ROOT,
+   'unset_session_prop' => $unset_session_prop,
 ]);
 Phug::displayFile("./src/Pages/{$page_name}/{$page_name}.pug",);
 

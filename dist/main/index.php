@@ -2,11 +2,13 @@
 <?php
 require_once __DIR__ . './../php/orm.config.php';
 
-$unset_session_id = function () { unset($_SESSION['id']); };
+$unset_session_prop = function ($prop) { unset($_SESSION[$prop]); };
 
 $link = './main';
-$ver = '1.0';
+$ver = '1.1';
 $php = './../php';
+$attach = './../Attach';
+$root = './..';
 
 ?>
 <?php $GLOBALS['__jpv_dotWithArrayPrototype'] = function ($base) {
@@ -778,7 +780,7 @@ foreach (array_keys(get_defined_vars()) as $__pug_key) {
 ]; ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
-$__pug_mixins['link'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
+$__pug_mixins['button'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
     $__pug_values = [];
     foreach ($__pug_arguments as $__pug_argument) {
         if ($__pug_argument[0]) {
@@ -789,7 +791,7 @@ $__pug_mixins['link'] = function ($block, $attributes, $__pug_arguments, $__pug_
         }
         $__pug_values[] = $__pug_argument[1];
     }
-    $__pug_attributes = [[false, 'text', null], [false, 'href', null]];
+    $__pug_attributes = [[false, 'text', null], [false, 'type', null], [false, 'color', null]];
     $__pug_names = [];
     foreach ($__pug_attributes as $__pug_argument) {
         $__pug_name = ltrim($__pug_argument[1], "$");
@@ -813,9 +815,234 @@ $__pug_mixins['link'] = function ($block, $attributes, $__pug_arguments, $__pug_
             $$__pug_key = &$__pug_value;
         }
     }
-    ?><a<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'link'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', (isset($href) ? $href : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?= htmlspecialchars((is_bool($_pug_temp = (isset($text) ? $text : null)) ? var_export($_pug_temp, true) : $_pug_temp)) ?><?php if (method_exists($_pug_temp = (isset($block) ? $block : null), "__toBoolean")
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'block';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes']($pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'button'], ['class' => 'tal'], ['class' => 'cup'], ['class' => 'brad0'], ['class' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('class', (isset($type) ? (isset($type) ? $type : null) : null) ? 'button_' . (isset($type) ? (isset($type) ? $type : null) : null) : '')], ['class' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('class', (isset($color) ? (isset($color) ? $color : null) : null) ? 'button_' . (isset($color) ? (isset($color) ? $color : null) : null) : '')]), (isset($attributes) ? $attributes : null)), [[false, 'button']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?= htmlspecialchars((is_bool($_pug_temp = (isset($text) ? $text : null)) ? var_export($_pug_temp, true) : $_pug_temp)) ?><?php
+}); ?><?php
+}; ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixins['aside__item'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
+    $__pug_values = [];
+    foreach ($__pug_arguments as $__pug_argument) {
+        if ($__pug_argument[0]) {
+            foreach ($__pug_argument[1] as $__pug_value) {
+                $__pug_values[] = $__pug_value;
+            }
+            continue;
+        }
+        $__pug_values[] = $__pug_argument[1];
+    }
+    $__pug_attributes = [[false, 'name', null], [false, 'type', 'dropdown'], [false, 'options', null]];
+    $__pug_names = [];
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        ${$__pug_name} = null;
+    }
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        if ($__pug_argument[0]) {
+            ${$__pug_name} = $__pug_values;
+            break;
+        }
+        ${$__pug_name} = array_shift($__pug_values);
+        if (is_null(${$__pug_name}) && isset($__pug_argument[2])) {
+            ${$__pug_name} = $__pug_argument[2];
+        }
+    }
+    foreach ($__pug_mixin_vars as $__pug_key => &$__pug_value) {
+        if (!in_array($__pug_key, $__pug_names)) {
+            $$__pug_key = &$__pug_value;
+        }
+    }
+    if (method_exists($_pug_temp = (isset($type) ? $type : null) == 'dropdown', "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?= (is_bool($_pug_temp = $__pug_children(get_defined_vars())) ? var_export($_pug_temp, true) : $_pug_temp) ?><?php } ?></a><?php
+        : $_pug_temp) { ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'dropdown';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes']($pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'aside__item']), (isset($attributes) ? $attributes : null)), [[false, (isset($name) ? $name : null)]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    if (method_exists($_pug_temp = (isset($block) ? $block : null), "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?= (is_bool($_pug_temp = $__pug_children(get_defined_vars())) ? var_export($_pug_temp, true) : $_pug_temp) ?><?php } ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'fzo75'], ['class' => 'mo5'], ['class' => 'ml1o25']), [[false, 'New ' . $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($options, 'new_name')], [false, 'button'], [false, array( 'type' => 'filled', 'color' => 'c3' )]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?><?php
+}); ?><?php } elseif (method_exists($_pug_temp = (isset($type) ? $type : null) == 'link', "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><a<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($options, 'href'))], ['class' => 'aside__item'], ['class' => 'aside__item_raw'], ['class' => 'cup'], ['class' => 'po5'], ['class' => 'w100'], ['class' => 'db'], ['class' => 'tdn'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?= htmlspecialchars((is_bool($_pug_temp = (isset($name) ? $name : null)) ? var_export($_pug_temp, true) : $_pug_temp)) ?></a><?php } elseif (method_exists($_pug_temp = (isset($type) ? $type : null) == 'button', "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'button';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes']($pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'aside__item']), (isset($attributes) ? $attributes : null)), [[false, (isset($name) ? $name : null)], [false, $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($options, 'type')], [false, $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($options, 'color')]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?><?php } ?><?php
 }; ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -854,9 +1081,547 @@ $__pug_mixins['aside'] = function ($block, $attributes, $__pug_arguments, $__pug
             $$__pug_key = &$__pug_value;
         }
     }
-    ?><aside<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'aside'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (method_exists($_pug_temp = (isset($block) ? $block : null), "__toBoolean")
-        ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?= (is_bool($_pug_temp = $__pug_children(get_defined_vars())) ? var_export($_pug_temp, true) : $_pug_temp) ?><?php } ?></aside><?php
+    ?><aside<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'aside'], ['class' => 'rel'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'aside__content'], ['class' => 'col'], ['class' => 'jcsb'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'col'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'Fields'], [false, 'dropdown'], [false, array( 'new_name' => 'field' )]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'dropdown';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'Global']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Name'], [false, 'link']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'dropdown';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Main menu']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+});;
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'dropdown';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Main page']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+});;
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'Types'], [false, 'dropdown'], [false, array( 'new_name' => 'type' )]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Inline text'], [false, 'link']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Large text'], [false, 'link']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Group'], [false, 'link']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+});;
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'Accounts'], [false, 'dropdown'], [false, array( 'new_name' => 'account' )]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'You'], [false, 'link']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+});;
+}); ?></div><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'col'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'aside__item';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Exit'], [false, 'link'], [false, array( 'href' => "./../scripts/?script=exit" )]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?php
+}); ?></div></div><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'aside__resizer'], ['class' => 'abs'], ['class' => 'h100'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>></div></aside><?php
 }; ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -1037,6 +1802,47 @@ $__pug_mixins['die-if-bad'] = function ($block, $attributes, $__pug_arguments, $
 }; ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
+$__pug_mixins['block'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
+    $__pug_values = [];
+    foreach ($__pug_arguments as $__pug_argument) {
+        if ($__pug_argument[0]) {
+            foreach ($__pug_argument[1] as $__pug_value) {
+                $__pug_values[] = $__pug_value;
+            }
+            continue;
+        }
+        $__pug_values[] = $__pug_argument[1];
+    }
+    $__pug_attributes = [[false, 'tag', 'div'], [false, 'mode', 'dark']];
+    $__pug_names = [];
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        ${$__pug_name} = null;
+    }
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        if ($__pug_argument[0]) {
+            ${$__pug_name} = $__pug_values;
+            break;
+        }
+        ${$__pug_name} = array_shift($__pug_values);
+        if (is_null(${$__pug_name}) && isset($__pug_argument[2])) {
+            ${$__pug_name} = $__pug_argument[2];
+        }
+    }
+    foreach ($__pug_mixin_vars as $__pug_key => &$__pug_value) {
+        if (!in_array($__pug_key, $__pug_names)) {
+            $$__pug_key = &$__pug_value;
+        }
+    }
+    ?><<?= (is_bool($_pug_temp = (isset($tag) ? $tag : null)) ? var_export($_pug_temp, true) : $_pug_temp) ?><?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'block'], ['class' => 'p1'], ['class' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('class', 'block_mode_' . (isset($mode) ? $mode : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (method_exists($_pug_temp = (isset($block) ? $block : null), "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?= (is_bool($_pug_temp = $__pug_children(get_defined_vars())) ? var_export($_pug_temp, true) : $_pug_temp) ?><?php } ?></<?= (is_bool($_pug_temp = (isset($tag) ? $tag : null)) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php
+}; ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
 $__pug_mixin_vars = [];
 foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
     if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
@@ -1079,7 +1885,7 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [], $__pug_mixin_vars, functi
         }
     }
     ?><?php
-}); ?><!DOCTYPE html><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><head><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><title>Вход, Регистрация | Vodopoj</title><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /></head><body<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'row'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
+}); ?><!DOCTYPE html><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><head><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><title>Main page | Just Field</title><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /></head><body<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'row'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
 $__pug_mixin_vars = [];
@@ -1107,142 +1913,7 @@ if (!isset($__pug_children)) {
 }
 $__pug_mixin_name = 'aside';
 isset($__pug_mixins[$__pug_mixin_name]) && 
-$__pug_mixins[$__pug_mixin_name](true, array(  ), [], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
-    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
-        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
-            continue;
-        }
-        if(isset($pug_vars[$__local_pug_key])){
-            $$__local_pug_key = &$pug_vars[$__local_pug_key];
-            continue;
-        }
-        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
-        if($__local_pug_ref !== $__local_pug_value){
-            $$__local_pug_key = &$__local_pug_value;
-            continue;
-        }
-    }
-    if (!isset($__pug_mixins)) {
-    $__pug_mixins = [];
-}
-$__pug_mixin_vars = [];
-foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
-    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
-        continue;
-    }
-    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
-    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-    $__local_pug_value = &$$__local_pug_key;
-    if($__local_pug_ref !== $__local_pug_value){
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-        continue;
-    }
-    $__local_pug_savedValue = $__local_pug_value;
-    $__local_pug_value = ($__local_pug_value === true) ? false : true;
-    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
-    $__local_pug_value = $__local_pug_savedValue;
-    if (!$__local_pug_isGlobalReference) {
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-    }
-}
-if (!isset($__pug_children)) {
-    $__pug_children = null;
-}
-$__pug_mixin_name = 'dropdown';
-isset($__pug_mixins[$__pug_mixin_name]) && 
-$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'Hello']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
-    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
-        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
-            continue;
-        }
-        if(isset($pug_vars[$__local_pug_key])){
-            $$__local_pug_key = &$pug_vars[$__local_pug_key];
-            continue;
-        }
-        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
-        if($__local_pug_ref !== $__local_pug_value){
-            $$__local_pug_key = &$__local_pug_value;
-            continue;
-        }
-    }
-    if (!isset($__pug_mixins)) {
-    $__pug_mixins = [];
-}
-$__pug_mixin_vars = [];
-foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
-    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
-        continue;
-    }
-    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
-    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-    $__local_pug_value = &$$__local_pug_key;
-    if($__local_pug_ref !== $__local_pug_value){
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-        continue;
-    }
-    $__local_pug_savedValue = $__local_pug_value;
-    $__local_pug_value = ($__local_pug_value === true) ? false : true;
-    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
-    $__local_pug_value = $__local_pug_savedValue;
-    if (!$__local_pug_isGlobalReference) {
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-    }
-}
-if (!isset($__pug_children)) {
-    $__pug_children = null;
-}
-$__pug_mixin_name = 'dropdown';
-isset($__pug_mixins[$__pug_mixin_name]) && 
-$__pug_mixins[$__pug_mixin_name](true, array(  ), [[false, 'World']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
-    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
-        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
-            continue;
-        }
-        if(isset($pug_vars[$__local_pug_key])){
-            $$__local_pug_key = &$pug_vars[$__local_pug_key];
-            continue;
-        }
-        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
-        if($__local_pug_ref !== $__local_pug_value){
-            $$__local_pug_key = &$__local_pug_value;
-            continue;
-        }
-    }
-    ?><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'mo5'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>>Yeah</div><?php
-}); ?><?php
-}); ?><?php
-}); ?><main><?php if (!isset($__pug_mixins)) {
-    $__pug_mixins = [];
-}
-$__pug_mixin_vars = [];
-foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
-    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
-        continue;
-    }
-    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
-    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
-    $__local_pug_value = &$$__local_pug_key;
-    if($__local_pug_ref !== $__local_pug_value){
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-        continue;
-    }
-    $__local_pug_savedValue = $__local_pug_value;
-    $__local_pug_value = ($__local_pug_value === true) ? false : true;
-    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
-    $__local_pug_value = $__local_pug_savedValue;
-    if (!$__local_pug_isGlobalReference) {
-        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
-    }
-}
-if (!isset($__pug_children)) {
-    $__pug_children = null;
-}
-$__pug_mixin_name = 'link';
-isset($__pug_mixins[$__pug_mixin_name]) && 
-$__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Exit'], [false, './../scripts/?script=exit']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+$__pug_mixins[$__pug_mixin_name](false, array(  ), [], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
     foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
         if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
             continue;
@@ -1259,4 +1930,4 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, 'Exit'], [false, './
         }
     }
     ?><?php
-}); ?></main></body><script<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['src' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('src', '' . (isset($link) ? $link : null) . '.bundle.js')])) ? var_export($_pug_temp, true) : $_pug_temp) ?>></script></html>
+}); ?><main></main></body><script<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['src' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('src', '' . (isset($link) ? $link : null) . '.bundle.js')])) ? var_export($_pug_temp, true) : $_pug_temp) ?>></script></html>

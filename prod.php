@@ -1,8 +1,9 @@
 <?php
 
-$VER = '1.0';
-$ATTACH = './../Attach/';
+$VER = '1.1';
+$ATTACH = './../Attach';
 $PHP = './../php';
+$ROOT = './..';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -42,12 +43,14 @@ $orm->close();
 
 function generate_vars_start($page_name)
 {
-   global $VER, $PHP;
+   global $VER, $PHP, $ATTACH, $ROOT;
 
    $vars = [
       'link' => "./{$page_name}",
       'ver' => "$VER",
       'php' => $PHP,
+      'attach' => $ATTACH,
+      'root' => $ROOT,
    ];
 
    $vars_string = '';
@@ -58,7 +61,7 @@ function generate_vars_start($page_name)
 <?php
 require_once __DIR__ . '$PHP/orm.config.php';
 
-\$unset_session_id = function () { unset(\$_SESSION['id']); };
+\$unset_session_prop = function (\$prop) { unset(\$_SESSION[\$prop]); };
 
 $vars_string
 ?>
