@@ -1,20 +1,18 @@
 include __item/aside__item.pug
-mixin aside()
+mixin aside(&global)
    aside.aside&attributes(attributes).rel
       .aside__content.col.jcsb
          .col
-            +aside__item('Fields', 'dropdown', {new_name: 'field'})
-               +dropdown('Global')
-                  +aside__item('Name', 'link')
-                  +dropdown('Main menu')
-               +dropdown('Main page')
-                  
-            +aside__item('Types', 'dropdown', {new_name: 'type'})
-               +aside__item('Inline text', 'link')
-               +aside__item('Large text', 'link')
-               +aside__item('Group', 'link')
-            +aside__item('Accounts', 'dropdown', {new_name: 'account'})
-               +aside__item('You', 'link')
+            +block('div', 'none').aside__logo.row.aic
+               +logo()(style="height: 1.75em; width: 1.75em;")
+               strong.plo75 Just Field CMS
+            +block('div', 'none').aside__logged-as
+               span Logged as 
+               strong.tdu= global['user']['account_login']
+            +aside__item('Dashboard', './dev.php?page=main', (global['page-name'] == 'main'))
+            +aside__item('Fields', './dev.php?page=field', (global['page-name'] == 'field'))
+            +aside__item('Field types', './dev.php?page=field-type', (global['page-name'] == 'field-type'))
+            +aside__item('Accounts', './dev.php?page=account', (global['page-name'] == 'account'))
          .col
-            +aside__item('Exit', 'link', {href: "./dev.php?page=scripts&script=exit"})
+            +aside__item('Exit', './dev.php?page=scripts&script=exit')
       .aside__resizer.abs.h100

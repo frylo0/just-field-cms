@@ -1,0 +1,48 @@
+include ../../bundle.pug
+
++die-if-bad()
+- var global = { 'page-name': 'field-type', orm: orm };
++get-user-info(global)
+
+<!DOCTYPE html>
+html(lang="en")
+   head
+      meta(charset="UTF-8")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      meta(http-equiv="X-UA-Compatible", content="ie=edge")
+      title Main page | Just Field
+      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
+      +favicon(root)
+   body.row
+      +aside(global)
+      main
+         .page_content.ova.w100
+            table
+               thead
+                  tr
+                     td.p1 Order
+                     td.p1 Type
+                     td.p1 Permission
+               tbody
+                  - types_orm = orm.from('type').select('*')
+                  - types = types_orm()
+                  each curr_type in types
+                     tr
+                        td.p1.page_table-order.row.jcc.aic.cup
+                           img(src=`${attach}/Images/up-down.svg` draggable="false")
+                        td.p1.w100
+                           if curr_type['type_is-basic']
+                              em= curr_type['type_name']
+                           else
+                              = curr_type['type_name']
+                        td.p1.tac edit
+         .page_foot-panel.w100
+            +button('Add', 'dark')
+            +button('Delete', 'dark')
+               span(style="color: #6CF6FF88")
+                  |  (
+                  span 0
+                  | )
+         
+
+   script(src=`${link}.bundle.js`)

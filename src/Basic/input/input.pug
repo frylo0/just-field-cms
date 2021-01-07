@@ -1,2 +1,2 @@
-mixin input(placeholder, name='', type='')
-   +block('input', 'light').input.rel(name=name, type=type, placeholder=placeholder)&attributes(attributes)
+mixin input(placeholder, name='', type='', color='light')
+   +block('input', color).input.rel(name=name, type=type, placeholder=placeholder)&attributes(attributes)

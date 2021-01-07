@@ -47,6 +47,7 @@ class ORM {
    }
 
    function from($table) {
+      $this->conditions = '';
       $this->table = $this->table_prefix . $table;
       return $this;
    }

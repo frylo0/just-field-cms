@@ -1,0 +1,3 @@
+mixin get-user-info(global)
+   - global['user'] = global['orm'].from('account').select('*').where(`id_account = '${$_SESSION['id']}'`)()[0]
+      

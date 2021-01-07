@@ -1,0 +1,103 @@
+include ../../bundle.pug
+
++die-if-bad()
+- var global = { 'page-name': 'field', orm: orm, user: null };
++get-user-info(global)
+
+if !$_GET['view']
+   - header('Location: ./dev.php?page=field&view=tree')
+
+<?php require_once $php . '/JustField.php'; ?>
+<?php $db = new JustField\DB($orm); ?>
+
+<?php $query_update = function ($key, $value) { if (!isset($_GET[$key])) return; return './dev.php?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); }; ?>
+
+<!DOCTYPE html>
+html(lang="en")
+   head
+      meta(charset="UTF-8")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      meta(http-equiv="X-UA-Compatible", content="ie=edge")
+      title Main page | Just Field
+      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
+      +favicon(root)
+   body.row
+      +aside(global)
+      main
+         .row.page_tabs
+            +block('a', ($_GET['view'] == 'tree' ? 'light' : 'dark'))(href=(query_update('view', 'tree'))).tdn
+               | Tree View
+            +block('a', ($_GET['view'] == 'type' ? 'light' : 'dark'))(href=(query_update('view', 'type'))).tdn
+               | Type View
+
+         if $_GET['view'] == 'tree'
+            .page_path.row.aic.w100.pl1
+               - var full_path = (array_key_exists('path', $_GET) ? $_GET['path'] : '')
+               - var curr_path_i = 0;
+               if array_key_exists('curr_path_i', $_GET)
+                  - var curr_path_i = $_GET['curr_path_i'];
+               - curr_path_i = intval(curr_path_i);
+
+               - var parts = explode('/', full_path)
+
+               - var path_parts = [];
+               for i = 0; i < curr_path_i; i++
+                  - array_push(path_parts, parts[i]);
+               - path = implode('/', path_parts)
+
+               if count(parts) == 1 && parts[0] == ''
+                  - parts = []
+               - array_unshift(parts, '/')
+               - var i = 0
+               each part in parts
+                  - var is_curr = (i == curr_path_i)
+                  a(href=(query_update('curr_path_i', i))).page_path__part.tdn(class=( is_curr ? 'page_path__part_curr' : '' ))= part
+                  - i++
+
+            .page_content.ova.w100
+               - var is_data = true
+               table
+                  thead
+                     tr
+                        td.p1 Order
+                        td.p1 Key
+                        td.p1 Name
+                        td.p1 Type
+                        td.p1.w100 Value
+                        td.p1 Permission
+                  tbody
+                     - var children = db.at_path(path)
+                     - children = children.get_children();
+
+                     if children == null
+                        - is_data = false
+                     else
+                        each child in children
+                           tr
+                              td.p1.page_table-order.row.jcc.aic.cup
+                                 img(src=`${attach}/Images/up-down.svg` draggable="false")
+                              td.p1= child.key
+                              td.p1= child.name
+                              td.p1= child.type.name
+                              td.p1.w100
+                                 - var path_i = count(path_parts)+1;
+                                 +link('Open', `./dev.php?page=field&view=tree&path=${path}${child.key}&curr_path_i=${path_i}`)
+                              td.p1.tac edit
+
+               if !is_data
+                  h2.tac No data
+
+
+         else if $_GET['view'] == 'type'
+            |type
+
+         .page_foot-panel.w100
+            +button('Add', 'dark')
+            +button('Delete', 'dark')
+               span(style="color: #6CF6FF88")
+                  |  (
+                  span 0
+                  | )
+         
+
+   script(src=`${link}.bundle.js`)

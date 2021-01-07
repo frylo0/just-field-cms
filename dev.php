@@ -17,7 +17,7 @@ $orm->is_log = true;
 
 Phug::addExtension(JsPhpizePhug::class);
 $page_name = isset($_GET['page']) ? $_GET['page'] : 'login';
-Phug::share([
+$variables = [
    'link' => "./src/Pages/{$page_name}/dist/{$page_name}",
    'ver' => "$VER",
    'orm' => $orm,
@@ -28,7 +28,11 @@ Phug::share([
    'attach' => $ATTACH,
    'root' => $ROOT,
    'unset_session_prop' => $unset_session_prop,
-]);
-Phug::displayFile("./src/Pages/{$page_name}/{$page_name}.pug",);
+   'mode' => 'dev',
+];
+$options = [
+   'cache_dir' => 'cache'
+];
+Phug::displayFile("./src/Pages/{$page_name}/{$page_name}.pug", $variables, $options);
 
 $orm->close();

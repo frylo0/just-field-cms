@@ -4,11 +4,13 @@ require_once __DIR__ . './../php/orm.config.php';
 
 $unset_session_prop = function ($prop) { unset($_SESSION[$prop]); };
 
+$global = [];
 $link = './scripts';
 $ver = '1.1';
 $php = './../php';
 $attach = './../Attach';
 $root = './..';
+$mode = 'prod';
 
 ?>
 <?php $GLOBALS['__jpv_dotWithArrayPrototype'] = function ($base) {

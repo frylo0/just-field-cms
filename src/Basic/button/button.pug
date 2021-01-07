@@ -1,6 +1,4 @@
-mixin button(text, type, color)
-   +block('button').button.tal.cup.brad0(
-         class=type ? `button_${type}` : ''
-         class=color ? `button_${color}` : ''
-      )&attributes(attributes)= text
-      
+mixin button(text, color)
+   +block('button', color).button.tal.cup.brad0&attributes(attributes)= text
+      if block
+         block

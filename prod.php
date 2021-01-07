@@ -51,6 +51,7 @@ function generate_vars_start($page_name)
       'php' => $PHP,
       'attach' => $ATTACH,
       'root' => $ROOT,
+      'mode' => 'prod',
    ];
 
    $vars_string = '';
@@ -63,6 +64,7 @@ require_once __DIR__ . '$PHP/orm.config.php';
 
 \$unset_session_prop = function (\$prop) { unset(\$_SESSION[\$prop]); };
 
+\$global = [];
 $vars_string
 ?>
 ";
@@ -74,6 +76,7 @@ function replace_dev_links($page_php)
 {
    $page_php = preg_replace('/dev.php\?page=(\w+)(&amp;|&)/', '../$1/?', $page_php);
    $page_php = str_replace('dev.php?page=', '../', $page_php);
+   $page_php = str_replace('dev.php?', '?', $page_php);
    return $page_php;
 }
 

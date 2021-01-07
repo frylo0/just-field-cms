@@ -25,10 +25,10 @@ html(lang="en")
          section.row.aic.jcsb
             +logo(true).mlv1(style="overflow: visible")
             form(action='./dev.php?page=scripts&script=login' method="post").col.mr1
-               +input('Login', 'login', 'text')
-               +input('Password', 'password-view', 'password')#password-view
+               +input('Login', 'login', 'text', 'none')
+               +input('Password', 'password-view', 'password', 'none')#password-view
                +input('Password', 'password', 'hidden')#password
-               +button('Sign in', 'filled', 'c2')
+               +button('Sign in', 'none')
 
          .jf-cms-span.jf-cms-span_updown JUST FIELD CM
             .jf-cms-span-ll S
