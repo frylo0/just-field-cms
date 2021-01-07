@@ -563,6 +563,95 @@ $GLOBALS['__jpv_or_with_ref'] = function (&$base) {
 
     return $base;
 };
+$GLOBALS['__jpv_set'] = function ($base, $key, $operator, $value) {
+    switch ($operator) {
+        case '=':
+            if (is_array($base)) {
+                $base[$key] = $value;
+                break;
+            }
+            if (method_exists($base, $method = "set" . ucfirst($key))) {
+                $base->$method($value);
+                break;
+            }
+            $base->$key = $value;
+            break;
+        case '+=':
+            if (is_array($base)) {
+                if ((isset($base[$key]) && is_string($base[$key])) || is_string($value)) {
+                    $base[$key] .= $value;
+                    break;
+                }
+                $base[$key] += $value;
+                break;
+            }
+            if ((isset($base->$key) && is_string($base->$key)) || is_string($value)) {
+                $base->$key .= $value;
+                break;
+            }
+            $base->$key += $value;
+            break;
+        case '-=':
+            if (is_array($base)) {
+                $base[$key] -= $value;
+                break;
+            }
+            $base->$key -= $value;
+            break;
+        case '*=':
+            if (is_array($base)) {
+                $base[$key] *= $value;
+                break;
+            }
+            $base->$key *= $value;
+            break;
+        case '/=':
+            if (is_array($base)) {
+                $base[$key] /= $value;
+                break;
+            }
+            $base->$key /= $value;
+            break;
+        case '%=':
+            if (is_array($base)) {
+                $base[$key] %= $value;
+                break;
+            }
+            $base->$key %= $value;
+            break;
+        case '|=':
+            if (is_array($base)) {
+                $base[$key] |= $value;
+                break;
+            }
+            $base->$key |= $value;
+            break;
+        case '&=':
+            if (is_array($base)) {
+                $base[$key] &= $value;
+                break;
+            }
+            $base->$key &= $value;
+            break;
+        case '&&=':
+            if (is_array($base)) {
+                $base[$key] = $base[$key] ? $value : $base[$key];
+                break;
+            }
+            $base->$key = $base->$key ? $value : $base->$key;
+            break;
+        case '||=':
+            if (is_array($base)) {
+                $base[$key] = $base[$key] ? $base[$key] : $value;
+                break;
+            }
+            $base->$key = $base->$key ? $base->$key : $value;
+            break;
+    }
+
+    return $base;
+};
+$GLOBALS['__jpv_set_with_ref'] = $GLOBALS['__jpv_set'];
  ?><?php
 $pug_vars = [];
 foreach (array_keys(get_defined_vars()) as $__pug_key) {
@@ -1794,7 +1883,7 @@ $__pug_mixins['get-user-info'] = function ($block, $attributes, $__pug_arguments
         }
         $__pug_values[] = $__pug_argument[1];
     }
-    $__pug_attributes = [[false, '&global', null]];
+    $__pug_attributes = [[false, 'global', null]];
     $__pug_names = [];
     foreach ($__pug_attributes as $__pug_argument) {
         $__pug_name = ltrim($__pug_argument[1], "$");
@@ -1821,17 +1910,16 @@ $__pug_mixins['get-user-info'] = function ($block, $attributes, $__pug_arguments
     
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(133);
 // PUG_DEBUG:133
- ?><?php $global['user'] = $global['orm']->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0]; ?>
-   <?php 
+ ?><?php $global = $GLOBALS['__jpv_set_with_ref']($global, 'user', '=', $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($global, 'orm', 'from')('account'), 'select')('*'), 'where')('id_account = \'' . $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_SESSION, 'id') . '\'')(), 0)) ?><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(134);
 // PUG_DEBUG:134
 ;
 }; ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(154);
-// PUG_DEBUG:154
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(156);
+// PUG_DEBUG:156
  ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(136);
-// PUG_DEBUG:136
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(138);
+// PUG_DEBUG:138
  ?><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(4);
 // PUG_DEBUG:4
@@ -1874,6 +1962,12 @@ $__pug_mixins['get-user-info'] = function ($block, $attributes, $__pug_arguments
  ?><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(137);
 // PUG_DEBUG:137
+ ?><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(136);
+// PUG_DEBUG:136
+ ?><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(139);
+// PUG_DEBUG:139
  ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -1923,11 +2017,11 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [], $__pug_mixin_vars, functi
     }
     ?><?php
 }); ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(138);
-// PUG_DEBUG:138
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(140);
+// PUG_DEBUG:140
  ?><?php $global = array( 'page-name' => 'main', 'orm' => $orm ) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(139);
-// PUG_DEBUG:139
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(141);
+// PUG_DEBUG:141
  ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -1977,35 +2071,35 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, (isset($global) ? $g
     }
     ?><?php
 }); ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(140);
-// PUG_DEBUG:140
- ?><!DOCTYPE html><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(153);
-// PUG_DEBUG:153
- ?><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(148);
-// PUG_DEBUG:148
- ?><head><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(141);
-// PUG_DEBUG:141
- ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(142);
 // PUG_DEBUG:142
- ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
+ ?><!DOCTYPE html><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(155);
+// PUG_DEBUG:155
+ ?><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(150);
+// PUG_DEBUG:150
+ ?><head><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(143);
 // PUG_DEBUG:143
- ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(145);
-// PUG_DEBUG:145
- ?><title><?php 
+ ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(144);
 // PUG_DEBUG:144
- ?>Main page | Just Field</title><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(146);
-// PUG_DEBUG:146
- ?><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
+ ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(145);
+// PUG_DEBUG:145
+ ?><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(147);
 // PUG_DEBUG:147
+ ?><title><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(146);
+// PUG_DEBUG:146
+ ?>Main page | Just Field</title><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(148);
+// PUG_DEBUG:148
+ ?><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(149);
+// PUG_DEBUG:149
  ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -2055,11 +2149,11 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, (isset($root) ? $roo
     }
     ?><?php
 }); ?></head><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(153);
+// PUG_DEBUG:153
+ ?><body<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'row'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(151);
 // PUG_DEBUG:151
- ?><body<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'row'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(149);
-// PUG_DEBUG:149
  ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
@@ -2109,9 +2203,9 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, (isset($global) ? $g
     }
     ?><?php
 }); ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(150);
-// PUG_DEBUG:150
- ?><main></main></body><?php 
 \Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(152);
 // PUG_DEBUG:152
+ ?><main></main></body><?php 
+\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(154);
+// PUG_DEBUG:154
  ?><script<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['src' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('src', '' . (isset($link) ? $link : null) . '.bundle.js')])) ? var_export($_pug_temp, true) : $_pug_temp) ?>></script></html>

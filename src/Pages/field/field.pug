@@ -59,12 +59,12 @@ html(lang="en")
                table
                   thead
                      tr
-                        td.p1 Order
-                        td.p1 Key
-                        td.p1 Name
-                        td.p1 Type
-                        td.p1.w100 Value
-                        td.p1 Permission
+                        td Order
+                        td Key
+                        td Name
+                        td Type
+                        td.w100 Value
+                        td Permission
                   tbody
                      - var children = db.at_path(path)
                      - children = children.get_children();
@@ -74,15 +74,15 @@ html(lang="en")
                      else
                         each child in children
                            tr
-                              td.p1.page_table-order.row.jcc.aic.cup
+                              td.page_table-order.row.jcc.aic.cup
                                  img(src=`${attach}/Images/up-down.svg` draggable="false")
-                              td.p1= child.key
-                              td.p1= child.name
-                              td.p1= child.type.name
-                              td.p1.w100
+                              td= child.key
+                              td= child.name
+                              td= child.type.name
+                              td.w100
                                  - var path_i = count(path_parts)+1;
                                  +link('Open', `./dev.php?page=field&view=tree&path=${path}${child.key}&curr_path_i=${path_i}`)
-                              td.p1.tac edit
+                              td.tac edit
 
                if !is_data
                   h2.tac No data

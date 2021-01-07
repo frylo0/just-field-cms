@@ -17,3 +17,4 @@ import './Basic/block/block';
 import './Basic/logo/logo';
 import './Basic/favicon/favicon';
 import './Source/get-user-info/get-user-info';
+import './Basic/table/table';
