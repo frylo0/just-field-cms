@@ -856,6 +856,92 @@ foreach (array_keys(get_defined_vars()) as $__pug_key) {
 ]; ?><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
+$__pug_mixins['button'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
+    $__pug_values = [];
+    foreach ($__pug_arguments as $__pug_argument) {
+        if ($__pug_argument[0]) {
+            foreach ($__pug_argument[1] as $__pug_value) {
+                $__pug_values[] = $__pug_value;
+            }
+            continue;
+        }
+        $__pug_values[] = $__pug_argument[1];
+    }
+    $__pug_attributes = [[false, 'text', null], [false, 'color', null]];
+    $__pug_names = [];
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        ${$__pug_name} = null;
+    }
+    foreach ($__pug_attributes as $__pug_argument) {
+        $__pug_name = ltrim($__pug_argument[1], "$");
+        $__pug_names[] = $__pug_name;
+        if ($__pug_argument[0]) {
+            ${$__pug_name} = $__pug_values;
+            break;
+        }
+        ${$__pug_name} = array_shift($__pug_values);
+        if (is_null(${$__pug_name}) && isset($__pug_argument[2])) {
+            ${$__pug_name} = $__pug_argument[2];
+        }
+    }
+    foreach ($__pug_mixin_vars as $__pug_key => &$__pug_value) {
+        if (!in_array($__pug_key, $__pug_names)) {
+            $$__pug_key = &$__pug_value;
+        }
+    }
+    if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'block';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes']($pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'button'], ['class' => 'tal'], ['class' => 'cup'], ['class' => 'brad0']), (isset($attributes) ? $attributes : null)), [[false, 'button'], [false, (isset($color) ? $color : null)]], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><?= htmlspecialchars((is_bool($_pug_temp = (isset($text) ? $text : null)) ? var_export($_pug_temp, true) : $_pug_temp)) ?><?php if (method_exists($_pug_temp = (isset($block) ? $block : null), "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?= (is_bool($_pug_temp = $__pug_children(get_defined_vars())) ? var_export($_pug_temp, true) : $_pug_temp) ?><?php } ?><?php
+}); ?><?php
+}; ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
 $__pug_mixins['link'] = function ($block, $attributes, $__pug_arguments, $__pug_mixin_vars, $__pug_children) use (&$__pug_mixins, &$pugModule) {
     $__pug_values = [];
     foreach ($__pug_arguments as $__pug_argument) {

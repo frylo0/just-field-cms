@@ -10,7 +10,7 @@ if !$_GET['view']
    - header('Location: ./dev.php?page=field&view=tree')
 
 <?php require_once $php . '/JustField.php'; ?>
-<?php $db = new JustField\DB($orm); ?>
+<?php $db = new JustField\DB($orm, ['assets' => $assets]); ?>
 
 <?php $query_update = function ($key, $value) { if (!isset($_GET[$key])) return; return './dev.php?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); }; ?>
 
@@ -25,7 +25,7 @@ html(lang="en")
       +favicon(root)
    body.row
       +aside(global)
-      main
+      main(style=`width: calc(100% - ${$_COOKIE['-jf_aside-width']}px);`)
          .row.page_tabs
             +block('a', ($_GET['view'] == 'tree' ? 'light' : 'dark'))(href=(query_update('view', 'tree'))).tdn
                | Tree View
@@ -69,8 +69,12 @@ html(lang="en")
                   +item_T_field()
                template#template_T_object
                   +item_T_object()
-               template#teplate_T_list
+               template#template_T_list
                   +item_T_list()
+               template#template_T_image
+                  +item_T_image()
+               template#template_T_space
+                  +item_T_space()
 
                - var is_data = true
                table(data-update-link='./dev.php?page=scripts&script=field-update')
@@ -92,10 +96,14 @@ html(lang="en")
                         each child in children
                            if child.type.name == 'field'
                               +item_T_field(child)
+                           else if child.type.name == 'image'
+                              +item_T_image(child)
                            else if child.type.name == 'object'
                               +item_T_object(child)
                            else if child.type.name == 'list'
                               +item_T_list(child)
+                           else if child.type.name == 'space'
+                              +item_T_space(child)
 
                h2.tac(class=( is_data ? 'dn' : '' ))#title_no-data No data
 

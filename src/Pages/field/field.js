@@ -21,6 +21,7 @@ $(document).ready(() => {
       object: document.getElementById('template_T_object'),
       list: document.getElementById('template_T_list'),
       field: document.getElementById('template_T_field'),
+      image: document.getElementById('template_T_image'),
    };
 
    const titleNoData = document.getElementById('title_no-data');
@@ -29,23 +30,6 @@ $(document).ready(() => {
    const pathVal = searchParams.get('path');
    const path = pathVal === null ? '' : pathVal;
 
-   const $statusbar = $('#statusbar');
-   $statusbar.dotAnimation = {
-      interval: null,
-      start(newText) {
-         $statusbar.text(newText);
-         clearInterval(this.interval);
-         this.interval = setInterval(() => {
-            const text = $statusbar.text();
-            if (text.endsWith('...')) $statusbar.text(text.slice(0, -3));
-            else $statusbar.text(text + '.');
-         }, 250);
-      },
-      stop(newText) {
-         clearInterval(this.interval);
-         $statusbar.text(newText);
-      },
-   };
 
    // STOP: ADD BUTTONS
    const $buttonAdd = $(pref);
@@ -57,8 +41,6 @@ $(document).ready(() => {
       $buttonAddContent.toggleClass('dn');
    });
    $buttonAddType.on('click', async e => {
-      $statusbar.dotAnimation.start('Loading');
-
       const fetchUrl = fieldAddLink + `&type-id=${e.target.dataset.id}&path=${window.state.path}`;
       const res = await fetchJsonOk('Adding', fetchUrl);
 
@@ -79,7 +61,9 @@ $(document).ready(() => {
 
       $(tr).on('pointerdown', action('pointerdown: tr'));
       $('td > input', tr).on('keyup', action('keyup: td input'));
+
       if (typeName == 'object') item_T_object_handle(tr);
+      else if (typeName == 'image') item_T_image_handle(tr);
 
       document.querySelector('table > tbody').append(tr);
 
@@ -113,10 +97,17 @@ $(document).ready(() => {
       const colname = td.getAttribute('colname');
       const itemId = tr.dataset.itemId;
 
-      $statusbar.dotAnimation.start('Updating');
+      const fetchUrl = updateLink;
 
-      const fetchUrl = updateLink + `&item_id=${itemId}&colname=${colname}&value=${input.value}`;
-      const res = await fetchJsonOk('Updating', fetchUrl);
+      const formData = new FormData();
+      formData.append('item_id', itemId);
+      formData.append('colname', colname);
+      formData.append('value', input.value);
+
+      const res = await fetchJsonOk('Updating', fetchUrl, {
+         method: 'POST',
+         body: formData,
+      });
    }
 
    // STOP: ROW SELECT
@@ -214,9 +205,8 @@ $(document).ready(() => {
    });
 
    async function deleteRow(row) {
-      $statusbar.dotAnimation.start('Deleting');
-
-      const key = row.querySelector('[colname="key"] > input').value;
+      const keyEl = row.querySelector('[colname="key"] > input');
+      const key = keyEl ? keyEl.value : '';
 
       const fetchUrl = deleteLink + `&item_id=${row.dataset.itemId}`;
       const res = await fetchJsonOk('Deleting', fetchUrl);
@@ -229,43 +219,16 @@ $(document).ready(() => {
          let url = window.location.origin + window.location.pathname;
          let query = new URLSearchParams(window.location.search);
          query.set('path', state.path);
+
          url += '?' + query.toString();
          window.history.pushState({}, document.title, url);
+
          let currPathPart = document.querySelector('.page_path__part_curr').nextElementSibling, prevPathPart;
          while (currPathPart) {
             prevPathPart = currPathPart;
             currPathPart = currPathPart.nextElementSibling;
             prevPathPart.remove();
          }
-
       }
-   }
-
-
-   async function fetchJsonOk(startMessage, fetchUrl) {
-      return new Promise(async (resolve, reject) => {
-         $statusbar.dotAnimation.start(startMessage);
-         let res;
-         try {
-            //window.open(fetchUrl, '_blank');
-            //return;
-            res = await fetch(fetchUrl).then(res => res.json());
-         } catch (err) {
-            $statusbar.dotAnimation.stop('Error');
-            console.error(err.message);
-            reject(err);
-         }
-
-         $statusbar.dotAnimation.stop('Ready');
-         if (res.status == 'OK') {
-            console.log(startMessage + ' OK');
-            resolve(res);
-         }
-         else {
-            let message = `When ${startMessage} item at URL: ${fetchUrl}`;
-            console.error(message);
-            reject(new Error(message));
-         }
-      });
    }
 });

@@ -1,0 +1,28 @@
+.item_T_image
+   td[colname="value"] .block
+      width: 50%
+      text-align: center
+      margin-right: 1px
+      cursor: pointer
+
+      &[disabled]
+         cursor: default
+         opacity: 0.5
+
+      &:nth-last-child(2)
+         margin-right: 0
+   
+   &__thumbnail
+      width: 3.25em
+      height: 3.25em
+      overflow: hidden
+      padding: 0.25em
+
+      img
+         width: 100%
+         height: auto
+         max-width: 100%
+         max-height: 100%
+
+      &_free
+         background: url(./../../Attach/Images/diag-dash-table.png)

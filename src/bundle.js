@@ -21,3 +21,6 @@ import './Basic/table/table';
 import './Blocks/item_T_field/item_T_field';
 import './Blocks/item_T_object/item_T_object';
 import './Blocks/item_T_list/item_T_list';
+import './Blocks/item_T_image/item_T_image';
+import './Basic/popup/popup';
+import './Blocks/item_T_space/item_T_space';

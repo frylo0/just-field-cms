@@ -1,6 +1,6 @@
 include __item/aside__item.pug
 mixin aside(&global)
-   aside.aside&attributes(attributes).rel
+   aside.aside&attributes(attributes).rel(style=`width: ${$_COOKIE['-jf_aside-width']}px;`)
       .aside__content.col.jcsb
          .col
             +block('div', 'none').aside__logo.row.aic

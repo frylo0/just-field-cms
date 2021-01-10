@@ -636,8 +636,16 @@ $GLOBALS['__jpv_set'] = function ($base, $key, $operator, $value) {
     return $base;
 };
 $GLOBALS['__jpv_set_with_ref'] = $GLOBALS['__jpv_set'];
+$GLOBALS['__jpv_plus'] = function ($base) {
+    foreach (array_slice(func_get_args(), 1) as $value) {
+        $base = is_string($base) || is_string($value) ? $base . $value : $base + $value;
+    }
+
+    return $base;
+};
+$GLOBALS['__jpv_plus_with_ref'] = $GLOBALS['__jpv_plus'];
 require_once $php . '/JustField.php'; ?>
-<?php $db = new JustField\DB($orm); ?>
+<?php $db = new JustField\DB($orm, ['assets' => $assets]); ?>
 
 <?php function gen_from_get($prefix) { ?>
 <?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
@@ -645,6 +653,18 @@ require_once $php . '/JustField.php'; ?>
 <?php          $variable = $_GET[$get_key]; ?>
 <?php       } else if ($is_echo) { ?>
 <?php          echo($prefix . ': ' . "no \"$get_key\" in \$_GET" . '<br>'); ?>
+<?php       } else { ?>
+<?php          $variable = null; ?>
+<?php       } ?>
+<?php    }; ?>
+<?php } ?>
+
+<?php function gen_from_post($prefix) { ?>
+<?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
+<?php       if (isset($_POST[$get_key])) { ?>
+<?php          $variable = $_POST[$get_key]; ?>
+<?php       } else if ($is_echo) { ?>
+<?php          echo($prefix . ': ' . "no \"$get_key\" in \$_POST" . '<br>'); ?>
 <?php       } else { ?>
 <?php          $variable = null; ?>
 <?php       } ?>
@@ -665,6 +685,6 @@ require_once $php . '/JustField.php'; ?>
         ? $_pug_temp->__toBoolean()
         : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-add') : $gen_from_get('field-add')) ?><?php (function_exists('from_get') ? from_get($field_type_id, 'type-id') : $from_get($field_type_id, 'type-id')) ?><?php (function_exists('from_get') ? from_get($path, 'path') : $from_get($path, 'path')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $new_field_id = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_path')($path), 'add_field')($field_type_id) ?><?php echo('{ "status": "OK", "id": "' . $new_field_id . '"}') ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-update', "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-update') : $gen_from_get('field-update')) ?><?php (function_exists('from_get') ? from_get($item_id, 'item_id') : $from_get($item_id, 'item_id')) ?><?php (function_exists('from_get') ? from_get($colname, 'colname') : $from_get($colname, 'colname')) ?><?php (function_exists('from_get') ? from_get($value, 'value') : $from_get($value, 'value')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_id')($item_id), 'update')($colname, $value) ?><?php echo('{ "status": "OK" }') ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-delete', "__toBoolean")
+        : $_pug_temp) { ?><?php $from_post = (function_exists('gen_from_post') ? gen_from_post('field-update') : $gen_from_post('field-update')) ?><?php (function_exists('from_post') ? from_post($item_id, 'item_id') : $from_post($item_id, 'item_id')) ?><?php (function_exists('from_post') ? from_post($colname, 'colname') : $from_post($colname, 'colname')) ?><?php (function_exists('from_post') ? from_post($value, 'value', false) : $from_post($value, 'value', false)) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $res = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_id')($item_id), 'update')($colname, $value) ?><?php echo($GLOBALS['__jpv_plus']('{ "status": "OK", "data": "', $res, '" }')) ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-delete', "__toBoolean")
         ? $_pug_temp->__toBoolean()
         : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-delete') : $gen_from_get('field-delete')) ?><?php (function_exists('from_get') ? from_get($item_id, 'item_id') : $from_get($item_id, 'item_id')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_id')($item_id), 'remove')() ?><?php echo('{ "status": "OK" }') ?><?php } ?><?php } else { ?>Error: no script in $_GET<?php } ?>

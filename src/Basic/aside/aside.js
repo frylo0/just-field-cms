@@ -1,8 +1,11 @@
+import { getCookie, setCookie } from './../../Plugins/cookie.js';
+
 import './__item/aside__item';
 $(document).ready(() => {
    const pref = '.aside'; // prefix for current folder
 
    const $aside = $(pref);
+   const $main = $(`${pref} + main`);
    const $resizer = $(pref + '__resizer');
 
    $resizer
@@ -13,11 +16,6 @@ $(document).ready(() => {
       .on('pointerup', e => action('pointer: window')('up', e));
 
    when('pointer: window', (etype, e) => {
-      //e => {
-
-      //   if ($resizer[0].touched)
-      //      action('move: aside resizer')(e);
-      //}
       if ($resizer.length == 0) {
          console.warn('Using aside component as Basic with no aside (frity)');
          return;
@@ -30,5 +28,7 @@ $(document).ready(() => {
    when('end: aside resizer', e => $resizer[0].touched = false);
    when('move: aside resizer', e => {
       $aside.css('width', `${e.pageX}px`);
+      $main.css('width', `${window.innerWidth - e.pageX}px`);
+      setCookie('-jf_aside-width', e.pageX, 40000);
    });
 });

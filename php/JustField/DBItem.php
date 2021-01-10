@@ -3,13 +3,15 @@
 namespace JustField {
    class DBItem
    {
-      function __construct($orm, $id)
+      function __construct($orm, $id, $glo, $parent_path = '')
       {
          $this->orm = $orm;
          $this->id = $id;
+         $this->glo = $glo;
 
          $data = $this->orm->from('db-item')->select('*')->where("`id_db-item` = '$id'")();
          if ($data === false || count($data) == 0) {
+            var_dump($data);
             $this->orm->is_simulate = true;
             $sql = $this->orm->from('db-item')->select('*')->where("`id_db-item` = '$id'")();
             throw new \Exception("No data in $id in JustField\\DBItem::__construct ( $sql )");
@@ -18,6 +20,8 @@ namespace JustField {
 
          $this->key = $data['db-item_key'];
          $this->name = $data['db-item_name'];
+
+         $this->path = "{$parent_path}/{$this->key}";
 
          if ($data['db-item_value-type'] == '')
             $this->type = null;
@@ -45,6 +49,10 @@ namespace JustField {
                $field = new T_field($this->orm);
                $field->set_id($value);
                return $field->get_value();
+            case 'image':
+               $field = new T_image($this->orm, $this->glo);
+               $field->set_id($value);
+               return $field->get_value();
 
             case 'list':
             case 'object':
@@ -60,7 +68,7 @@ namespace JustField {
 
          $res = [];
          foreach ($this->value as $child_id) {
-            array_push($res, new DBItem($this->orm, $child_id));
+            array_push($res, new DBItem($this->orm, $child_id, $this->glo));
          }
          return $res;
       }
@@ -74,10 +82,28 @@ namespace JustField {
          foreach ($this->value as $child_id) {
             $curr = $this->orm->select('*')->where("`id_db-item` = '$child_id'")()[0];
             if ($curr['db-item_key'] == $key) {
-               return new DBItem($this->orm, $child_id);
+               return new DBItem($this->orm, $child_id, $this->glo, $this->path);
             }
          }
          return null;
+      }
+
+      function at_path($path)
+      {
+         $root = $this;
+
+         if (!$path) return $root;
+
+         $parts = explode('/', $path);
+         $target = $root;
+         foreach ($parts as $part) {
+            $child = $target->get_child($part);
+            if (!$child)
+               throw new \Exception('During ' . $path . ' processing: path part (' . $part . ') a child');
+            $target = $child;
+         }
+
+         return $target;
       }
 
       function add_field($field_type_id)
@@ -86,9 +112,13 @@ namespace JustField {
 
          $field_id = null;
 
-         if (!($type->name == 'object' || $type->name == 'list')) {
-            // put value to T table
-            $field = new T_field($this->orm);
+         // put value to T table
+         if (!($type->name == 'object' || $type->name == 'list' || $type->name == 'space')) {
+            if ($type->name == 'field') {
+               $field = new T_field($this->orm);
+            } else if ($type->name == 'image') {
+               $field = new T_image($this->orm, $this->glo);
+            }
             $field_id = $field->create();
          }
 
@@ -117,21 +147,31 @@ namespace JustField {
       function update($key, $value)
       {
          switch ($key) {
+
             case 'value':
                switch ($this->type->name) {
+
                   case 'field':
                      $field = new T_field($this->orm);
                      $field->set_id($this->value_id);
                      $field->update($value);
                      break;
+
+                  case 'image':
+                     $field = new T_image($this->orm, $this->glo);
+                     $field->set_id($this->value_id);
+                     return $field->update($_FILES['value']);
+                     break;
                }
                break;
+
             case 'key':
             case 'name':
                $this->orm->from('db-item')->update([
                   "db-item_$key" => "$value",
                ])->where("`id_db-item` = '{$this->id}'")();
                break;
+
             default:
                throw new \Exception("Error: DBItem::update(\$key=$key, \$value=$value) - unexpected key ($key)");
          };
@@ -157,7 +197,7 @@ namespace JustField {
          };
 
          // self remove
-         $parent = new DBItem($this->orm, $this->parent);
+         $parent = new DBItem($this->orm, $this->parent, $this->glo);
          $parent_value = $parent->value;
          $this_id_in_val = array_search("{$this->id}", $parent_value);
          unset($parent_value[$this_id_in_val]);

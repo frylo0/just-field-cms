@@ -3,20 +3,22 @@
 namespace JustField {
    class DB
    {
-      function __construct($orm)
+      function __construct($orm, $glo = [])
       {
          $this->orm = clone $orm;
          $this->orm->from('db');
+
+         $this->glo = $glo;
       }
 
       function get_root()
       {
-         return new DBItem($this->orm, '1');
+         return new DBItem($this->orm, '1', $this->glo, '');
       }
 
       function get_item_data($id)
       {
-         return new DBItem($this->orm, $id);
+         return new DBItem($this->orm, $id, $this->glo, '');
       }
 
       function at_path($path)
@@ -25,21 +27,12 @@ namespace JustField {
 
          if (!$path) return $root;
 
-         $parts = explode('/', $path);
-         $target = $root;
-         foreach ($parts as $part) {
-            $child = $target->get_child($part);
-            if (!$child)
-               throw new \Exception('During ' . $path . ' processing: path part (' . $part . ') a child');
-            $target = $child;
-         }
-
-         return $target;
+         return $root->at_path($path);
       }
 
       function at_id($id)
       {
-         return new DBItem($this->orm, $id);
+         return new DBItem($this->orm, $id, $this->glo, '');
       }
    };
 };

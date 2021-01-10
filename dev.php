@@ -4,6 +4,7 @@ $VER = '1.0';
 $ATTACH = './src/Attach';
 $PHP = './php';
 $ROOT = './src/Root';
+$ASSETS = './src/Assets';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -26,6 +27,7 @@ $variables = [
    '$_COOKIE' => $_COOKIE,
    'php' => $PHP,
    'attach' => $ATTACH,
+   'assets' => $ASSETS,
    'root' => $ROOT,
    'unset_session_prop' => $unset_session_prop,
    'mode' => 'dev',
