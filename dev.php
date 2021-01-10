@@ -33,6 +33,7 @@ $variables = [
 $options = [
    'cache_dir' => 'cache'
 ];
+Phug::setOption('debug', false); // remove debug and performance info from output file
 Phug::displayFile("./src/Pages/{$page_name}/{$page_name}.pug", $variables, $options);
 
 $orm->close();

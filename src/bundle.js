@@ -18,3 +18,6 @@ import './Basic/logo/logo';
 import './Basic/favicon/favicon';
 import './Source/get-user-info/get-user-info';
 import './Basic/table/table';
+import './Blocks/item_T_field/item_T_field';
+import './Blocks/item_T_object/item_T_object';
+import './Blocks/item_T_list/item_T_list';

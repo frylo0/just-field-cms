@@ -636,85 +636,35 @@ $GLOBALS['__jpv_set'] = function ($base, $key, $operator, $value) {
     return $base;
 };
 $GLOBALS['__jpv_set_with_ref'] = $GLOBALS['__jpv_set'];
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(23);
-// PUG_DEBUG:23
- ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(22);
-// PUG_DEBUG:22
- ?><?php if (method_exists($_pug_temp = isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_GET)['script']), "__toBoolean")
+require_once $php . '/JustField.php'; ?>
+<?php $db = new JustField\DB($orm); ?>
+
+<?php function gen_from_get($prefix) { ?>
+<?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
+<?php       if (isset($_GET[$get_key])) { ?>
+<?php          $variable = $_GET[$get_key]; ?>
+<?php       } else if ($is_echo) { ?>
+<?php          echo($prefix . ': ' . "no \"$get_key\" in \$_GET" . '<br>'); ?>
+<?php       } else { ?>
+<?php          $variable = null; ?>
+<?php       } ?>
+<?php    }; ?>
+<?php } ?>
+
+<?php if (method_exists($_pug_temp = isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_GET)['script']), "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(0);
-// PUG_DEBUG:0
- ?><?php $script = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_GET, 'script') ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(6);
-// PUG_DEBUG:6
- ?><?php if (method_exists($_pug_temp = (isset($script) ? $script : null) == 'exit', "__toBoolean")
+        : $_pug_temp) { ?><?php $script = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_GET, 'script') ?><?php if (method_exists($_pug_temp = (isset($script) ? $script : null) == 'exit', "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(1);
-// PUG_DEBUG:1
- ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(2);
-// PUG_DEBUG:2
- ?><?php (function_exists('unset_session_prop') ? unset_session_prop('id') : $unset_session_prop('id')) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(3);
-// PUG_DEBUG:3
- ?><?php (function_exists('session_destroy') ? session_destroy() : $session_destroy()) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(4);
-// PUG_DEBUG:4
- ?><?php (function_exists('header') ? header("Location: ./dev.php?page=login") : $header("Location: ./dev.php?page=login")) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(5);
-// PUG_DEBUG:5
- ?><?php $die ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(21);
-// PUG_DEBUG:21
- }  elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'login', "__toBoolean")
+        : $_pug_temp) { ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php (function_exists('unset_session_prop') ? unset_session_prop('id') : $unset_session_prop('id')) ?><?php (function_exists('session_destroy') ? session_destroy() : $session_destroy()) ?><?php (function_exists('header') ? header("Location: ./dev.php?page=login") : $header("Location: ./dev.php?page=login")) ?><?php $die ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'login', "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(19);
-// PUG_DEBUG:19
- ?><?php if (method_exists($_pug_temp = $GLOBALS['__jpv_and'](isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['login']), function () { return isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['password']); }), "__toBoolean")
+        : $_pug_temp) { ?><?php if (method_exists($_pug_temp = $GLOBALS['__jpv_and'](isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['login']), function () { return isset($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST)['password']); }), "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(7);
-// PUG_DEBUG:7
- ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(8);
-// PUG_DEBUG:8
- ?><?php $login = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'login') ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(9);
-// PUG_DEBUG:9
- ?><?php $password = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'password') ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(10);
-// PUG_DEBUG:10
- ?><?php $orm = $GLOBALS['__jpv_set_with_ref']($orm, 'is_log', '=', true) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(11);
-// PUG_DEBUG:11
- ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($orm, 'from')('account'), 'select')('id_account'), 'where')('account_login = \'' . $login . '\' AND account_password = \'' . $password . '\'')() ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(14);
-// PUG_DEBUG:14
- ?><?php if (method_exists($_pug_temp = (!(isset($id) ? $id : null)), "__toBoolean")
+        : $_pug_temp) { ?><?php (function_exists('session_start') ? session_start() : $session_start()) ?><?php $login = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'login') ?><?php $password = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_POST, 'password') ?><?php $orm = $GLOBALS['__jpv_set_with_ref']($orm, 'is_log', '=', true) ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($orm, 'from')('account'), 'select')('id_account'), 'where')('account_login = \'' . $login . '\' AND account_password = \'' . $password . '\'')() ?><?php if (method_exists($_pug_temp = (!(isset($id) ? $id : null)), "__toBoolean")
         ? $_pug_temp->__toBoolean()
-        : $_pug_temp) { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(12);
-// PUG_DEBUG:12
- ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'login_error', '=', 'uncorrect login or password') ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(13);
-// PUG_DEBUG:13
- ?><?php (function_exists('header') ? header('Location: ./dev.php?page=login') : $header('Location: ./dev.php?page=login')) ?><?php } else { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(15);
-// PUG_DEBUG:15
- ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($id, 0, 'id_account') ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(16);
-// PUG_DEBUG:16
- ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'id', '=', $id) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(17);
-// PUG_DEBUG:17
- ?><?php (function_exists('unset_session_prop') ? unset_session_prop('login_error') : $unset_session_prop('login_error')) ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(18);
-// PUG_DEBUG:18
- ?><?php (function_exists('header') ? header('Location: ./dev.php?page=main') : $header('Location: ./dev.php?page=main')) ?><?php } ?><?php } else { ?><?php 
-\Phug\Renderer\Profiler\ProfilerModule::recordProfilerDisplayEvent(20);
-// PUG_DEBUG:20
- ?><?php echo('NO POST') ?><?php } ?><?php } ?><?php } ?>
+        : $_pug_temp) { ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'login_error', '=', 'uncorrect login or password') ?><?php (function_exists('header') ? header('Location: ./dev.php?page=login') : $header('Location: ./dev.php?page=login')) ?><?php } else { ?><?php $id = $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($id, 0, 'id_account') ?><?php $_SESSION = $GLOBALS['__jpv_set_with_ref']($_SESSION, 'id', '=', $id) ?><?php (function_exists('unset_session_prop') ? unset_session_prop('login_error') : $unset_session_prop('login_error')) ?><?php (function_exists('header') ? header('Location: ./dev.php?page=main') : $header('Location: ./dev.php?page=main')) ?><?php } ?><?php } else { ?><?php echo('NO POST') ?><?php } ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-add', "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-add') : $gen_from_get('field-add')) ?><?php (function_exists('from_get') ? from_get($field_type_id, 'type-id') : $from_get($field_type_id, 'type-id')) ?><?php (function_exists('from_get') ? from_get($path, 'path') : $from_get($path, 'path')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $new_field_id = $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_path')($path), 'add_field')($field_type_id) ?><?php echo('{ "status": "OK", "id": "' . $new_field_id . '"}') ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-update', "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-update') : $gen_from_get('field-update')) ?><?php (function_exists('from_get') ? from_get($item_id, 'item_id') : $from_get($item_id, 'item_id')) ?><?php (function_exists('from_get') ? from_get($colname, 'colname') : $from_get($colname, 'colname')) ?><?php (function_exists('from_get') ? from_get($value, 'value') : $from_get($value, 'value')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_id')($item_id), 'update')($colname, $value) ?><?php echo('{ "status": "OK" }') ?><?php } elseif (method_exists($_pug_temp = (isset($script) ? $script : null) == 'field-delete', "__toBoolean")
+        ? $_pug_temp->__toBoolean()
+        : $_pug_temp) { ?><?php $from_get = (function_exists('gen_from_get') ? gen_from_get('field-delete') : $gen_from_get('field-delete')) ?><?php (function_exists('from_get') ? from_get($item_id, 'item_id') : $from_get($item_id, 'item_id')) ?><?php $db = $GLOBALS['__jpv_set_with_ref']($db, 'orm', '=', $GLOBALS['__jpv_set']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'orm'), 'is_log', '=', false)) ?><?php $GLOBALS['__jpv_dotWithArrayPrototype']($GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($db, 'at_id')($item_id), 'remove')() ?><?php echo('{ "status": "OK" }') ?><?php } ?><?php } else { ?>Error: no script in $_GET<?php } ?>

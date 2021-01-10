@@ -1,7 +1,9 @@
 include ../../bundle.pug
 
 +die-if-bad()
-- var global = { 'page-name': 'field', orm: orm, user: null };
+- var global = { 'page-name': 'field', orm: orm, user: null, attach: attach };
+<?php global $glo; ?>
+- var glo = global
 +get-user-info(global)
 
 if !$_GET['view']
@@ -44,6 +46,14 @@ html(lang="en")
                for i = 0; i < curr_path_i; i++
                   - array_push(path_parts, parts[i]);
                - path = implode('/', path_parts)
+               - glo['path'] = path
+
+               <script>var state = {};</script>
+               script= `state.path = '${path}';`
+               if curr_path_i-1 < count(parts)
+                  script= `state.pathNext = '${parts[curr_path_i]}';`
+               else
+                  script= `state.pathNext = '';`
 
                if count(parts) == 1 && parts[0] == ''
                   - parts = []
@@ -55,14 +65,21 @@ html(lang="en")
                   - i++
 
             .page_content.ova.w100
+               template#template_T_field
+                  +item_T_field()
+               template#template_T_object
+                  +item_T_object()
+               template#teplate_T_list
+                  +item_T_list()
+
                - var is_data = true
-               table
+               table(data-update-link='./dev.php?page=scripts&script=field-update')
                   thead
                      tr
                         td Order
                         td Key
                         td Name
-                        td Type
+                        td(colspan="2") Type
                         td.w100 Value
                         td Permission
                   tbody
@@ -73,31 +90,36 @@ html(lang="en")
                         - is_data = false
                      else
                         each child in children
-                           tr
-                              td.page_table-order.row.jcc.aic.cup
-                                 img(src=`${attach}/Images/up-down.svg` draggable="false")
-                              td= child.key
-                              td= child.name
-                              td= child.type.name
-                              td.w100
-                                 - var path_i = count(path_parts)+1;
-                                 +link('Open', `./dev.php?page=field&view=tree&path=${path}${child.key}&curr_path_i=${path_i}`)
-                              td.tac edit
+                           if child.type.name == 'field'
+                              +item_T_field(child)
+                           else if child.type.name == 'object'
+                              +item_T_object(child)
+                           else if child.type.name == 'list'
+                              +item_T_list(child)
 
-               if !is_data
-                  h2.tac No data
+               h2.tac(class=( is_data ? 'dn' : '' ))#title_no-data No data
 
 
          else if $_GET['view'] == 'type'
             |type
 
-         .page_foot-panel.w100
-            +button('Add', 'dark')
-            +button('Delete', 'dark')
-               span(style="color: #6CF6FF88")
-                  |  (
-                  span 0
-                  | )
+         .page_foot-panel.w100.row.jcsb
+            .row
+               +button('Add', 'dark').page_button-add.rel(data-add-link='./dev.php?page=scripts&script=field-add')
+                  .page_button-add__content.abs.col.top0.left0.dn
+                     - types_orm = orm.from('type').select('*')
+                     - types = types_orm()
+                     each curr_type in types
+                        +block('div', 'dark').page_button-add__type(data-id=curr_type['id_type'])
+                           = curr_type['type_name']
+                     
+               +button('Delete', 'dark').page_button-delete(data-delete-link='./dev.php?page=scripts&script=field-delete')
+                  span(style="color: #6CF6FF88").dn#button-delete-count
+                     |  (
+                     span 0
+                     | )
+            .row
+               #statusbar.p1 Ready
          
 
    script(src=`${link}.bundle.js`)

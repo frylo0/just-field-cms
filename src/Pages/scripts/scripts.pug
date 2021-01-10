@@ -1,3 +1,19 @@
+<?php require_once $php . '/JustField.php'; ?>
+<?php $db = new JustField\DB($orm); ?>
+
+<?php function gen_from_get($prefix) { ?>
+<?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
+<?php       if (isset($_GET[$get_key])) { ?>
+<?php          $variable = $_GET[$get_key]; ?>
+<?php       } else if ($is_echo) { ?>
+<?php          echo($prefix . ': ' . "no \"$get_key\" in \$_GET" . '<br>'); ?>
+<?php       } else { ?>
+<?php          $variable = null; ?>
+<?php       } ?>
+<?php    }; ?>
+<?php } ?>
+
+
 if isset($_GET['script'])
    - var script = $_GET['script'];
 
@@ -31,3 +47,39 @@ if isset($_GET['script'])
             - header('Location: ./dev.php?page=main');
       else
          - echo('NO POST');
+
+   else if script == 'field-add'
+      - var from_get = gen_from_get('field-add')
+
+      - from_get(field_type_id, 'type-id')
+      - from_get(path, 'path')
+
+      - db.orm.is_log = false
+      - var new_field_id = db.at_path(path).add_field(field_type_id)
+
+      - echo(`{ "status": "OK", "id": "${new_field_id}"}`)
+
+   else if script == 'field-update'
+      - var from_get = gen_from_get('field-update')
+
+      - from_get(item_id, 'item_id')
+      - from_get(colname, 'colname')
+      - from_get(value, 'value')
+
+      - db.orm.is_log = false
+      - db.at_id(item_id).update(colname, value)
+
+      - echo('{ "status": "OK" }')
+
+   else if script == 'field-delete'
+      - var from_get = gen_from_get('field-delete')
+
+      - from_get(item_id, 'item_id')
+
+      - db.orm.is_log = false
+      - db.at_id(item_id).remove()
+
+      - echo('{ "status": "OK" }')
+
+else
+   | Error: no script in $_GET

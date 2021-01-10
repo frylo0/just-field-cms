@@ -7,13 +7,15 @@ class ORM {
    var $db_name;
 
    var $is_log = false;
+   var $is_simulate = false;
    var $last_operation = null;
    var $last_operation_args = null;
 
    var $table_prefix = '';
    var $conditions;
    var $selector;
-   var $table;
+   var $table_name;
+   var $table_name_raw;
 
    function __construct($host, $user, $pass, $db_name)
    {
@@ -41,19 +43,31 @@ class ORM {
       $new_orm->table_prefix = $this->table_prefix;
       $new_orm->conditions = $this->conditions;
       $new_orm->selector = $this->selector;
-      $new_orm->table = $this->table;
+      $new_orm->table_name = $this->table_name;
+      $new_orm->table_name_raw = $this->table_name_raw;
+      $new_orm->is_simulate = $this->is_simulate;
 
       return $new_orm;
    }
 
    function from($table) {
       $this->conditions = '';
-      $this->table = $this->table_prefix . $table;
+      $this->table_name_raw = $table;
+      $this->table_name = $this->table_prefix . $table;
       return $this;
+   }
+   function table($table)
+   {
+      return $this->from($table);
    }
 
    function where($conditions) {
       $this->conditions = $conditions;
+      return $this;
+   }
+   function where_id($id)
+   {
+      $this->conditions = "`id_{$this->table_name_raw}` = '$id'";
       return $this;
    }
 
@@ -71,7 +85,7 @@ class ORM {
 
       switch ($this->last_operation) {
          case 'select':
-            $sql = "SELECT {$this->selector} FROM `{$this->table}` WHERE {$where_str};";
+            $sql = "SELECT {$this->selector} FROM `{$this->table_name}` WHERE {$where_str};";
             break;
 
          case 'update':
@@ -79,11 +93,11 @@ class ORM {
 
             foreach ($assoc as $key => $val) {
                $val = $this->get_val($val);
-               $query_str .= "$key = $val, ";
+               $query_str .= "`$key` = $val, ";
             }
             $query_str = mb_substr($query_str, 0, mb_strlen($query_str) - 2);
 
-            $sql = "UPDATE `{$this->table}` SET {$query_str} WHERE {$where_str};";
+            $sql = "UPDATE `{$this->table_name}` SET {$query_str} WHERE {$where_str};";
             break;
 
          case 'insert':
@@ -94,17 +108,25 @@ class ORM {
             $vals_str = '';
             foreach ($vals as $val) {
                $val = $this->get_val($val);
-               $vals_str .= "'$val', ";
+               $vals_str .= "$val, ";
             }
             $vals_str = mb_substr($vals_str, 0, mb_strlen($vals_str) - 2);
 
-            $sql = "INSERT INTO `{$this->table}` ({$keys_str}) VALUES ({$vals_str});";
+            $sql = "INSERT INTO `{$this->table_name}` ({$keys_str}) VALUES ({$vals_str});";
+            break;
+
+         case 'delete':
+            $sql = "DELETE FROM `{$this->table_name}` WHERE {$where_str};";
             break;
 
          default;
       };
-      
-      return $this->query($sql, $fetch_type);
+
+      if (!$this->is_simulate)
+         return $this->query($sql, $fetch_type);
+      else
+         $this->console_log($sql);
+      return $sql;
    }
 
    function take($fetch_type = MYSQLI_ASSOC) {
@@ -129,6 +151,11 @@ class ORM {
    {
       $this->last_operation = 'insert';
       $this->last_operation_args = $assoc;
+      return $this;
+   }
+   function delete()
+   {
+      $this->last_operation = 'delete';
       return $this;
    }
 
@@ -160,6 +187,7 @@ class ORM {
 
    private function get_val($val) {
       if (is_string($val)) {
+         $val = $this->db->escape_string($val);
          return "'$val'";
       } else {
          if ($val === null) return 'NULL';
