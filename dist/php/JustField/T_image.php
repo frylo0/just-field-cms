@@ -48,7 +48,7 @@ namespace JustField {
          return $target_file;
       }
 
-      function steal_file($image_id)
+      function duplicate_file($image_id)
       {
          $image = new T_image($this->orm, $this->glo);
          $image->set_id($image_id);
@@ -61,10 +61,15 @@ namespace JustField {
          $target_name = "{$this->id}.{$ext}";
          $target_file = $this->glo['assets'] . "/$target_name";
 
-         if (file_exists($target_file))
+         if (file_exists($image_src)) {
+            echo '<script>/*' . "T_i: 0: file exists: $target_file, $image_src" . '*/</script>';
             file_put_contents($target_file, file_get_contents($image_src));
+            
+            $this->orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
+         } else {
+            echo '<script>/*' . "T_i: 1: file NOT exists: $target_file, $image_src" . '*/</script>';
+         }
 
-         $this->orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
          return $target_file;
       }
 

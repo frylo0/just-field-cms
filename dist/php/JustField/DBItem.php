@@ -108,6 +108,8 @@ namespace JustField {
 
       function add_field($field_type_id)
       {
+         //echo '<script>/*' . "1: Adding type id: $field_type_id" . '*/</script>';
+
          $type = new DBItemType($this->orm, $field_type_id);
 
          $field_id = null;
@@ -136,10 +138,14 @@ namespace JustField {
          // taking new field id
          $new_field_id = $this->orm->select('MAX(`id_db-item`) AS max_id')()[0]['max_id'];
 
+         // updating self value (special for duplicate)
+         if ($this->value)
+            array_push($this->value, $new_field_id);
+         else
+            $this->value = [$new_field_id];
+
          // update current field
-         $this->orm->from('db-item')->update([
-            'db-item_value' => ($this->value ? implode(',', $this->value) . ',' : '') . $new_field_id,
-         ])->where("`id_db-item` = '{$this->id}'")();
+         $this->orm->from('db-item')->update(['db-item_value' => implode(',', $this->value)])->where("`id_db-item` = '{$this->id}'")();
 
          return $new_field_id;
       }
@@ -213,7 +219,7 @@ namespace JustField {
 
       function duplicate()
       {
-         $this->duplicate_field_to($this, new DBItem($this->orm, $this->parent, $this->glo));
+         return $this->duplicate_field_to($this, new DBItem($this->orm, $this->parent, $this->glo));
       }
 
       private function duplicate_field_to(DBItem $field, DBItem $target_parent)
@@ -221,12 +227,16 @@ namespace JustField {
          $orm = $this->orm;
 
          $new_field_id = $target_parent->add_field($field->type->id);
+         //echo '<script>/*' . "1: New field ID: $new_field_id" . '*/</script>';
          $new_field = new DBItem($orm, $new_field_id, $field->glo);
 
          $field_data = [
             'key' => $field->key,
             'name' => $field->name,
          ];
+         //echo '<script>/*' . "2: Key: $field->key" . '*/</script>';
+         //echo '<script>/*' . "3: Name: $field->name" . '*/</script>';
+         //echo '<script>/*' . "4: New_field->ID: $new_field->id" . '*/</script>';
 
          foreach ($field_data as $key => $value) {
             $new_field->update($key, $value);
@@ -236,17 +246,22 @@ namespace JustField {
             $children = $field->get_children();
 
             foreach ($children as $child) {
+               //echo '<script>/*' . "5: ------------>: $child->id" . '*/</script>';
                $this->duplicate_field_to($child, $new_field);
             }
          } else { // simple data
+            echo '<script>/*' . "6: Simple data" . '*/</script>';
+            echo '<script>/*' . "7: Type name: '{$field->type->name}'" . '*/</script>';
             if ($field->type->name == 'image') {
                $new_field_image = new T_image($new_field->orm, $new_field->glo);
                $new_field_image->set_id($new_field->value_id);
-               $new_field_image->steal_file($field->value_id);
+               $new_field_image->duplicate_file($field->value_id);
             } else {
                $new_field->update('value', $field->value);
             }
          }
+
+         return $new_field_id;
       }
    };
 }

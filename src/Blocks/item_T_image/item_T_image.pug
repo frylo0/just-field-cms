@@ -11,7 +11,6 @@ mixin item_T_image(child)
             input(placeholder='Input key...', value=child.key)
          td(colname='name').p0
             input(placeholder='Input name...', value=child.name)
-         td(colname='type', colspan=2)= child.type.name
          td(colname='value').w100.p0
             .row
                if child.value['src']
@@ -25,6 +24,7 @@ mixin item_T_image(child)
                +button('Upload', 'dark').item_T_image__upload-button
                form.dn.item_T_image__file-form
                   input(type="file", name="image", accept="image/*").item_T_image__file
+         td(colname='type', colspan=2)= child.type.name
          td.tac(colname='permission') edit
 
    else
@@ -36,7 +36,6 @@ mixin item_T_image(child)
             input(placeholder='Input key...', value='{key}')
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
-         td(colname='type', colspan=2) {type}
          td(colname='value').w100.p0
             .row
                .item_T_image__thumbnail.item_T_image__thumbnail_free.row.jcc.aic
@@ -45,4 +44,5 @@ mixin item_T_image(child)
                +button('Upload', 'dark').item_T_image__upload-button
                form.dn.item_T_image__file-form
                   input(type="file", name="image", accept="image/*").item_T_image__file
+         td(colname='type', colspan=2) {type}
          td.tac(colname='permission') edit

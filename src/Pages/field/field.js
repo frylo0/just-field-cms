@@ -59,11 +59,7 @@ $(document).ready(() => {
          permission: 'edit',
       });
 
-      $(tr).on('pointerdown', action('pointerdown: tr'));
-      $('td > input', tr).on('keyup', action('keyup: td input'));
-
-      if (typeName == 'object') item_T_object_handle(tr);
-      else if (typeName == 'image') item_T_image_handle(tr);
+      rowHandle(tr, typeName);
 
       document.querySelector('table > tbody').append(tr);
 
@@ -76,6 +72,16 @@ $(document).ready(() => {
       }
    });
 
+   function rowHandle(row, typeName) {
+      const tr = row;
+
+      $(tr).on('pointerdown', action('pointerdown: tr'));
+      $('td > input', tr).on('keyup', action('keyup: td input'));
+
+      if (typeName == 'object') item_T_object_handle(tr);
+      else if (typeName == 'image') item_T_image_handle(tr);
+   }
+
    // STOP: INPUT UPDATE
    const updateLink = document.querySelector('table').dataset.updateLink;
 
@@ -86,7 +92,7 @@ $(document).ready(() => {
 
       e.target.keyUpTimeout = setTimeout(() => {
          uploadTdInput(e.target);
-      }, 1000);
+      }, 500);
    }));
 
    /** @param {HTMLElement} input */
@@ -259,7 +265,9 @@ $(document).ready(() => {
       const res = await fetchJsonOk('Duplicating', fetchUrl);
 
       const rowCopy = row.cloneNode(true);
-      item_T_image_handle(rowCopy);
+      rowCopy.dataset.itemId = res.id;
+      const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim();
+      rowHandle(rowCopy, typeName);
       rowCopy.classList.remove('tr_selected');
       row.parentElement.append(rowCopy);
    }

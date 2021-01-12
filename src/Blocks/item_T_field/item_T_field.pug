@@ -12,9 +12,9 @@ mixin item_T_field(child)
             input(placeholder='Input key...', value=child.key)
          td(colname='name').p0
             input(placeholder='Input name...', value=child.name)
-         td(colname='type', colspan=2)= child.type.name
          td(colname='value').w100.p0
             input(placeholder='Input value...', value=child.value)
+         td(colname='type', colspan=2)= child.type.name
          td.tac(colname='permission') edit
 
    else
@@ -26,7 +26,7 @@ mixin item_T_field(child)
             input(placeholder='Input key...', value='{key}')
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
-         td(colname='type', colspan=2) {type}
          td(colname='value').w100.p0
             input(placeholder='Input value...', value='{value}')
+         td(colname='type', colspan=2) {type}
          td.tac(colname='permission') {permission}

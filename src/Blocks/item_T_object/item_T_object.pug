@@ -12,7 +12,6 @@ mixin item_T_object(child)
             input(placeholder='Input key...', value=child.key)
          td(colname='name').p0
             input(placeholder='Input name...', value=child.name)
-         td(colname='type', colspan=2)= child.type.name
          td(colname='value').w100.p0
             - var path_i = count(path_parts)+1;
             - var loc_path;
@@ -21,6 +20,7 @@ mixin item_T_object(child)
             else
                - loc_path = `${path}/${child.key}`
             +link('Open', `./dev.php?page=field&view=tree&path=${loc_path}&curr_path_i=${path_i}`).p1.db
+         td(colname='type', colspan=2)= child.type.name
          td.tac(colname='permission') edit
 
    else
@@ -32,7 +32,6 @@ mixin item_T_object(child)
             input(placeholder='Input key...', value='{key}')
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
-         td(colname='type', colspan=2)= '{type}'
          td(colname='value').w100.p0
             - var path_i = count(path_parts)+1;
             - var loc_path;
@@ -41,4 +40,5 @@ mixin item_T_object(child)
             else
                - loc_path = `${path}/{key}`
             +link('Open', `./dev.php?page=field&view=tree&path=${loc_path}&curr_path_i=${path_i}`).p1.db
+         td(colname='type', colspan=2)= '{type}'
          td.tac(colname='permission') {permission}

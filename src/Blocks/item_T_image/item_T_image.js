@@ -42,7 +42,9 @@ $(document).ready(() => {
 
       $buttonShow[0].dataset.mfpSrc = res.data;
       $buttonShow.removeAttr('disabled');
-      $thumbnail.removeClass(`${pref}__thumbnail_free`.slice(1)).find('img').removeClass('dn').attr('src', res.data);
+
+      const $thumbnailImg = $thumbnail.removeClass(`${pref}__thumbnail_free`.slice(1)).find('img').removeClass('dn');
+      $thumbnailImg.attr('src', res.data + '?' + new Date());
    });
 
    window.item_T_image_handle = function (row) {
