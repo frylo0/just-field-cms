@@ -61,7 +61,8 @@ namespace JustField {
          $target_name = "{$this->id}.{$ext}";
          $target_file = $this->glo['assets'] . "/$target_name";
 
-         file_put_contents($target_file, file_get_contents($image_src));
+         if (file_exists($target_file))
+            file_put_contents($target_file, file_get_contents($image_src));
 
          $this->orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
          return $target_file;
@@ -69,17 +70,11 @@ namespace JustField {
 
       function get_value()
       {
-         //$this->orm->is_simulate = true;
-         //echo '<script> /* ' . $this->orm->select('image_src')->where("`id_image` = '{$this->id}'")() . '*/</script>';
          $src = $this->orm->select('image_src')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
          return [
             'name' => $src,
             'src' => $src ? $this->glo['assets'] . '/' . $src : '',
          ];
-         //return [
-         //   'name' => '',
-         //   'src' => '',
-         //];
       }
 
       function delete()
