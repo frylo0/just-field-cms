@@ -1,7 +1,7 @@
 include ../../bundle.pug
 
 +die-if-bad()
-- var global = { 'page-name': 'account', orm: orm };
+- var global = { 'page-name': 'backup', orm: orm };
 <?php global $glo; ?>
 - var glo = global
 +get-user-info(global)
@@ -23,19 +23,21 @@ html(lang="en")
                thead
                   tr
                      td Order
-                     td Login
-                     td Email
+                     td Type
+                     td Permission
                tbody
-                  - var accounts_orm = orm.from('account').select('*')
-                  - var accounts = accounts_orm()
-                  each curr_account in accounts
+                  - types_orm = orm.from('type').select('*')
+                  - types = types_orm()
+                  each curr_type in types
                      tr
                         td.page_table-order.row.jcc.aic.cup
                            img(src=`${attach}/Images/up-down.svg` draggable="false")
-                        td
-                           = curr_account['account_login']
-                        td
-                           +link(curr_account['account_email'], `mailto:${curr_account['account_email']}`)
+                        td.w100
+                           if curr_type['type_is-basic']
+                              em= curr_type['type_name']
+                           else
+                              = curr_type['type_name']
+                        td.tac edit
          .page_foot-panel.w100
             +button('Add', 'dark')
             +button('Delete', 'dark')

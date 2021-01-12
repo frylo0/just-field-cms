@@ -1,5 +1,8 @@
 include __item/aside__item.pug
-mixin aside(&global)
+mixin aside()
+   <?php global $glo; ?>
+   - var username = glo['user']['account_login']
+
    aside.aside&attributes(attributes).rel(style=`width: ${$_COOKIE['-jf_aside-width']}px;`)
       .aside__content.col.jcsb
          .col
@@ -8,11 +11,12 @@ mixin aside(&global)
                strong.plo75 Just Field CMS
             +block('div', 'none').aside__logged-as
                span Logged as 
-               strong.tdu= global['user']['account_login']
-            +aside__item('Dashboard', './dev.php?page=main', (global['page-name'] == 'main'))
-            +aside__item('Fields', './dev.php?page=field', (global['page-name'] == 'field'))
-            +aside__item('Field types', './dev.php?page=field-type', (global['page-name'] == 'field-type'))
-            +aside__item('Accounts', './dev.php?page=account', (global['page-name'] == 'account'))
+               strong.tdu= username
+            +aside__item('Dashboard', './dev.php?page=main', (glo['page-name'] == 'main'))
+            +aside__item('Fields', './dev.php?page=field', (glo['page-name'] == 'field'))
+            +aside__item('Field types', './dev.php?page=field-type', (glo['page-name'] == 'field-type'))
+            +aside__item('Accounts', './dev.php?page=account', (glo['page-name'] == 'account'))
+            +aside__item('Backup / Migrate', './dev.php?page=backup', (glo['page-name'] == 'backup'))
          .col
             +aside__item('Exit', './dev.php?page=scripts&script=exit')
       .aside__resizer.abs.h100

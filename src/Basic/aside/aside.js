@@ -7,6 +7,7 @@ $(document).ready(() => {
    const $aside = $(pref);
    const $main = $(`${pref} + main`);
    const $resizer = $(pref + '__resizer');
+   const $items = $(`${pref}__item`);
 
    $resizer
       .on('pointerdown', action('start: aside resizer'));
@@ -24,8 +25,14 @@ $(document).ready(() => {
       if (etype == 'move' && $resizer[0].touched) action('move: aside resizer')(e);
       else if (etype == 'up') action('end: aside resizer')(e);
    });
-   when('start: aside resizer', e => $resizer[0].touched = true);
-   when('end: aside resizer', e => $resizer[0].touched = false);
+   when('start: aside resizer', e => {
+      $resizer[0].touched = true;
+      $items.css('pointer-events', 'none');
+   });
+   when('end: aside resizer', e => {
+      $resizer[0].touched = false;
+      $items.css('pointer-events', '');
+   });
    when('move: aside resizer', e => {
       $aside.css('width', `${e.pageX}px`);
       $main.css('width', `${window.innerWidth - e.pageX}px`);

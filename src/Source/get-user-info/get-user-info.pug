@@ -1,3 +1,6 @@
 mixin get-user-info(global)
-   - global['user'] = global['orm'].from('account').select('*').where(`id_account = '${$_SESSION['id']}'`)()[0]
+   <?php global $glo; ?>
+   - var user_info = global['orm'].from('account').select('*').where(`id_account = '${$_SESSION['id']}'`)()[0]
+   - global['user'] = user_info
+   - glo['user'] = user_info
       

@@ -2,6 +2,8 @@ include ../../bundle.pug
 
 +die-if-bad()
 - var global = { 'page-name': 'field-type', orm: orm };
+<?php global $glo; ?>
+- var glo = global
 +get-user-info(global)
 
 <!DOCTYPE html>
@@ -14,7 +16,7 @@ html(lang="en")
       link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
       +favicon(root)
    body.row
-      +aside(global)
+      +aside()
       main
          .page_content.ova.w100
             table

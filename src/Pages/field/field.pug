@@ -24,7 +24,7 @@ html(lang="en")
       link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
       +favicon(root)
    body.row
-      +aside(global)
+      +aside()
       main(style=`width: calc(100% - ${$_COOKIE['-jf_aside-width']}px);`)
          .row.page_tabs
             +block('a', ($_GET['view'] == 'tree' ? 'light' : 'dark'))(href=(query_update('view', 'tree'))).tdn
