@@ -186,6 +186,11 @@ namespace JustField {
                $field->set_id($this->value_id);
                $field->delete();
                break;
+            case 'image':
+               $field = new T_image($this->orm, $this->glo);
+               $field->set_id($this->value_id);
+               $field->delete();
+               break;
             case 'object':
             case 'list':
                $children = $this->get_children();
@@ -204,6 +209,44 @@ namespace JustField {
 
          $parent->orm->update(['db-item_value' => implode(',', $parent_value)])();
          $this->orm->delete()->where_id($this->id)();
+      }
+
+      function duplicate()
+      {
+         $this->duplicate_field_to($this, new DBItem($this->orm, $this->parent, $this->glo));
+      }
+
+      private function duplicate_field_to(DBItem $field, DBItem $target_parent)
+      {
+         $orm = $this->orm;
+
+         $new_field_id = $target_parent->add_field($field->type->id);
+         $new_field = new DBItem($orm, $new_field_id, $field->glo);
+
+         $field_data = [
+            'key' => $field->key,
+            'name' => $field->name,
+         ];
+
+         foreach ($field_data as $key => $value) {
+            $new_field->update($key, $value);
+         }
+
+         if ($field->type->name == 'object' || $field->type->name == 'list') {
+            $children = $field->get_children();
+
+            foreach ($children as $child) {
+               $this->duplicate_field_to($child, $new_field);
+            }
+         } else { // simple data
+            if ($field->type->name == 'image') {
+               $new_field_image = new T_image($new_field->orm, $new_field->glo);
+               $new_field_image->set_id($new_field->value_id);
+               $new_field_image->steal_file($field->value_id);
+            } else {
+               $new_field->update('value', $field->value);
+            }
+         }
       }
    };
 }

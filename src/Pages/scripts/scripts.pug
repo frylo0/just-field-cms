@@ -93,5 +93,15 @@ if isset($_GET['script'])
 
       - echo('{ "status": "OK" }')
 
+   else if script == 'field-duplicate'
+      - var from_get = gen_from_get('field-duplicate')
+      
+      - from_get(item_id, 'item_id')
+
+      - db.orm.is_log = false
+      - db.at_id(item_id).duplicate()
+
+      - echo('{ "status": "OK" }')
+
 else
-   | Error: no script in $_GET
+   | Error: no or unexpected script in $_GET

@@ -20,7 +20,7 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
-      title Main page | Just Field
+      title Fields | Just Field
       link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
       +favicon(root)
    body.row
@@ -123,6 +123,11 @@ html(lang="en")
                      
                +button('Delete', 'dark').page_button-delete(data-delete-link='./dev.php?page=scripts&script=field-delete')
                   span(style="color: #6CF6FF88").dn#button-delete-count
+                     |  (
+                     span 0
+                     | )
+               +button('Duplicate', 'dark').page_button-duplicate(data-duplicate-link='./dev.php?page=scripts&script=field-duplicate')
+                  span(style="color: #6CF6FF88").dn#button-duplicate-count
                      |  (
                      span 0
                      | )

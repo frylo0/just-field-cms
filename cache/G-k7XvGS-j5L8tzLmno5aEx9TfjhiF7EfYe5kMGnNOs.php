@@ -2439,7 +2439,7 @@ $__pug_mixins[$__pug_mixin_name](false, array(  ), [[false, (isset($global) ? $g
 
 <?php $query_update = function ($key, $value) { if (!isset($_GET[$key])) return; return './dev.php?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); }; ?>
 
-<!DOCTYPE html><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><head><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><title>Main page | Just Field</title><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php if (!isset($__pug_mixins)) {
+<!DOCTYPE html><html<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['lang' => 'en'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><head><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['charset' => 'UTF-8'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['name' => 'viewport'], ['content' => 'width=device-width, initial-scale=1.0'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><meta<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['http-equiv' => 'X-UA-Compatible'], ['content' => 'ie=edge'])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><title>Fields | Just Field</title><link<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['rel' => 'stylesheet'], ['href' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('href', '' . (isset($link) ? $link : null) . '.css?ver=' . (isset($ver) ? $ver : null))])) ? var_export($_pug_temp, true) : $_pug_temp) ?> /><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
 $__pug_mixin_vars = [];
@@ -3226,4 +3226,49 @@ $__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\Basi
         }
     }
     ?><span<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['style' => 'color: #6CF6FF88'], ['class' => 'dn'], ['id' => 'button-delete-count'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>> (<span>0</span>)</span><?php
+}); ?><?php if (!isset($__pug_mixins)) {
+    $__pug_mixins = [];
+}
+$__pug_mixin_vars = [];
+foreach (array_keys(get_defined_vars()) as $__local_pug_key) {
+    if (mb_substr($__local_pug_key, 0, 6) === '__pug_' || in_array($__local_pug_key, ['attributes', 'block', 'pug_vars'])) {
+        continue;
+    }
+    $pug_vars[$__local_pug_key] = &$$__local_pug_key;
+    $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+    $__local_pug_value = &$$__local_pug_key;
+    if($__local_pug_ref !== $__local_pug_value){
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+        continue;
+    }
+    $__local_pug_savedValue = $__local_pug_value;
+    $__local_pug_value = ($__local_pug_value === true) ? false : true;
+    $__local_pug_isGlobalReference = ($__local_pug_value === $__local_pug_ref);
+    $__local_pug_value = $__local_pug_savedValue;
+    if (!$__local_pug_isGlobalReference) {
+        $__pug_mixin_vars[$__local_pug_key] = &$__local_pug_value;
+    }
+}
+if (!isset($__pug_children)) {
+    $__pug_children = null;
+}
+$__pug_mixin_name = 'button';
+isset($__pug_mixins[$__pug_mixin_name]) && 
+$__pug_mixins[$__pug_mixin_name](true, $pugModule['Phug\\Formatter\\Format\\BasicFormat::merge_attributes'](['class' => 'page_button-duplicate'], ['data-duplicate-link' => './dev.php?page=scripts&amp;script=field-duplicate']), [[false, 'Duplicate'], [false, 'dark']], $__pug_mixin_vars, function ($__pug_children_vars) use (&$__pug_mixins, $__pug_children, $pug_vars, &$pugModule) {
+    foreach (array_keys($__pug_children_vars) as $__local_pug_key) {
+        if (mb_substr($__local_pug_key, 0, 6) === '__pug_') {
+            continue;
+        }
+        if(isset($pug_vars[$__local_pug_key])){
+            $$__local_pug_key = &$pug_vars[$__local_pug_key];
+            continue;
+        }
+        $__local_pug_ref = &$GLOBALS[$__local_pug_key];
+        $__local_pug_value = &$__pug_children_vars[$__local_pug_key];
+        if($__local_pug_ref !== $__local_pug_value){
+            $$__local_pug_key = &$__local_pug_value;
+            continue;
+        }
+    }
+    ?><span<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['style' => 'color: #6CF6FF88'], ['class' => 'dn'], ['id' => 'button-duplicate-count'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>> (<span>0</span>)</span><?php
 }); ?></div><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'row'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['id' => 'statusbar'], ['class' => 'p1'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>>Ready</div></div></div></main></body><script<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['src' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('src', '' . (isset($link) ? $link : null) . '.bundle.js')])) ? var_export($_pug_temp, true) : $_pug_temp) ?>></script></html>

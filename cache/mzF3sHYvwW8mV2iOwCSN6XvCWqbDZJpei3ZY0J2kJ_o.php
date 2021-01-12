@@ -1102,7 +1102,7 @@ $__pug_mixins['aside'] = function ($block, $attributes, $__pug_arguments, $__pug
             $$__pug_key = &$__pug_value;
         }
     }
-    ?><aside<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'aside'], ['class' => 'rel'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'aside__content'], ['class' => 'col'], ['class' => 'jcsb'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'col'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
+    ?><aside<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment']($attributes, ['class' => 'aside'], ['class' => 'rel'], ['style' => $pugModule['Phug\\Formatter\\Format\\BasicFormat::array_escape']('style', 'width: ' . $GLOBALS['__jpv_dotWithArrayPrototype_with_ref']($_COOKIE, '-jf_aside-width') . 'px;')])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'aside__content'], ['class' => 'col'], ['class' => 'jcsb'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><div<?= (is_bool($_pug_temp = $pugModule['Phug\\Formatter\\Format\\BasicFormat::attributes_assignment'](array(  ), ['class' => 'col'])) ? var_export($_pug_temp, true) : $_pug_temp) ?>><?php if (!isset($__pug_mixins)) {
     $__pug_mixins = [];
 }
 $__pug_mixin_vars = [];

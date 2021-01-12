@@ -118,9 +118,17 @@ $(document).ready(() => {
    const $buttonDeleteCount = $('#button-delete-count');
    const $buttonDelete = $('.page_button-delete');
 
-   const tip = new tippy($buttonDelete[0], {
+   const $buttonDuplicateCount = $('#button-duplicate-count');
+   const $buttonDuplicate = $('.page_button-duplicate');
+
+   const tip = new tippy([$buttonDelete[0], $buttonDuplicate[0]], {
       content: 'No items selected. Use Ctrl+Click to select row',
    });
+   const tips = {
+      delete: tip[0],
+      duplicate: tip[1],
+   };
+
    let tipDelConfirm_visible = false;
    const tipDelConfirm = new tippy($buttonDelete[0], {
       allowHTML: true,
@@ -155,16 +163,17 @@ $(document).ready(() => {
          selectedRows.splice(selectedRows.findIndex(v => v == $tr[0]), 1);
       }
 
-      renderDeleteButton();
+      renderButton($buttonDeleteCount, tips.delete);
+      renderButton($buttonDuplicateCount, tips.duplicate);
    }));
 
-   function renderDeleteButton() {
-      $buttonDeleteCount.text(` (${selectedRows.length})`);
+   function renderButton($buttonCount, tip) {
+      $buttonCount.text(` (${selectedRows.length})`);
       if (selectedRows.length == 0) {
-         $buttonDeleteCount.addClass('dn');
+         $buttonCount.addClass('dn');
          tip.enable();
       } else {
-         $buttonDeleteCount.removeClass('dn');
+         $buttonCount.removeClass('dn');
          tip.disable();
       }
    }
@@ -201,7 +210,8 @@ $(document).ready(() => {
       tipDelConfirm.hide();
 
       selectedRows.splice(0, selectedRows.length); // clear selectedRows
-      renderDeleteButton();
+      renderButton($buttonDeleteCount, tips.delete);
+      renderButton($buttonDuplicateCount, tips.duplicate);
    });
 
    async function deleteRow(row) {
@@ -230,5 +240,27 @@ $(document).ready(() => {
             prevPathPart.remove();
          }
       }
+   }
+
+   // STOP: ROW DUPLICATE
+   const duplicateLink = $buttonDuplicate[0].dataset.duplicateLink;
+   $buttonDuplicate.on('click', async e => {
+      if ($buttonDuplicateCount.hasClass('dn')) return;
+
+      for (const row of selectedRows)
+         await duplicateRow(row);
+   });
+
+   async function duplicateRow(row) {
+      const keyEl = row.querySelector('[colname="key"] > input');
+      const key = keyEl ? keyEl.value : '';
+
+      const fetchUrl = duplicateLink + `&item_id=${row.dataset.itemId}`;
+      const res = await fetchJsonOk('Duplicating', fetchUrl);
+
+      const rowCopy = row.cloneNode(true);
+      item_T_image_handle(rowCopy);
+      rowCopy.classList.remove('tr_selected');
+      row.parentElement.append(rowCopy);
    }
 });
