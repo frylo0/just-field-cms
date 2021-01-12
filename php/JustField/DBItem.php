@@ -227,16 +227,12 @@ namespace JustField {
          $orm = $this->orm;
 
          $new_field_id = $target_parent->add_field($field->type->id);
-         //echo '<script>/*' . "1: New field ID: $new_field_id" . '*/</script>';
          $new_field = new DBItem($orm, $new_field_id, $field->glo);
 
          $field_data = [
             'key' => $field->key,
             'name' => $field->name,
          ];
-         //echo '<script>/*' . "2: Key: $field->key" . '*/</script>';
-         //echo '<script>/*' . "3: Name: $field->name" . '*/</script>';
-         //echo '<script>/*' . "4: New_field->ID: $new_field->id" . '*/</script>';
 
          foreach ($field_data as $key => $value) {
             $new_field->update($key, $value);
@@ -246,12 +242,9 @@ namespace JustField {
             $children = $field->get_children();
 
             foreach ($children as $child) {
-               //echo '<script>/*' . "5: ------------>: $child->id" . '*/</script>';
                $this->duplicate_field_to($child, $new_field);
             }
          } else { // simple data
-            echo '<script>/*' . "6: Simple data" . '*/</script>';
-            echo '<script>/*' . "7: Type name: '{$field->type->name}'" . '*/</script>';
             if ($field->type->name == 'image') {
                $new_field_image = new T_image($new_field->orm, $new_field->glo);
                $new_field_image->set_id($new_field->value_id);
