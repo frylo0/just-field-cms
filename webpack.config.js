@@ -33,7 +33,8 @@ const config = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        //{ from: 'src/Attach', to: 'dist/Attach' },
+        { from: 'src/Attach', to: 'dist/Attach' },
+        { from: 'src/Assets', to: 'dist/Assets' },
         { from: 'php', to: 'dist/php' },
         { from: 'src/Root', to: 'dist' },
       ],

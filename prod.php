@@ -4,6 +4,7 @@ $VER = '1.1';
 $ATTACH = './../Attach';
 $PHP = './../php';
 $ROOT = './..';
+$ASSETS = './../Assets';
 
 use JsPhpize\JsPhpizePhug;
 
@@ -43,13 +44,14 @@ $orm->close();
 
 function generate_vars_start($page_name)
 {
-   global $VER, $PHP, $ATTACH, $ROOT;
+   global $VER, $PHP, $ATTACH, $ROOT, $ASSETS;
 
    $vars = [
       'link' => "./{$page_name}",
       'ver' => "$VER",
       'php' => $PHP,
       'attach' => $ATTACH,
+      'assets' => $ASSETS,
       'root' => $ROOT,
       'mode' => 'prod',
    ];

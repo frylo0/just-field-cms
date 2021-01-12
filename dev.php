@@ -1,6 +1,6 @@
 <?php
 
-$VER = '1.0';
+$VER = time();
 $ATTACH = './src/Attach';
 $PHP = './php';
 $ROOT = './src/Root';

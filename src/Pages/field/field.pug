@@ -46,7 +46,9 @@ html(lang="en")
                for i = 0; i < curr_path_i; i++
                   - array_push(path_parts, parts[i]);
                - path = implode('/', path_parts)
+               
                - glo['path'] = path
+               - glo['path_parts'] = path_parts
 
                <script>var state = {};</script>
                script= `state.path = '${path}';`
@@ -115,11 +117,9 @@ html(lang="en")
             .row
                +button('Add', 'dark').page_button-add.rel(data-add-link='./dev.php?page=scripts&script=field-add')
                   .page_button-add__content.abs.col.top0.left0.dn
-                     - types_orm = orm.from('type').select('*')
-                     - types = types_orm()
+                     <?php $types = $GLOBALS['orm']->table('type')->select('*')(); ?>
                      each curr_type in types
-                        +block('div', 'dark').page_button-add__type(data-id=curr_type['id_type'])
-                           = curr_type['type_name']
+                        +block('div', 'dark').page_button-add__type(data-id=curr_type['id_type'])= curr_type['type_name']
                      
                +button('Delete', 'dark').page_button-delete(data-delete-link='./dev.php?page=scripts&script=field-delete')
                   span(style="color: #6CF6FF88").dn#button-delete-count
@@ -135,4 +135,4 @@ html(lang="en")
                #statusbar.p1 Ready
          
 
-   script(src=`${link}.bundle.js`)
+      script(src=`${link}.bundle.js?ver=${ver}`)

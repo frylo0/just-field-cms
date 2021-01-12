@@ -1,13 +1,22 @@
 <?php
 
 namespace JustField {
+   function ends_with($haystack, $needle)
+   {
+      $length = strlen($needle);
+      if (!$length) {
+         return true;
+      }
+      return substr($haystack, -$length) === $needle;
+   }
    class T_image
    {
       function __construct($orm, $glo)
       {
          $this->orm = clone $orm;
 
-         if (!str_ends_with($this->orm->table_prefix, 'T_'))
+         $ends_with_T = ends_with($this->orm->table_prefix, 'T_');
+         if (!$ends_with_T)
             $this->orm->table_prefix .= 'T_';
 
          $this->orm->table('image');

@@ -22,6 +22,7 @@ $(document).ready(() => {
       list: document.getElementById('template_T_list'),
       field: document.getElementById('template_T_field'),
       image: document.getElementById('template_T_image'),
+      space: document.getElementById('template_T_space'),
    };
 
    const titleNoData = document.getElementById('title_no-data');
@@ -50,6 +51,7 @@ $(document).ready(() => {
       let tr = template.content.cloneNode(true).firstElementChild;
 
       tr.dataset.itemId = res.id;
+      tr.dataset.itemType = typeName;
       innerHTMLreplace({
          key: '',
          name: '',
@@ -67,7 +69,7 @@ $(document).ready(() => {
 
       function innerHTMLreplace(descriptor) {
          for (let prop in descriptor) {
-            tr.innerHTML = tr.innerHTML.replace('{' + prop + '}', descriptor[prop]);
+            tr.innerHTML = tr.innerHTML.replace(new RegExp('{' + prop + '}', 'g'), descriptor[prop]);
          }
       }
    });
