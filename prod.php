@@ -12,8 +12,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 include_once __DIR__ . '/php/ORM.php';
 
 require_once './php/orm.config.php';
-$orm->table_prefix = 'jf-cms_';
-$orm->is_log = true;
+$orm->is_log = false;
 
 Phug::addExtension(JsPhpizePhug::class);
 Phug::setOption('debug', false); // remove debug and performance info from output file
@@ -68,8 +67,7 @@ require_once __DIR__ . '$PHP/orm.config.php';
 
 \$global = [];
 $vars_string
-?>
-";
+?>";
 
    return $file_start;
 }
@@ -79,6 +77,10 @@ function replace_dev_links($page_php)
    $page_php = preg_replace('/dev.php\?page=(\w+)(&amp;|&)/', '../$1/?', $page_php);
    $page_php = str_replace('dev.php?page=', '../', $page_php);
    $page_php = str_replace('dev.php?', '?', $page_php);
+   $page_php = str_replace('<?php', '<?php ', $page_php);
+   $page_php = str_replace('?>', ' ?>', $page_php);
+   $page_php = preg_replace('/\?\>\s*\<\?php/', '; ', $page_php);
+   $page_php = preg_replace('/\s+/', ' ', $page_php);
    return $page_php;
 }
 

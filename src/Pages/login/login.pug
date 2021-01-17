@@ -26,7 +26,7 @@ html(lang="en")
             +logo(true).mlv1(style="overflow: visible")
             form(action='./dev.php?page=scripts&script=login' method="post").col.mr1
                +input('Login', 'login', 'text', 'none')
-               +input('Password', 'password-view', 'password', 'none')#password-view
+               +input('Password', '', 'password', 'none')#password-view
                +input('Password', 'password', 'hidden')#password
                +button('Sign in', 'none')
 

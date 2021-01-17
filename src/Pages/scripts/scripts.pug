@@ -1,5 +1,8 @@
 <?php require_once $php . '/JustField.php'; ?>
 <?php $db = new JustField\DB($orm, ['assets' => $assets]); ?>
+<?php global $unset_session_prop; ?>
+
+- echo('1,');
 
 <?php function gen_from_get($prefix) { ?>
 <?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
@@ -13,6 +16,8 @@
 <?php    }; ?>
 <?php } ?>
 
+- echo('2,');
+
 <?php function gen_from_post($prefix) { ?>
 <?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
 <?php       if (isset($_POST[$get_key])) { ?>
@@ -25,8 +30,10 @@
 <?php    }; ?>
 <?php } ?>
 
+- echo('3,');
 
 if isset($_GET['script'])
+   - echo('4,');
    - var script = $_GET['script'];
 
    if script == 'exit'
@@ -39,24 +46,37 @@ if isset($_GET['script'])
 
 
    else if script == 'login'
+      - echo('5,');
+
       if isset($_POST['login']) && isset($_POST['password'])
          - session_start();
+         - echo('6,');
 
          - var login = $_POST['login'];
          - var password = $_POST['password'];
+         - echo('7,');
 
-         - orm.is_log = true;
+         - db.orm.is_log = false
+         - echo('8,');
 
          - var id = orm.from('account').select('id_account').where(`account_login = '${login}' AND account_password = '${password}'`)();
+         - echo('9,');
 
          if (!id)
+            - echo('a10,');
             - $_SESSION['login_error'] = 'uncorrect login or password';
             - header('Location: ./dev.php?page=login');
          else
+            - echo('b10,');
             - var id = id[0]['id_account'];
+            - echo('b11,');
             - $_SESSION['id'] = id;
-            - unset_session_prop('login_error');
+            - echo('b12,');
+            - var_dump(unset_session_prop)
+            - unset_session_prop('login_error'); // FIXME: BEGET CRUSH HERE
+            - echo('b13,');
             - header('Location: ./dev.php?page=main');
+            - echo('b14,');
       else
          - echo('NO POST');
 
