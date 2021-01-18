@@ -26,7 +26,7 @@ CREATE TABLE `jf-cms_T_field` (
   `id_field` int NOT NULL AUTO_INCREMENT,
   `field_value` text NOT NULL,
   PRIMARY KEY (`id_field`)
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `jf-cms_T_field` (
 
 LOCK TABLES `jf-cms_T_field` WRITE;
 /*!40000 ALTER TABLE `jf-cms_T_field` DISABLE KEYS */;
-INSERT INTO `jf-cms_T_field` VALUES (48,'Сайт психолога'),(49,'Ирены Беркуты'),(95,'О себе'),(106,'1'),(107,'О себе'),(108,'0'),(109,'О себе'),(110,'1'),(111,'О себе'),(112,'0'),(115,'О себе'),(116,'1'),(117,'О себе'),(118,'0'),(119,'О себе'),(120,'1'),(124,'#'),(125,'Facebook'),(126,'#'),(127,'@inst.account'),(128,'#'),(129,'skypelogin'),(130,'79780000000'),(131,'email.email@email.email'),(132,'2021');
+INSERT INTO `jf-cms_T_field` VALUES (48,'Сайт психолога'),(49,'Ирены Беркуты'),(95,'О себе'),(106,'1'),(107,'О проекте'),(108,'0'),(109,'Консультации психолога'),(110,'1'),(111,'Мероприятия'),(112,'0'),(115,'Нумерология'),(116,'1'),(117,'Магазин шпаргалок'),(118,'0'),(119,'Блог'),(120,'1'),(124,'#'),(125,'Facebook'),(126,'#'),(127,'@inst.account'),(128,'#'),(129,'skypelogin'),(130,'79780000000'),(131,'email.email@email.email'),(132,'2021');
 /*!40000 ALTER TABLE `jf-cms_T_field` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `jf-cms_T_image` (
 
 LOCK TABLES `jf-cms_T_image` WRITE;
 /*!40000 ALTER TABLE `jf-cms_T_image` DISABLE KEYS */;
-INSERT INTO `jf-cms_T_image` VALUES (16,'16.jpg'),(70,''),(71,''),(72,''),(73,''),(74,''),(75,''),(76,''),(77,''),(80,''),(81,''),(82,''),(83,''),(84,''),(85,'');
+INSERT INTO `jf-cms_T_image` VALUES (16,'16.jpg'),(70,'70.jpg'),(71,'71.svg'),(72,'72.jpg'),(73,'73.svg'),(74,'74.jpg'),(75,'75.svg'),(76,'76.jpg'),(77,'77.svg'),(80,'80.jpg'),(81,'81.svg'),(82,'82.jpg'),(83,'83.svg'),(84,'84.jpg'),(85,'85.svg');
 /*!40000 ALTER TABLE `jf-cms_T_image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +162,7 @@ CREATE TABLE `jf-cms_db-item` (
   CONSTRAINT `jf-cms_db-item_ibfk_1` FOREIGN KEY (`db-item_value-type`) REFERENCES `jf-cms_type` (`id_type`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `jf-cms_db-item_ibfk_2` FOREIGN KEY (`db-item_value-subtype`) REFERENCES `jf-cms_type` (`id_type`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `jf-cms_db-item_ibfk_3` FOREIGN KEY (`db-item_parent`) REFERENCES `jf-cms_db-item` (`id_db-item`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-13  1:07:30
+-- Dump completed on 2021-01-19  1:57:45
