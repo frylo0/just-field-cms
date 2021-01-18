@@ -1,4 +1,3 @@
-
 <?php
 require_once './../php/orm.config.php';
 $orm->table_prefix = 'jf-cms_';
@@ -10,8 +9,7 @@ $PHP = './php';
 $ROOT = './src/Root';
 $ASSETS = './src/Assets';
 $MODE = 'dev';
-?>
-<?php
+?> <?php
 require_once __DIR__ . '/../php/JustField.php';
 $db = new JustField\DB($orm);
 
@@ -38,8 +36,7 @@ function gen_from_post($prefix) {
       } 
    }; 
 } 
-?>
-<?php
+?> <?php
 if (isset($_GET['script']) || isset($_POST['script'])):
    $script = isset($_GET['script']) ? $_GET['script'] : $_POST['script'];
 
