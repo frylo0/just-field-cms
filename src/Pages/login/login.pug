@@ -1,7 +1,9 @@
-- session_start();
-if ($_SESSION['id'])
-   - header('Location: ./dev.php?page=main');
-   - die;
+:php
+   session_start();
+   if (isset($_SESSION['id'])) {
+      exit("<meta http-equiv='refresh' content='0; url=./../main'>");
+      die;
+   }
 
 include ../../bundle.pug
 
@@ -12,11 +14,10 @@ html(lang="en")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Login | Just Field
-      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
-      +favicon(root)
+      +favicon()
    body.row.jcc.aic
       main.rel
-         .jf-cms-span 
+         .jf-cms-span.row.jcc
             .jf-cms-span_1 JUST&nbsp;
             .jf-cms-span_2 FIELD&nbsp;
             .jf-cms-span_3 CM
@@ -24,19 +25,22 @@ html(lang="en")
 
          section.row.aic.jcsb
             +logo(true).mlv1(style="overflow: visible")
-            form(action='./dev.php?page=scripts&script=login' method="post").col.mr1
+            form(action='./../scripts/' method="post").col.mr1
                +input('Login', 'login', 'text', 'none')
                +input('Password', '', 'password', 'none')#password-view
                +input('Password', 'password', 'hidden')#password
+               +input('Script', 'script', 'hidden')(value="login")
                +button('Sign in', 'none')
 
-         .jf-cms-span.jf-cms-span_updown JUST FIELD CM
+         .jf-cms-span.jf-cms-span_updown.row.jcc 
+            span JUST FIELD CM
             .jf-cms-span-ll S
 
          +link('frity corp.', 'http://frity.ru').abs.fzo75.ct-abs_x(target="_blank")
 
-         if ($_SESSION['login_error'])
-            .login-error.abs.ct-abs_x
-               = $_SESSION['login_error']
+         <?php if (isset($_SESSION['login_error'])) : ?>
+            .login-error.abs.ct-abs_x <?= $_SESSION['login_error'] ?>
+         <?php endif; ?>
 
-      script(src=`${link}.bundle.js?ver=${ver}`)
+      - tmp = `./login.bundle.js?ver=<?=$VER?>`;
+      script(src!=tmp)

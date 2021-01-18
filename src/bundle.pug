@@ -1,3 +1,15 @@
+:php
+   require_once './../php/orm.config.php';
+   $orm->table_prefix = 'jf-cms_';
+   $orm->is_log = true;
+
+   $VER = time();
+   $ATTACH = './src/Attach';
+   $PHP = './php';
+   $ROOT = './src/Root';
+   $ASSETS = './src/Assets';
+   $MODE = 'dev';
+
 include Basic/devicer/devicer.pug
 include Basic/input/input.pug
 include Basic/button/button.pug
@@ -6,7 +18,7 @@ include Basic/aside/aside.pug
 include Basic/dropdown/dropdown.pug
 include Basic/arrow/arrow.pug
 include Source/die-if-bad/die-if-bad.pug
-include Basic/block/block.pug
+include Basic/box/box.pug
 include Basic/logo/logo.pug
 include Basic/favicon/favicon.pug
 include Source/get-user-info/get-user-info.pug
@@ -15,5 +27,5 @@ include Blocks/item_T_object/item_T_object.pug
 include Blocks/item_T_field/item_T_field.pug
 include Blocks/item_T_list/item_T_list.pug
 include Blocks/item_T_image/item_T_image.pug
-include Basic/popup/popup.pug
 include Blocks/item_T_space/item_T_space.pug
+include Basic/popup/popup.pug

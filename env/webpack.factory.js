@@ -1,4 +1,5 @@
-const fs = require('fs'),
+const HtmlWebpackPlugin = require('html-webpack-plugin'),
+  fs = require('fs'),
   path = require('path');
 
 /**
@@ -10,6 +11,7 @@ function factory(options) {
   const targetModeString = process.argv.find(str => str.match(/^--mode=(?<mode>\w+)/));
   const mode = targetModeString ? targetModeString.match(/^--mode=(?<mode>\w+)/).groups.mode : 'development';
 
+  const HtmlWebpackPlugins = [];
   const entries = {};
   const pageDirs = fs.readdirSync(options.pagesSrc);
 
@@ -24,6 +26,14 @@ function factory(options) {
 
     const pageFilename = files.find(file => /\.pug$/.test(file)).replace(/\.pug$/, '');
     const pugPage = path.resolve(pageDirSrc, `${pageFilename}.pug`);
+    HtmlWebpackPlugins.push(
+      new HtmlWebpackPlugin({
+        template: pugPage, //from
+        filename: `./dist/${pageFilename}/index.php`, //to ./dist/{name}.php
+        chunks: [pageFilename],
+        inject: pageFilename != 'scripts',
+      })
+    );
     entries[pageFilename] = [pugPage.replace(/\.pug$/, '.js'), pugPage.replace(/\.pug$/, '.sass')];
   }
 
@@ -31,6 +41,7 @@ function factory(options) {
 
   return {
     mode: mode,
+    HtmlWebpackPlugins,
     entries,
   };
 };

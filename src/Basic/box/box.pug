@@ -1,0 +1,5 @@
+mixin box(tag='div', mode='dark')
+   - let tmp = `box_mode_${mode}`
+   #{tag}.box.p1(class!=tmp)&attributes(attributes)
+      if block
+         block

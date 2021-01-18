@@ -20,6 +20,7 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
          res = await resFetch.clone().json();
       } catch (err) {
          $statusbar.dotAnimation.stop('Error');
+         console.error('On fetchJsonOk: ' + fetchUrl);
          console.error(err.message);
 
          let pre = document.createElement('pre');

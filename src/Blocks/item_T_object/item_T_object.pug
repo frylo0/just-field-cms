@@ -1,45 +1,53 @@
-mixin item_T_object(child)
-   <?php global $glo; ?>
-   - var path = glo['path']
-   - var path_parts = glo['path_parts']
-   - var attach = glo['attach']
+mixin item_T_object()
 
-   if child
-
-      tr(data-item-id=child.id, data-item-type=child.type.name).item_T_object&attributes(attributes)
+   <?php if (isset($child)) : ?>
+   
+      - let tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
+      tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_object&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
-            img(src=`${attach}/Images/up-down.svg` draggable="false")
+            img(src=`../Attach/Images/up-down.svg` draggable="false")
          td(colname='key').p0
-            input(placeholder='Input key...', value=child.key)
+            - tmp = "<?= $child->key ?>"
+            input(placeholder='Input key...', value!=tmp)
          td(colname='name').p0
-            input(placeholder='Input name...', value=child.name)
+            - tmp = "<?= $child->name ?>"
+            input(placeholder='Input name...', value!=tmp)
          td(colname='value').w100.p0
-            - var path_i = count(path_parts)+1;
-            - var loc_path;
-            if path == ''
-               - loc_path = child.key
-            else
-               - loc_path = `${path}/${child.key}`
-            +link('Open', `./dev.php?page=field&view=tree&path=${loc_path}&curr_path_i=${path_i}`).p1.db
-         td(colname='type', colspan=2)= child.type.name
+            :php
+               $path_i = count($path_parts)+1;
+               $loc_path;
+               if ($path == '') :
+                  $loc_path = $child->key;
+               else :
+                  $loc_path = "{$path}/{$child->key}";
+               endif;
+            - tmp = "./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>"
+            +link('Open', tmp).p1.db
+         - tmp = "<?= $child->type->name ?>"
+         td(colname='type', colspan=2) !{tmp}
          td.tac(colname='permission') edit
 
-   else
+   <?php else : ?>
 
-      tr(data-item-id='{id}', data-item-type='{type}').item_T_object&attributes(attributes)
+      tr(data-item-id='{id}', data-item-type='{type}').item_T_list&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
-            img(src=`${attach}/Images/up-down.svg` draggable="false")
+            img(src=`../Attach/Images/up-down.svg` draggable="false")
          td(colname='key').p0
             input(placeholder='Input key...', value='{key}')
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
          td(colname='value').w100.p0
-            - var path_i = count(path_parts)+1;
-            - var loc_path;
-            if path == ''
-               - loc_path = '{key}'
-            else
-               - loc_path = `${path}/{key}`
-            +link('Open', `./dev.php?page=field&view=tree&path=${loc_path}&curr_path_i=${path_i}`).p1.db
-         td(colname='type', colspan=2)= '{type}'
+            :php
+               $path_i = count($path_parts)+1;
+               $loc_path;
+               if ($path == '') :
+                  $loc_path = '{key}';
+               else :
+                  $loc_path = "{$path}/{key}";
+               endif;
+            - tmp = "./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>"
+            +link('Open', tmp).p1.db
+         td(colname='type', colspan=2) {type}
          td.tac(colname='permission') {permission}
+
+   <?php endif; ?>

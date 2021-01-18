@@ -1,129 +1,129 @@
-<?php require_once $php . '/JustField.php'; ?>
-<?php $db = new JustField\DB($orm, ['assets' => $assets]); ?>
-<?php global $unset_session_prop; ?>
+include ../../bundle.pug
 
-- echo('1,');
+:php
+   require_once __DIR__ . '/../php/JustField.php';
+   $db = new JustField\DB($orm);
 
-<?php function gen_from_get($prefix) { ?>
-<?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
-<?php       if (isset($_GET[$get_key])) { ?>
-<?php          $variable = $_GET[$get_key]; ?>
-<?php       } else if ($is_echo) { ?>
-<?php          echo($prefix . ': ' . "no \"$get_key\" in \$_GET" . '<br>'); ?>
-<?php       } else { ?>
-<?php          $variable = null; ?>
-<?php       } ?>
-<?php    }; ?>
-<?php } ?>
+   function gen_from_get($prefix) { 
+      return function (&$variable, $get_key, $is_echo = true) use ($prefix) { 
+         if (isset($_GET[$get_key])) { 
+            $variable = $_GET[$get_key]; 
+         } else if ($is_echo) { 
+            echo($prefix . ': ' . "no \"$get_key\" in \$_GET" . '<br>'); 
+         } else { 
+            $variable = null; 
+         } 
+      }; 
+   } 
 
-- echo('2,');
+   function gen_from_post($prefix) { 
+      return function (&$variable, $get_key, $is_echo = true) use ($prefix) { 
+         if (isset($_POST[$get_key])) { 
+            $variable = $_POST[$get_key]; 
+         } else if ($is_echo) { 
+            echo($prefix . ': ' . "no \"$get_key\" in \$_POST" . '<br>'); 
+         } else { 
+            $variable = null; 
+         } 
+      }; 
+   } 
 
-<?php function gen_from_post($prefix) { ?>
-<?php    return function (&$variable, $get_key, $is_echo = true) use ($prefix) { ?>
-<?php       if (isset($_POST[$get_key])) { ?>
-<?php          $variable = $_POST[$get_key]; ?>
-<?php       } else if ($is_echo) { ?>
-<?php          echo($prefix . ': ' . "no \"$get_key\" in \$_POST" . '<br>'); ?>
-<?php       } else { ?>
-<?php          $variable = null; ?>
-<?php       } ?>
-<?php    }; ?>
-<?php } ?>
+:php
+   if (isset($_GET['script']) || isset($_POST['script'])):
+      $script = isset($_GET['script']) ? $_GET['script'] : $_POST['script'];
 
-- echo('3,');
+      if ($script == 'exit'):
+         session_start();
+         unset($_SESSION['id']);
+         session_destroy();
 
-if isset($_GET['script'])
-   - echo('4,');
-   - var script = $_GET['script'];
-
-   if script == 'exit'
-      - session_start();
-      - unset_session_prop('id');
-      - session_destroy();
-
-      - header("Location: ./dev.php?page=login");
-      - die;
+         header("Location: ./../login");
+         die;
 
 
-   else if script == 'login'
-      - echo('5,');
+      elseif ($script == 'login'):
+         if (isset($_POST['login']) && isset($_POST['password'])):
+            session_start();
 
-      if isset($_POST['login']) && isset($_POST['password'])
-         - session_start();
-         - echo('6,');
+            $login = $_POST['login'];
+            $password = $_POST['password'];
 
-         - var login = $_POST['login'];
-         - var password = $_POST['password'];
-         - echo('7,');
+            $db->orm->is_log = false;
+            $id = $orm->from('account')->select('id_account')->where("account_login = '$login' AND account_password = '$password'")();
 
-         - db.orm.is_log = false
-         - echo('8,');
+            if (!$id):
+               $_SESSION['login_error'] = 'uncorrect login or password';
+               header('Location: ./../login/');
+            
+            else:
+               $id = $id[0]['id_account'];
+               $_SESSION['id'] = $id;
 
-         - var id = orm.from('account').select('id_account').where(`account_login = '${login}' AND account_password = '${password}'`)();
-         - echo('9,');
+               unset($_SESSION['login_error']);
+               header('Location: ./../main/');
+            
+            endif;
 
-         if (!id)
-            - echo('a10,');
-            - $_SESSION['login_error'] = 'uncorrect login or password';
-            - header('Location: ./dev.php?page=login');
-         else
-            - echo('b10,');
-            - var id = id[0]['id_account'];
-            - echo('b11,');
-            - $_SESSION['id'] = id;
-            - echo('b12,');
-            - var_dump(unset_session_prop)
-            - unset_session_prop('login_error'); // FIXME: BEGET CRUSH HERE
-            - echo('b13,');
-            - header('Location: ./dev.php?page=main');
-            - echo('b14,');
-      else
-         - echo('NO POST');
+         else:
+            echo('NO POST');
 
-   else if script == 'field-add'
-      - var from_get = gen_from_get('field-add')
+         endif;
 
-      - from_get(field_type_id, 'type-id')
-      - from_get(path, 'path')
 
-      - db.orm.is_log = false
-      - var new_field_id = db.at_path(path).add_field(field_type_id)
+      elseif ($script == 'field-add'):
+         $from_get = gen_from_get('field-add');
 
-      - echo(`{ "status": "OK", "id": "${new_field_id}"}`)
+         $from_get($field_type_id, 'type-id');
+         $from_get($path, 'path');
 
-   else if script == 'field-update'
-      - var from_post = gen_from_post('field-update')
+         $db->orm->is_log = false;
+         $new_field_id = $db->at_path($path)->add_field($field_type_id);
 
-      - from_post(item_id, 'item_id')
-      - from_post(colname, 'colname')
-      - from_post(value, 'value', false)
+         echo '{ "status": "OK", "id": "'.$new_field_id.'}"}';
 
-      - db.orm.is_log = false
-      - var res = db.at_id(item_id).update(colname, value)
 
-      - echo('{ "status": "OK", "data": "'+res+'" }')
+      elseif ($script == 'field-update'):
+         $from_post = gen_from_post('field-update');
 
-   else if script == 'field-delete'
-      - var from_get = gen_from_get('field-delete')
+         $from_post($item_id, 'item_id');
+         $from_post($colname, 'colname');
+         $from_post($value, 'value', false);
 
-      - from_get(item_id, 'item_id')
+         $db->orm->is_log = false;
+         $res = $db->at_id($item_id)->update($colname, $value);
 
-      - db.orm.is_log = false
-      - db.at_id(item_id).remove()
+         echo '{ "status": "OK", "data": "'.$res.'" }';
 
-      - echo('{ "status": "OK" }')
 
-   else if script == 'field-duplicate'
-      - var from_get = gen_from_get('field-duplicate')
+      elseif ($script == 'field-delete'):
+         $from_get = gen_from_get('field-delete');
+
+         $from_get($item_id, 'item_id');
+
+         $db->orm->is_log = false;
+         $db->at_id($item_id)->remove();
+
+         echo '{ "status": "OK" }';
+
+
+      elseif ($script == 'field-duplicate'):
+         $from_get = gen_from_get('field-duplicate');
       
-      - from_get(item_id, 'item_id')
+         $from_get($item_id, 'item_id');
 
-      - db.orm.is_log = false
-      - var new_id = db.at_id(item_id).duplicate()
+         $db->orm->is_log = false;
+         $new_id = $db->at_id($item_id)->duplicate();
 
-      - echo('{ "status": "OK", "id": '+new_id+' }')
-   else if script == 'info'
-      - phpinfo()
+         echo '{ "status": "OK", "id": '.$new_id.' }';
 
-else
-   | Error: no or unexpected script in $_GET
+
+      elseif ($script == 'info'):
+         phpinfo();
+
+      endif;
+
+
+   else:
+      echo '{ "status": "ERR", "message": "Error: no or unexpected script in $_GET" }';
+
+   endif;

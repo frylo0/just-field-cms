@@ -5,7 +5,7 @@ const path = require('path'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const { mode, entries } = factory({
+const { mode, entries, HtmlWebpackPlugins } = factory({
   pagesSrc: './src/Pages/',
 });
 
@@ -18,19 +18,20 @@ const config = {
       //console.log('path data:', pathData);
       
       //console.log('asset info:', assetInfo);
-      if (mode == 'development') {
-        const targetFolder = './src/Pages/[name]/dist/';
-        return targetFolder + '[name].bundle.js';
-      } else {
+      //if (mode == 'development') {
+      //  const targetFolder = './src/Pages/[name]/dist/';
+      //  return targetFolder + '[name].bundle.js';
+      //} else {
         return './dist/[name]/[name].bundle.js';
-      }
+      //}
     },
     path: path.resolve(__dirname), //target folder
   },
   plugins: [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['./dist/**/*'], //dist folder clean up
-    }),
+    //new CleanWebpackPlugin({
+    //  cleanOnceBeforeBuildPatterns: ['!./dist/**/index.php', './dist/**/*'], //dist folder clean up
+    //}),
+    ...HtmlWebpackPlugins,
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/Attach', to: 'dist/Attach' },
@@ -41,11 +42,11 @@ const config = {
     }),
     new MiniCssExtractPlugin({ //scss compilation //./dist/index.css
       filename: ({ name }) => {
-        if (mode == 'development') {
-          return './src/Pages/[name]/dist/[name].css';
-        } else {
+        //if (mode == 'development') {
+        //  return './src/Pages/[name]/dist/[name].css';
+        //} else {
           return './dist/[name]/[name].css';
-        }
+        //}
       },
     }),
     new webpack.ProvidePlugin({ //connecting jquery
@@ -103,6 +104,19 @@ const config = {
         ]
       },
       {
+        test: /\.pug$/, //processing pug
+        use: {
+          loader: 'pug-loader',
+          options: {
+            filters: {
+              php(text, options) {
+                return `\n<?php\n${text}?>`;
+              }
+            }
+          }
+        } //HtmlWebpackPlugin use this rule to process .pug files
+      },
+      {
         test: /\.(png|jpe?g|gif|ttf|svg)$/,
         use: [
           {
@@ -111,7 +125,8 @@ const config = {
               name: '[path][name].[ext]',
               context: path.resolve(__dirname, 'src/Attach'),
               outputPath: 'dist/Attach',
-              publicPath: (mode == 'development' ? './../../../Attach/' : '../Attach/'),
+              //publicPath: (mode == 'development' ? './../../../Attach/' : '../Attach/'),
+              publicPath: '../Attach/',
               useRelativePaths: true,
             },
           },
@@ -135,14 +150,17 @@ const production = {
 
 };
 
-if (mode == 'development')
+if (mode == 'development') {
   factory.objectMerge(config, development);
+  config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = true;
+}
 else {
   factory.objectMerge(config, production);
   config.module.rules.push({
     test: /\.m?js$/,
     loader: 'babel-loader',
   });
+  config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = false;
 }
 
 factory.exclude(config, ['node_modules', 'dist']);

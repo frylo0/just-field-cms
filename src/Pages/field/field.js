@@ -147,8 +147,8 @@ $(document).ready(() => {
          You are trying to delete List or Object.<br>
          This action will delete all inner content.<br></small>
          <big class="db mtbo5">Are you sure?</big>
-         <button class="block block_mode_dark cup" onclick="action('click: delete confirm delete button')()">Delete</button>
-         <button class="block block_mode_light cup" onclick="action('click: delete confirm cancel button')()">Cancel</button>
+         <button class="box box_mode_dark cup" onclick="action('click: delete confirm delete button')()">Delete</button>
+         <button class="box box_mode_light cup" onclick="action('click: delete confirm cancel button')()">Cancel</button>
       </center>`,
       onShow(instance) {
          return tipDelConfirm_visible;

@@ -1,18 +1,23 @@
 include ../../bundle.pug
 
 +die-if-bad()
-- var global = { 'page-name': 'field', orm: orm, user: null, attach: attach };
-<?php global $glo; ?>
-- var glo = global
-+get-user-info(global)
+- var global = { 'page-name': 'field' };
++get-user-info()
 
-if !$_GET['view']
-   - header('Location: ./dev.php?page=field&view=tree')
+:php
+   require_once __DIR__ . '/../php/JustField.php';
+   $db = new JustField\DB($orm);
 
-<?php require_once $php . '/JustField.php'; ?>
-<?php $db = new JustField\DB($orm, ['assets' => $assets]); ?>
+   if (!isset($_GET['view']))
+      header('Location: ./../field?view=tree');
 
-<?php $query_update = function ($key, $value) { if (!isset($_GET[$key])) return; return './dev.php?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); }; ?>
+   function query_update ($key, $value) { 
+      if (!isset($_GET[$key])) 
+         return; 
+      return './?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); 
+   };
+
+- let tmp, tmp1
 
 <!DOCTYPE html>
 html(lang="en")
@@ -21,50 +26,62 @@ html(lang="en")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Fields | Just Field
-      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
-      +favicon(root)
+      +favicon()
    body.row
       +aside()
-      main(style=`width: calc(100% - ${$_COOKIE['-jf_aside-width']}px);`)
+      main(style!=`<?= "width: calc(100% - {$_COOKIE['-jf_aside-width']}px);" ?>`)
          .row.page_tabs
-            +block('a', ($_GET['view'] == 'tree' ? 'light' : 'dark'))(href=(query_update('view', 'tree'))).tdn
+            - tmp = `<?= query_update('view', 'tree') ?>`
+            +box('a', `<?php echo ($_GET['view'] == 'tree' ? 'light' : 'dark') ?>`)(href!=tmp).tdn
                | Tree View
-            +block('a', ($_GET['view'] == 'type' ? 'light' : 'dark'))(href=(query_update('view', 'type'))).tdn
+            - tmp = `<?= query_update('view', 'type') ?>`
+            +box('a', `<?php echo ($_GET['view'] == 'type' ? 'light' : 'dark') ?>`)(href!=tmp).tdn
                | Type View
 
-         if $_GET['view'] == 'tree'
+         <?php if ($_GET['view'] == 'tree') : ?>
             .page_path.row.aic.w100.pl1
-               - var full_path = (array_key_exists('path', $_GET) ? $_GET['path'] : '')
-               - var curr_path_i = 0;
-               if array_key_exists('curr_path_i', $_GET)
-                  - var curr_path_i = $_GET['curr_path_i'];
-               - curr_path_i = intval(curr_path_i);
+               :php
+                  $full_path = (array_key_exists('path', $_GET) ? $_GET['path'] : '');
+                  $curr_path_i = 0;
+                  if (array_key_exists('curr_path_i', $_GET))
+                     $curr_path_i = $_GET['curr_path_i'];
+                  $curr_path_i = intval($curr_path_i);
 
-               - var parts = explode('/', full_path)
+                  $parts = explode('/', $full_path);
 
-               - var path_parts = [];
-               for i = 0; i < curr_path_i; i++
-                  - array_push(path_parts, parts[i]);
-               - path = implode('/', path_parts)
-               
-               - glo['path'] = path
-               - glo['path_parts'] = path_parts
+                  $path_parts = [];
+                  for ($i = 0; $i < $curr_path_i; $i++)
+                     array_push($path_parts, $parts[$i]);
+                  $path = implode('/', $path_parts);
+                  
+                  $global['path'] = $path;
+                  $global['path_parts'] = $path_parts;
 
                <script>var state = {};</script>
-               script= `state.path = '${path}';`
-               if curr_path_i-1 < count(parts)
-                  script= `state.pathNext = '${parts[curr_path_i]}';`
-               else
-                  script= `state.pathNext = '';`
+               script state.path = '<?= $path ?>';
 
-               if count(parts) == 1 && parts[0] == ''
-                  - parts = []
-               - array_unshift(parts, '/')
-               - var i = 0
-               each part in parts
-                  - var is_curr = (i == curr_path_i)
-                  a(href=(query_update('curr_path_i', i))).page_path__part.tdn(class=( is_curr ? 'page_path__part_curr' : '' ))= part
-                  - i++
+               :php
+                  //var_dump($parts);
+                  echo '<script>console.log(`' . 'curr_path_i: ' . $curr_path_i .'`);</script>';
+                  echo '<script>console.log(`' . 'count parts: ' . count($parts) .'`);</script>';
+                  if ($curr_path_i < count($parts)-1)
+                     echo "<script>state.pathNext = '{$parts[$curr_path_i]}';</script>";
+                  else
+                     echo "<script>state.pathNext = '';</script>";
+
+                  if (count($parts) == 1 && $parts[0] == '')
+                     $parts = [];
+                  array_unshift($parts, '/');
+                  $i = 0;
+
+               <?php foreach ($parts as $part): ?>
+                  <?php $is_curr = ($i == $curr_path_i); ?>
+                  - tmp = "<?= query_update('curr_path_i', $i) ?>"
+                  - tmp1 = "<?= $is_curr ? 'page_path__part_curr' : '' ?>"
+                  a(href!=tmp, class!=tmp1).page_path__part.tdn
+                     <?= $part ?>
+                  <?php $i++; ?>
+               <?php endforeach; ?>
 
             .page_content.ova.w100
                template#template_T_field
@@ -78,8 +95,8 @@ html(lang="en")
                template#template_T_space
                   +item_T_space()
 
-               - var is_data = true
-               table(data-update-link='./dev.php?page=scripts&script=field-update')
+               <?php $is_data = true; ?>
+               table(data-update-link='./../scripts/?script=field-update')
                   thead
                      tr
                         td Order
@@ -89,44 +106,53 @@ html(lang="en")
                         td(colspan="2") Type
                         td Permission
                   tbody
-                     - var children = db.at_path(path)
-                     - children = children.get_children();
+                     <?php $children = $db->at_path($path); ?>
+                     <?php $children = $children->get_children(); ?>
 
-                     if children == null
-                        - is_data = false
-                     else
-                        each child in children
-                           if child.type.name == 'field'
-                              +item_T_field(child)
-                           else if child.type.name == 'image'
-                              +item_T_image(child)
-                           else if child.type.name == 'object'
-                              +item_T_object(child)
-                           else if child.type.name == 'list'
-                              +item_T_list(child)
-                           else if child.type.name == 'space'
-                              +item_T_space(child)
+                     <?php if ($children == null) : ?>
+                        <?php $is_data = false; ?>
+                     <?php else : ?>
+                        <?php foreach ($children as $child) : ?>
+                           <?php if ($child->type->name == 'field') : ?>
+                              +item_T_field()
+                           <?php elseif ($child->type->name == 'image') : ?>
+                              +item_T_image()
+                           <?php elseif ($child->type->name == 'object') : ?>
+                              +item_T_object()
+                           <?php elseif ($child->type->name == 'list') : ?>
+                              +item_T_list()
+                           <?php elseif ($child->type->name == 'space') : ?>
+                              +item_T_space()
+                           <?php endif; ?>
+                        <?php endforeach; ?>
+                     <?php endif; ?>
 
-               h2.tac(class=( is_data ? 'dn' : '' ))#title_no-data No data
+               - tmp = "<?= ( $is_data ? 'dn' : '' ) ?>"
+               h2.tac(class!=tmp)#title_no-data No data
 
 
-         else if $_GET['view'] == 'type'
-            |type
+         <?php elseif ($_GET['view'] == 'type') : ?>
+            | type
+
+         <?php endif; ?>
 
          .page_foot-panel.w100.row.jcsb
             .row
-               +button('Add', 'dark').page_button-add.rel(data-add-link='./dev.php?page=scripts&script=field-add')
+               +button('Add', 'dark').page_button-add.rel(data-add-link='./../scripts/?script=field-add')
                   .page_button-add__content.abs.col.top0.left0.dn
-                     <?php $types = $GLOBALS['orm']->table('type')->select('*')(); ?>
-                     each curr_type in types
-                        +block('div', 'dark').page_button-add__type(data-id=curr_type['id_type'])= curr_type['type_name']
+                     <?php $types = $orm->table('type')->select('*')(); ?>
+                     <?php foreach ($types as $curr_type) : ?>
+                        - tmp = "<?= $curr_type['id_type'] ?>"
+                        - tmp1 = "<?= $curr_type['type_name'] ?>"
+                        +box('div', 'dark').page_button-add__type(data-id!=tmp) !{tmp1}
+                     <?php endforeach; ?>
                      
-               +button('Delete', 'dark').page_button-delete(data-delete-link='./dev.php?page=scripts&script=field-delete')
+               +button('Delete', 'dark').page_button-delete(data-delete-link='./../scripts/?script=field-delete')
                   span(style="color: #6CF6FF88").dn#button-delete-count
                      |  (
                      span 0
                      | )
-               +button('Duplicate', 'dark').page_button-duplicate(data-duplicate-link='./dev.php?page=scripts&script=field-duplicate')
+               +button('Duplicate', 'dark').page_button-duplicate(data-duplicate-link='./../scripts/?script=field-duplicate')
                   span(style="color: #6CF6FF88").dn#button-duplicate-count
                      |  (
                      span 0
@@ -134,5 +160,3 @@ html(lang="en")
             .row
                #statusbar.p1 Ready
          
-
-      script(src=`${link}.bundle.js?ver=${ver}`)

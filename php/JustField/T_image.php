@@ -49,7 +49,7 @@ namespace JustField {
 
          $ext = strtolower(pathinfo($value['name'], PATHINFO_EXTENSION));
          $target_name = "{$this->id}.{$ext}";
-         $target_file = $this->glo['assets'] . "/$target_name";
+         $target_file = "../Assets/$target_name";
 
          move_uploaded_file($value['tmp_name'], $target_file);
 
@@ -68,7 +68,7 @@ namespace JustField {
 
          $ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
          $target_name = "{$this->id}.{$ext}";
-         $target_file = $this->glo['assets'] . "/$target_name";
+         $target_file = "../Assets/$target_name";
 
          if (file_exists($image_src)) {
             file_put_contents($target_file, file_get_contents($image_src));
@@ -84,7 +84,7 @@ namespace JustField {
          $src = $this->orm->select('image_src')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
          return [
             'name' => $src,
-            'src' => $src ? $this->glo['assets'] . '/' . $src : '',
+            'src' => $src ? '../Assets/' . $src : '',
          ];
       }
 

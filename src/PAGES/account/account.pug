@@ -15,8 +15,8 @@ html(lang="en")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Accounts | Just Field
-      - let cssLink = './account.bundle.css?ver=<?=$VER?>';
-      link(rel="stylesheet" href!=cssLink)
+      //-- let cssLink = '<?=$LINK?>.css?ver=<?=$VER?>';
+      //-link(rel="stylesheet" href=!{cssLink})
       +favicon()
    body.row
       +aside(pageName)
@@ -50,4 +50,4 @@ html(lang="en")
          
 
       - let tmp = '<?=$LINK?>.bundle.js?ver=<?=$VER?>'
-      script(src!=tmp)
+      script(src=!{tmp})

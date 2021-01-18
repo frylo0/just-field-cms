@@ -1,22 +1,21 @@
 include __item/aside__item.pug
 mixin aside()
-   <?php global $glo; ?>
-   - var username = glo['user']['account_login']
-
-   aside.aside&attributes(attributes).rel(style=`width: ${$_COOKIE['-jf_aside-width']}px;`)
+   - let pageName = global['page-name']
+   - let width_str = "width: <?=$_COOKIE['-jf_aside-width']?>px"
+   aside.aside&attributes(attributes).rel(style!=width_str)
       .aside__content.col.jcsb
          .col
-            +block('div', 'none').aside__logo.row.aic
+            +box('div', 'none').aside__logo.row.aic
                +logo()(style="height: 1.75em; width: 1.75em;")
                strong.plo75 Just Field CMS
-            +block('div', 'none').aside__logged-as
+            +box('div', 'none').aside__logged-as
                span Logged as 
-               strong.tdu= username
-            +aside__item('Dashboard', './dev.php?page=main', (glo['page-name'] == 'main'))
-            +aside__item('Fields', './dev.php?page=field', (glo['page-name'] == 'field'))
-            +aside__item('Field types', './dev.php?page=field-type', (glo['page-name'] == 'field-type'))
-            +aside__item('Accounts', './dev.php?page=account', (glo['page-name'] == 'account'))
-            +aside__item('Backup / Migrate', './dev.php?page=backup', (glo['page-name'] == 'backup'))
+               strong.tdu <?= $user_info['account_login'] ?>
+            +aside__item('Dashboard', './../main', (pageName == 'main'))
+            +aside__item('Fields', './../field', (pageName == 'field'))
+            +aside__item('Field types', './../field-type', (pageName == 'field-type'))
+            +aside__item('Accounts', './../account', (pageName == 'account'))
+            +aside__item('Backup / Migrate', './../backup', (pageName == 'backup'))
          .col
-            +aside__item('Exit', './dev.php?page=scripts&script=exit')
+            +aside__item('Exit', './../scripts?script=exit')
       .aside__resizer.abs.h100

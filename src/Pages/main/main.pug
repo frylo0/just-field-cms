@@ -1,10 +1,8 @@
 include ../../bundle.pug
 
 +die-if-bad()
-- var global = { 'page-name': 'main', orm: orm };
-<?php global $glo; ?>
-- var glo = global
-+get-user-info(global)
+- var global = { 'page-name': 'main' };
++get-user-info()
 
 <!DOCTYPE html>
 html(lang="en")
@@ -13,10 +11,10 @@ html(lang="en")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Main page | Just Field
-      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
-      +favicon(root)
+      +favicon()
    body.row
       +aside()
       main
 
-      script(src=`${link}.bundle.js?ver=${ver}`)
+      - tmp = './main.bundle.js?ver=<?=$VER?>'
+      script(src!=tmp)
