@@ -1,10 +1,8 @@
 include ../../bundle.pug
 
 +die-if-bad()
-- var global = { 'page-name': 'backup', orm: orm };
-<?php global $glo; ?>
-- var glo = global
-+get-user-info(global)
+- var global = { 'page-name': 'backup' };
++get-user-info()
 
 <!DOCTYPE html>
 html(lang="en")
@@ -12,9 +10,8 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
-      title Main page | Just Field
-      link(rel="stylesheet" href=`${link}.css?ver=${ver}`)
-      +favicon(root)
+      title Backup / Migrate | Just Field
+      +favicon()
    body.row
       +aside()
       main
@@ -26,19 +23,20 @@ html(lang="en")
                      td Type
                      td Permission
                tbody
-                  - types_orm = orm.from('type').select('*')
-                  - types = types_orm()
-                  each curr_type in types
+                  <?php $types = $orm->from('type')->select('*')(); ?>
+                  <?php foreach($types as $curr_type) : ?>
                      tr
                         td.page_table-order.row.jcc.aic.cup
-                           img(src=`${attach}/Images/up-down.svg` draggable="false")
+                           img(src=`../Attach/Images/up-down.svg` draggable="false")
                         td.w100
-                           if curr_type['type_is-basic']
-                              em= curr_type['type_name']
-                           else
-                              = curr_type['type_name']
+                           <?php if ($curr_type['type_is-basic']) : ?>
+                              em <?= $curr_type['type_name'] ?>
+                           <?php else : ?>
+                              <?= $curr_type['type_name'] ?>
+                           <?php endif; ?>
                         td.tac edit
-         .page_foot-panel.w100
+                  <?php endforeach; ?>
+         .page_foot-panel.w100.row
             +button('Add', 'dark')
             +button('Delete', 'dark')
                span(style="color: #6CF6FF88")
@@ -46,5 +44,3 @@ html(lang="en")
                   span 0
                   | )
          
-
-      script(src=`${link}.bundle.js?ver=${ver}`)

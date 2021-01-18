@@ -18,12 +18,11 @@ const config = {
       //console.log('path data:', pathData);
       
       //console.log('asset info:', assetInfo);
-      //if (mode == 'development') {
-      //  const targetFolder = './src/Pages/[name]/dist/';
-      //  return targetFolder + '[name].bundle.js';
-      //} else {
+      if (mode == 'development') {
         return './dist/[name]/[name].bundle.js';
-      //}
+      } else {
+        return './dist/[name]/[name].[fullhash].js';
+      }
     },
     path: path.resolve(__dirname), //target folder
   },
@@ -147,20 +146,22 @@ const development = {
 };
 
 const production = {
-
 };
 
 if (mode == 'development') {
   factory.objectMerge(config, development);
   config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = true;
 }
-else {
+else { // production
   factory.objectMerge(config, production);
   config.module.rules.push({
     test: /\.m?js$/,
     loader: 'babel-loader',
   });
   config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = false;
+  config.plugins.push(new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: ['./dist/**/*'], //dist folder clean up
+  }));
 }
 
 factory.exclude(config, ['node_modules', 'dist']);

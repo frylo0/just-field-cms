@@ -1,12 +1,8 @@
 include ../../bundle.pug
 
 +die-if-bad()
-
-:php
-   $global = [ 'page-name' => 'account' ];
-- let pageName = 'account'
-
-+get-user-info(global)
+- var global = { 'page-name': 'account' };
++get-user-info()
 
 <!DOCTYPE html>
 html(lang="en")
@@ -15,11 +11,9 @@ html(lang="en")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
       title Accounts | Just Field
-      - let cssLink = './account.bundle.css?ver=<?=$VER?>';
-      link(rel="stylesheet" href!=cssLink)
       +favicon()
    body.row
-      +aside(pageName)
+      +aside()
       main
          .page_content.ova.w100
             table
@@ -29,8 +23,7 @@ html(lang="en")
                      td Login
                      td Email
                tbody
-                  :php
-                     $accounts = $orm->from('account')->select('*')();
+                  <?php $accounts = $orm->from('account')->select('*')(); ?>
                   <?php foreach ($accounts as $curr_account) : ?>
                   tr
                      td.page_table-order.row.jcc.aic.cup
@@ -40,7 +33,7 @@ html(lang="en")
                      td
                         +link("<?= $curr_account['account_email'] ?>", "mailto:<?= $curr_account['account_email'] ?>")
                   <?php endforeach; ?>
-         .page_foot-panel.w100
+         .page_foot-panel.w100.row
             +button('Add', 'dark')
             +button('Delete', 'dark')
                span(style="color: #6CF6FF88")
@@ -48,6 +41,3 @@ html(lang="en")
                   span 0
                   | )
          
-
-      - let tmp = '<?=$LINK?>.bundle.js?ver=<?=$VER?>'
-      script(src!=tmp)
