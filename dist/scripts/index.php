@@ -1,7 +1,5 @@
 <?php
 require_once './../php/orm.config.php';
-$orm->table_prefix = 'jf-cms_';
-$orm->is_log = true;
 
 $VER = time();
 $ATTACH = './src/Attach';
@@ -9,7 +7,7 @@ $PHP = './php';
 $ROOT = './src/Root';
 $ASSETS = './src/Assets';
 $MODE = 'dev';
-?> <?php
+?><?php
 require_once __DIR__ . '/../php/JustField.php';
 $db = new JustField\DB($orm);
 
@@ -36,7 +34,7 @@ function gen_from_post($prefix) {
       } 
    }; 
 } 
-?> <?php
+?><?php
 if (isset($_GET['script']) || isset($_POST['script'])):
    $script = isset($_GET['script']) ? $_GET['script'] : $_POST['script'];
 
@@ -57,7 +55,7 @@ if (isset($_GET['script']) || isset($_POST['script'])):
          $password = $_POST['password'];
 
          $db->orm->is_log = false;
-         $id = $orm->from('account')->select('id_account')->where("account_login = '$login' AND account_password = '$password'")();
+         $id = $db->orm->from('account')->select('id_account')->where("account_login = '$login' AND account_password = '$password'")();
 
          if (!$id):
             $_SESSION['login_error'] = 'uncorrect login or password';

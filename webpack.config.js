@@ -14,17 +14,18 @@ console.log(`MODE: ${mode}\n`);
 const config = {
   entry: entries, //entry points of project
   output: {
+
     filename: (pathData, assetInfo) => {
       //console.log('path data:', pathData);
       
       //console.log('asset info:', assetInfo);
       if (mode == 'development') {
-        return './dist/[name]/[name].bundle.js';
+        return '[name]/[name].bundle.js';
       } else {
-        return './dist/[name]/[name].[fullhash].js';
+        return '[name]/[name].[fullhash].js';
       }
     },
-    path: path.resolve(__dirname), //target folder
+    path: path.resolve(__dirname, 'dist'), //target folder
   },
   plugins: [
     //new CleanWebpackPlugin({
@@ -33,19 +34,19 @@ const config = {
     ...HtmlWebpackPlugins,
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/Attach', to: 'dist/Attach' },
-        { from: 'src/Assets', to: 'dist/Assets' },
-        { from: 'php', to: 'dist/php' },
-        { from: 'src/Root', to: 'dist' },
+        { from: 'src/Attach', to: 'Attach' },
+        { from: 'src/Assets', to: 'Assets' },
+        { from: 'php', to: 'php' },
+        { from: 'src/Root', to: './' },
       ],
     }),
     new MiniCssExtractPlugin({ //scss compilation //./dist/index.css
       filename: ({ name }) => {
-        //if (mode == 'development') {
-        //  return './src/Pages/[name]/dist/[name].css';
-        //} else {
-          return './dist/[name]/[name].css';
-        //}
+        if (mode == 'development') {
+          return '[name]/[name].bundle.css';
+        } else {
+          return '[name]/[name].[fullhash].css';
+        }
       },
     }),
     new webpack.ProvidePlugin({ //connecting jquery
@@ -109,7 +110,7 @@ const config = {
           options: {
             filters: {
               php(text, options) {
-                return `\n<?php\n${text}?>`;
+                return `<?php\n${text}?>`;
               }
             }
           }
@@ -123,7 +124,7 @@ const config = {
             options: {
               name: '[path][name].[ext]',
               context: path.resolve(__dirname, 'src/Attach'),
-              outputPath: 'dist/Attach',
+              outputPath: 'Attach',
               //publicPath: (mode == 'development' ? './../../../Attach/' : '../Attach/'),
               publicPath: '../Attach/',
               useRelativePaths: true,
@@ -160,7 +161,7 @@ else { // production
   });
   config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = false;
   config.plugins.push(new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: ['./dist/**/*'], //dist folder clean up
+    cleanOnceBeforeBuildPatterns: ['./**/*'], //dist folder clean up
   }));
 }
 

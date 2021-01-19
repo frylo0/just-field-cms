@@ -29,7 +29,7 @@ function factory(options) {
     HtmlWebpackPlugins.push(
       new HtmlWebpackPlugin({
         template: pugPage, //from
-        filename: `./dist/${pageFilename}/index.php`, //to ./dist/{name}.php
+        filename: `${pageFilename}/index.php`, //to ./dist/{name}.php
         chunks: [pageFilename],
         inject: pageFilename != 'scripts',
       })
