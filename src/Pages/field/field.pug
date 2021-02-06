@@ -5,7 +5,7 @@ include ../../bundle.pug
 +get-user-info()
 
 :php
-   require_once __DIR__ . '/../php/JustField.php';
+   require_once __DIR__ . '/../__php/JustField.php';
    $db = new JustField\DB($orm);
 
    if (!isset($_GET['view']))

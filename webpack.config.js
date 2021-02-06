@@ -34,9 +34,8 @@ const config = {
     ...HtmlWebpackPlugins,
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/Attach', to: 'Attach' },
-        { from: 'src/Assets', to: 'Assets' },
-        { from: 'php', to: 'php' },
+        { from: 'src/Assets', to: '__assets' },
+        { from: 'php', to: '__php' },
         { from: 'src/Root', to: './' },
       ],
     }),
@@ -124,9 +123,9 @@ const config = {
             options: {
               name: '[path][name].[ext]',
               context: path.resolve(__dirname, 'src/Attach'),
-              outputPath: 'Attach',
+              outputPath: '__attach',
               //publicPath: (mode == 'development' ? './../../../Attach/' : '../Attach/'),
-              publicPath: '../Attach/',
+              publicPath: '../__attach/',
               useRelativePaths: true,
             },
           },

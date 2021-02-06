@@ -5,7 +5,7 @@ mixin item_T_image()
       - let tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
       tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_image&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
-            img(src=`../Attach/Images/up-down.svg` draggable="false")
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
          td(colname='key').p0
             - tmp = "<?= $child->key ?>"
             input(placeholder='Input key...', value!=tmp)
@@ -35,7 +35,7 @@ mixin item_T_image()
 
       tr(data-item-id='{id}', data-item-type='{type}').item_T_image&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
-            img(src=`../Attach/Images/up-down.svg` draggable="false")
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
          td(colname='key').p0
             input(placeholder='Input key...', value='{key}')
          td(colname='name').p0
