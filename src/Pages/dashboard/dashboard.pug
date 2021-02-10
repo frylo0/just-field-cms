@@ -1,0 +1,27 @@
+include ../../bundle.pug
+
+mixin panel(name)
+   +box('div', 'gray').box_disabled.panel
+      div.mb1.panel__title
+         strong= name
+      if block
+         block
+
+
++die-if-bad()
+- var global = { 'page-name': 'main' };
++get-user-info()
+
+<!DOCTYPE html>
+html(lang="en")
+   head
+      meta(charset="UTF-8")
+      meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      meta(http-equiv="X-UA-Compatible", content="ie=edge")
+      title Dashboard | Just Field
+      +favicon()
+   body.row
+      +aside()
+      +box('main', 'none')
+         +panel('Version / Updates')
+            +button('Check for updates')

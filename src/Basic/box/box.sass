@@ -6,7 +6,7 @@
    user-select: none
 
    &_disabled
-      pointer-events: none
+      //pointer-events: none
    
    &_mode
       &_dark
@@ -16,6 +16,11 @@
             background: $-c4
       &_light
          background: $-c1
+         color: $-c4
+         &:not(.box_disabled):hover
+            background: $-c2
+      &_gray
+         background: $-c3
          color: $-c4
          &:not(.box_disabled):hover
             background: $-c2

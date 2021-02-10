@@ -66,7 +66,7 @@ if (isset($_GET['script']) || isset($_POST['script'])):
             $_SESSION['id'] = $id;
 
             unset($_SESSION['login_error']);
-            header('Location: ./../main/');
+            header('Location: ./../dashboard/');
          
          endif;
 
