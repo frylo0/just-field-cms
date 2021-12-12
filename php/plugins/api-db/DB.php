@@ -2,8 +2,8 @@
 
 namespace JustField {
 
-   \JF_REG['DB'] = [];
-   \JF_REG['DB']['type'] = [];
+   $jf_REG['DB'] = [];
+   $jf_REG['DB']['type'] = [];
 
    class DB
    {
@@ -17,12 +17,13 @@ namespace JustField {
 
       function get_root()
       {
-         return new DBItem($this->orm, '1', $this->glo, '');
+         var_dump($this->glo);
+         return new DBItem($this->orm, '1', '');
       }
 
       function get_item_data($id)
       {
-         return new DBItem($this->orm, $id, $this->glo, '');
+         return new DBItem($this->orm, $id, '');
       }
 
       function at_path($path)
@@ -36,7 +37,7 @@ namespace JustField {
 
       function at_id($id)
       {
-         return new DBItem($this->orm, $id, $this->glo, '');
+         return new DBItem($this->orm, $id, '');
       }
    };
 };

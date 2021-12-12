@@ -1,7 +1,8 @@
+:php
+   $PHP = '../'
 include ../../bundle.pug
 
 :php
-   require_once __DIR__ . '/../__php/JustField.php';
    $db = new JustField\DB($orm);
 
    function gen_from_get($prefix) { 

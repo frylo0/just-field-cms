@@ -1,18 +1,20 @@
 <?php
+$PHP = '../';
+
 session_start();
 if (isset($_SESSION['id'])) {
    exit("<meta http-equiv='refresh' content='0; url=./../dashboard'>");
    die;
 }
 ?><?php
-require_once './../__php/orm.config.php';
-
 $VER = time();
-$PHP = './__php';
+$PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
 $ASSETS = './src/__assets';
 $ROOT = './src/Root';
 $MODE = 'dev';
+
+require_once $PHP . '/__load.php';
 ?><!DOCTYPE html>
 <html lang="en">
   <head>

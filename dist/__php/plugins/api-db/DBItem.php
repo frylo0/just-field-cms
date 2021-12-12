@@ -44,6 +44,8 @@ namespace JustField {
          $this->key = $data['db-item_key'];
          $this->name = $data['db-item_name'];
 
+         var_dump($parent_path);
+         var_dump($this->key);
          $this->path = "{$parent_path}/{$this->key}";
 
          if ($data['db-item_value-type'] == '')
@@ -62,10 +64,14 @@ namespace JustField {
       }
 
       private function get_type_behaviour($type_name) {
-         if (!array_key_exists($type_name, JF_REG['DB']['type']))
-            echo "<script>console.error(`Error: unable get_value of \"$type_name\" type. This type is not registered correctly. Add it to JF_REG['DB']['type']['$type_name'].`";
+         global $jf_REG;
+         if (!array_key_exists($type_name, $jf_REG['DB']['type'])) {
+            echo "<script>console.error(`Error: unable get_value of \"$type_name\" type. This type is not registered correctly. Add it to \$jf_REG['DB']['type']['$type_name'].`);</script>";
+            return null;
+         }
             
-         return JF_REG['DB']['type'][$type_name];
+            
+         return $jf_REG['DB']['type'][$type_name];
       }
 
       private function get_value($item_data, $type_name)

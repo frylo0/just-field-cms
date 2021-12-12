@@ -1,7 +1,12 @@
 include __item/aside__item.pug
 mixin aside()
+   :php
+      $aside_width = 400;
+      if (isset($_COOKIE['-jf_aside-width'])) {
+         $aside_width = $_COOKIE['-jf_aside-width'];
+      }
    - let pageName = global['page-name']
-   - let width_str = "width: <?=$_COOKIE['-jf_aside-width']?>px"
+   - let width_str = "width: <?=$aside_width?>px"
    aside.aside&attributes(attributes).rel(style!=width_str)
       .aside__content.col.jcsb
          .col

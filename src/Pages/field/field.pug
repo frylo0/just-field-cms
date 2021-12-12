@@ -1,3 +1,5 @@
+:php
+   $PHP = '../'
 include ../../bundle.pug
 
 +die-if-bad()
@@ -5,7 +7,6 @@ include ../../bundle.pug
 +get-user-info()
 
 :php
-   require_once __DIR__ . '/../__php/JustField.php';
    $db = new JustField\DB($orm);
 
    if (!isset($_GET['view']))
@@ -106,6 +107,7 @@ html(lang="en")
                         td(colspan="2") Type
                         td Permission
                   tbody
+                     <?php console_log($path ? 'Path: ' . $path : 'Path: is free'); ?>
                      <?php $children = $db->at_path($path); ?>
                      <?php $children = $children->get_children(); ?>
 

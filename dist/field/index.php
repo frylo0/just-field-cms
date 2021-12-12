@@ -1,12 +1,13 @@
 <?php
-require_once './../__php/orm.config.php';
-
+$PHP = '../'?><?php
 $VER = time();
-$PHP = './__php';
+$PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
 $ASSETS = './src/__assets';
 $ROOT = './src/Root';
 $MODE = 'dev';
+
+require_once $PHP . '/__load.php';
 ?><?php
 session_start();
 
@@ -16,7 +17,6 @@ if (!isset($_SESSION['id'])) {
    die;
 }?><?php
 $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0];?><?php
-require_once __DIR__ . '/../__php/JustField.php';
 $db = new JustField\DB($orm);
 
 if (!isset($_GET['view']))
@@ -52,8 +52,12 @@ function query_update ($key, $value) {
     <meta name="msapplication-TileImage" content="./../ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
   <link href="../field/field.bundle.css" rel="stylesheet"></head>
-  <body class="row">
-    <aside class="aside rel" style="width: <?=$_COOKIE['-jf_aside-width']?>px">
+  <body class="row"><?php
+$aside_width = 400;
+if (isset($_COOKIE['-jf_aside-width'])) {
+   $aside_width = $_COOKIE['-jf_aside-width'];
+}?>
+    <aside class="aside rel" style="width: <?=$aside_width?>px">
       <div class="aside__content col jcsb">
         <div class="col">
           <div class="box p1 box_mode_none aside__logo row aic">
@@ -337,7 +341,8 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td>Permission</td>
             </tr>
           </thead>
-          <tbody><?php $children = $db->at_path($path); ?>
+          <tbody><?php console_log($path ? 'Path: ' . $path : 'Path: is free'); ?>
+<?php $children = $db->at_path($path); ?>
 <?php $children = $children->get_children(); ?>
 <?php if ($children == null) : ?>
 <?php $is_data = false; ?>

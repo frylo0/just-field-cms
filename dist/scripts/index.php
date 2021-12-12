@@ -1,14 +1,14 @@
 <?php
-require_once './../__php/orm.config.php';
-
+$PHP = '../'?><?php
 $VER = time();
-$PHP = './__php';
+$PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
 $ASSETS = './src/__assets';
 $ROOT = './src/Root';
 $MODE = 'dev';
+
+require_once $PHP . '/__load.php';
 ?><?php
-require_once __DIR__ . '/../__php/JustField.php';
 $db = new JustField\DB($orm);
 
 function gen_from_get($prefix) { 

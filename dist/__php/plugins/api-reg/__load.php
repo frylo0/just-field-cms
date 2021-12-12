@@ -1,2 +1,2 @@
 <?php
-define( 'JF_REG', [] );
+$jf_REG = [];
