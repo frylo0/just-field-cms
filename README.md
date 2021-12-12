@@ -9,6 +9,13 @@ The main advantage - support on all stages of site development, such as:
 - Filling the site with content
 - SEO optimization
 
+## How to start Development mode
+
+```bash
+npm run dev
+```
+Then open [localhost/just-field/dist/](http://localhost/just-field/dist/)
+
 <details><summary>tmp</summary>
 
 Проблемы:
