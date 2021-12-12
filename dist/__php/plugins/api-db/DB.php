@@ -7,17 +7,14 @@ namespace JustField {
 
    class DB
    {
-      function __construct($orm, $glo = [])
+      function __construct($orm)
       {
          $this->orm = clone $orm;
          $this->orm->from('db');
-
-         $this->glo = $glo;
       }
 
       function get_root()
       {
-         var_dump($this->glo);
          return new DBItem($this->orm, '1', '');
       }
 
@@ -26,7 +23,7 @@ namespace JustField {
          return new DBItem($this->orm, $id, '');
       }
 
-      function at_path($path)
+      function at_path(string $path)
       {
          $root = $this->get_root();
 

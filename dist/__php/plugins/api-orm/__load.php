@@ -196,5 +196,11 @@ class ORM {
    }
 }
 
-$orm = new ORM('localhost', jf_DB_LOGIN, jf_DB_PASSWORD, jf_DB_DBNAME);
+$orm = new ORM(
+   'localhost', 
+   jf_DB_LOGIN, 
+   jf_DB_PASSWORD, 
+   jf_DB_DBNAME
+);
 $orm->table_prefix = jf_DB_TABLE_PREFIX;
+$orm->is_log = jf_DB_IS_LOG;

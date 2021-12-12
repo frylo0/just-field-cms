@@ -27,6 +27,9 @@ namespace JustField {
 
    class DBItem
    {
+      var $orm;
+      var $id;
+
       function __construct($orm, $id, $parent_path = '')
       {
          $this->orm = $orm;
@@ -44,8 +47,6 @@ namespace JustField {
          $this->key = $data['db-item_key'];
          $this->name = $data['db-item_name'];
 
-         var_dump($parent_path);
-         var_dump($this->key);
          $this->path = "{$parent_path}/{$this->key}";
 
          if ($data['db-item_value-type'] == '')
@@ -70,14 +71,14 @@ namespace JustField {
             return null;
          }
             
-            
-         return $jf_REG['DB']['type'][$type_name];
+         $behaviour = new $jf_REG['DB']['type'][$type_name]($this->orm);
+         $behaviour->set_id($this->id);
+         return $behaviour;
       }
 
       private function get_value($item_data, $type_name)
       {
          $value = $item_data['db-item_value'];
-         if ($value == '') return null;
 
          return $this->get_type_behaviour($type_name)->get_value($value);
       }
@@ -88,12 +89,12 @@ namespace JustField {
          if (!$this->value) return null;
          return $this->get_type_behaviour($this->type->name)->get_children($this);
       }
-      function get_child($key)
+      function get_child(string $key)
       {
          return $this->get_type_behaviour($this->type->name)->get_child($this, $key);
       }
 
-      function at_path($path)
+      function at_path(string $path)
       {
          $root = $this;
 
@@ -104,7 +105,7 @@ namespace JustField {
          foreach ($parts as $part) {
             $child = $target->get_child($part);
             if (!$child)
-               throw new \Exception('During ' . $path . ' processing: path part (' . $part . ') a child');
+               throw new \Exception('During "' . $path . '" processing: path part ("' . $part . '") a child');
             $target = $child;
          }
 
@@ -150,7 +151,11 @@ namespace JustField {
       {
          switch ($key) {
             case 'value':
-               $value_set = ['value' => $value, '_FILES' => $_FILES['value']];
+               $files = null;
+               if (array_key_exists('value', $_FILES))
+                  $files = $_FILES['value'];
+
+               $value_set = ['value' => $value, '_FILES' => $files];
                $this->get_type_behaviour($this->type->name)->update($this, $value_set);
                break;
 

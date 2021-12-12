@@ -13,12 +13,12 @@ namespace JustField {
 
       function get_root()
       {
-         return new DBItem($this->orm, '1', '');
+         return new DBItem($this->orm, '1', $this->glo, '');
       }
 
       function get_item_data($id)
       {
-         return new DBItem($this->orm, $id, '');
+         return new DBItem($this->orm, $id, $this->glo, '');
       }
 
       function at_path($path)
@@ -32,7 +32,7 @@ namespace JustField {
 
       function at_id($id)
       {
-         return new DBItem($this->orm, $id, '');
+         return new DBItem($this->orm, $id, $this->glo, '');
       }
    };
 };

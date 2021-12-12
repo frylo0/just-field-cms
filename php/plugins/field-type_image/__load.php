@@ -16,29 +16,31 @@ namespace JustField {
       function __construct($orm)
       {
          $this->orm = clone $orm;
+         $this->type_table_orm = clone $orm;
 
          $ends_with_T = ends_with($this->orm->table_prefix, 'T_');
          if (!$ends_with_T)
-            $this->orm->table_prefix .= 'T_';
+            $this->type_table_orm->table_prefix .= 'T_';
 
-         $this->orm->table('image');
+         $this->type_table_orm->table('image');
 
          $this->id = null;
       }
 
       function set_id($id)
       {
-         $this->id = $id;
+         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '$id'")()[0]['db-item_value'];
+         $this->id = $type_table_id;
       }
 
       function create()
       {
-         $this->orm->insert([
+         $this->type_table_orm->insert([
             'id_image' => null,
             'image_src' => '',
          ])();
 
-         $id = $this->orm->select('MAX(`id_image`) as max_id')()[0]['max_id'];
+         $id = $this->type_table_orm->select('MAX(`id_image`) as max_id')()[0]['max_id'];
          $this->id = $id;
          return $id;
       }
@@ -56,7 +58,7 @@ namespace JustField {
 
          move_uploaded_file($value['tmp_name'], $target_file);
 
-         $this->orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
+         $this->type_table_orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
          return $target_file;
       }
 
@@ -78,7 +80,7 @@ namespace JustField {
          if (file_exists($image_src)) {
             file_put_contents($target_file, file_get_contents($image_src));
 
-            $this->orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
+            $this->type_table_orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
          }
 
          return $target_file;
@@ -88,7 +90,7 @@ namespace JustField {
       {
          global $assets_folder;
          
-         $src = $this->orm->select('image_src')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
+         $src = $this->type_table_orm->select('`image_src`')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
          return [
             'name' => $src,
             'src' => $src ? $assets_folder . $src : '',
@@ -100,8 +102,10 @@ namespace JustField {
          $old_file = $this->get_value()['src'];
          if (file_exists($old_file)) unlink($old_file);
 
-         $this->orm->delete()->where_id($this->id)();
+         $this->type_table_orm->delete()->where_id($this->id)();
       }
    }
+
+   $jf_REG['DB']['type']['image'] = 'JustField\T_image';
 }
 
