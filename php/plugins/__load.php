@@ -47,7 +47,7 @@ usort($plugins, function ($a, $b) { return -1 * ($a->manifest->priority <=> $b->
 
 foreach ($plugins as $plugin) {
    if (file_exists($plugin->load_path)) {
-      if (count($_POST) == 0) // to disable logs in AJAX queries
+      if ( !( isset($_GET['script']) || isset($_POST['script']) ) ) // to disable logs in AJAX queries
          console_log("Plugin loaded: {$plugin->name}");
       require $plugin->load_path;
    }

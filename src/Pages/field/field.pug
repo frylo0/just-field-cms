@@ -107,7 +107,6 @@ html(lang="en")
                         td(colspan="2") Type
                         td Permission
                   tbody
-                     <?php console_log($path ? 'Path: ' . $path : 'Path: is free'); ?>
                      <?php $children = $db->at_path($path); ?>
                      <?php $children = $children->get_children(); ?>
 

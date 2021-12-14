@@ -136,13 +136,11 @@ namespace JustField {
          $new_field_id = $this->orm->select('MAX(`id_db-item`) AS max_id')()[0]['max_id'];
 
          // updating self value (special for duplicate method)
-         if ($this->value)
-            array_push($this->value, $new_field_id);
-         else
-            $this->value = [$new_field_id];
+         $value = explode(',', $this->value);
+         array_push($value, $new_field_id);
 
          // update current field
-         $this->orm->from('db-item')->update(['db-item_value' => implode(',', $this->value)])->where("`id_db-item` = '{$this->id}'")();
+         $this->orm->from('db-item')->update(['db-item_value' => implode(',', $value)])->where("`id_db-item` = '{$this->id}'")();
 
          return $new_field_id;
       }
@@ -156,7 +154,7 @@ namespace JustField {
                   $files = $_FILES['value'];
 
                $value_set = ['value' => $value, '_FILES' => $files];
-               $this->get_type_behaviour($this->type->name)->update($this, $value_set);
+               return $this->get_type_behaviour($this->type->name)->update($this, $value_set);
                break;
 
             case 'key':
@@ -177,7 +175,7 @@ namespace JustField {
 
          // self remove
          $parent = new DBItem($this->orm, $this->parent);
-         $parent_value = $parent->value;
+         $parent_value = explode(',', $parent->value);
          $this_id_in_val = array_search("{$this->id}", $parent_value);
          unset($parent_value[$this_id_in_val]);
 

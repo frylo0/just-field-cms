@@ -39,12 +39,14 @@ $(document).ready(() => {
          method: 'POST',
          body: formData,
       });
+      
+      res.data = res.data + '?' + Date.now(); // add get query to renew browser buffer
 
       $buttonShow[0].dataset.mfpSrc = res.data;
       $buttonShow.removeAttr('disabled');
 
       const $thumbnailImg = $thumbnail.removeClass(`${pref}__thumbnail_free`.slice(1)).find('img').removeClass('dn');
-      $thumbnailImg.attr('src', res.data + '?' + new Date());
+      $thumbnailImg.attr('src', res.data);
    });
 
    window.item_T_image_handle = function (row) {

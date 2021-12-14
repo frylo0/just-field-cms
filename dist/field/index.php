@@ -341,8 +341,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td>Permission</td>
             </tr>
           </thead>
-          <tbody><?php console_log($path ? 'Path: ' . $path : 'Path: is free'); ?>
-<?php $children = $db->at_path($path); ?>
+          <tbody><?php $children = $db->at_path($path); ?>
 <?php $children = $children->get_children(); ?>
 <?php if ($children == null) : ?>
 <?php $is_data = false; ?>

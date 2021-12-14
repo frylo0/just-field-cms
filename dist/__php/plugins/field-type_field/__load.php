@@ -43,9 +43,13 @@ namespace JustField {
          return $this->type_table_orm->select('field_value')->where("`id_field` = '{$this->id}'")()[0]['field_value'];
       }
 
-      function delete()
+      function remove()
       {
          $this->type_table_orm->delete()->where_id($this->id)();
+      }
+
+      function duplicate_value_to(DBItem $field, DBItem $new_field) {
+         $new_field->update('value', $field->value);
       }
    }
 

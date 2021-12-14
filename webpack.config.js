@@ -34,7 +34,7 @@ const config = {
     ...HtmlWebpackPlugins,
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/Assets', to: '__assets' },
+        //{ from: 'src/Assets', to: '__assets' }, // because assets are loaded into __assets and such copy just rewrite changes by old files
         { from: 'php', to: '__php' },
         { from: 'src/Root', to: './' },
       ],

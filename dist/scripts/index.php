@@ -85,7 +85,7 @@ if (isset($_GET['script']) || isset($_POST['script'])):
       $db->orm->is_log = false;
       $new_field_id = $db->at_path($path)->add_field($field_type_id);
 
-      echo '{ "status": "OK", "id": "'.$new_field_id.'}"}';
+      echo '{ "status": "OK", "id": "'.$new_field_id.'"}';
 
 
    elseif ($script == 'field-update'):
