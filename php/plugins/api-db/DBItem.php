@@ -30,6 +30,18 @@ namespace JustField {
       var $orm;
       var $id;
 
+      var $key;
+      var $name;
+      var $path;
+
+      var DBItemType $type;
+      var $subtype; // DBItemType | null
+
+      var $value_id;
+      var $value;
+
+      var $parent_id; // ak. parent
+
       function __construct($orm, $id, $parent_path = '')
       {
          $this->orm = $orm;
@@ -62,6 +74,7 @@ namespace JustField {
          $this->value_id = $data['db-item_value'];
 
          $this->parent = $data['db-item_parent'];
+         $this->parent_id = $this->parent;
       }
 
       private function get_type_behaviour($type_name) {

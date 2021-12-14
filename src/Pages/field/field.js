@@ -268,6 +268,7 @@ $(document).ready(() => {
 
       const rowCopy = row.cloneNode(true);
       rowCopy.dataset.itemId = res.id;
+      // TODO: make js duplicate factory for types
       const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim();
       rowHandle(rowCopy, typeName);
       rowCopy.classList.remove('tr_selected');

@@ -98,24 +98,22 @@ namespace JustField {
          return $target_file;
       }
 
-      function duplicate_file($image_id) {
+      function duplicate_value_to(DBItem $field, DBItem $new_field) {
          global $assets_folder;
 
-         $image = new T_image($this->orm);
-         $image->set_id($image_id);
-
-         $image_value = $image->get_value();
+         $image_value = $field->value;
          $image_src = $image_value['src'];
          $image_name = $image_value['name'];
 
          $ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-         $target_name = "{$this->id}.{$ext}";
-         $target_file = "$assets_folder/$target_name";
+         $target_name = "{$new_field->value_id}.{$ext}";
+         $target_file = "$assets_folder$target_name"; // assets folder already have '/' at end
 
          if (file_exists($image_src)) {
-            file_put_contents($target_file, file_get_contents($image_src));
+            file_put_contents($target_file, file_get_contents($image_src)); // copy file contents to new field file
+            chmod($target_file, 0777);
 
-            $this->type_table_orm->update(['image_src' => $target_name])->where("`id_image` = '{$this->id}'")();
+            $this->type_table_orm->update(['image_src' => $target_name])->where("`id_image` = '{$new_field->value_id}'")();
          }
 
          return $target_file;
@@ -131,8 +129,8 @@ namespace JustField {
          ];
       }
 
-      function delete() {
-         $old_file = $this->get_value()['src'];
+      function remove(DBItem $item) {
+         $old_file = $item->value['src'];
          if (file_exists($old_file)) unlink($old_file);
 
          $this->type_table_orm->delete()->where_id($this->id)();
