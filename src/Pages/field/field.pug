@@ -30,7 +30,7 @@ html(lang="en")
       +favicon()
    body.row
       +aside()
-      main(style!=`<?= "width: calc(100% - {$_COOKIE['-jf_aside-width']}px);" ?>`)
+      main(style!=`<?= "width: $anti_aside_width;" ?>`)
          .row.page_tabs
             - tmp = `<?= query_update('view', 'tree') ?>`
             +box('a', `<?php echo ($_GET['view'] == 'tree' ? 'light' : 'dark') ?>`)(href!=tmp).tdn
@@ -47,7 +47,7 @@ html(lang="en")
                   if (array_key_exists('curr_path_i', $_GET))
                      $curr_path_i = $_GET['curr_path_i'];
                   $curr_path_i = intval($curr_path_i);
-
+                  
                   $parts = explode('/', $full_path);
 
                   $path_parts = [];

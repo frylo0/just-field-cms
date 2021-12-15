@@ -43,9 +43,10 @@ $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION
   <link href="../dashboard/dashboard.bundle.css" rel="stylesheet"></head>
   <body class="row"><?php
 $aside_width = 400;
-if (isset($_COOKIE['-jf_aside-width'])) {
+if (array_key_exists('-jf_aside-width', $_COOKIE)) {
    $aside_width = $_COOKIE['-jf_aside-width'];
-}?>
+}
+$anti_aside_width = "calc(100% - {$aside_width}px)";?>
     <aside class="aside rel" style="width: <?=$aside_width?>px">
       <div class="aside__content col jcsb">
         <div class="col">

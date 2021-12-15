@@ -54,9 +54,10 @@ function query_update ($key, $value) {
   <link href="../field/field.bundle.css" rel="stylesheet"></head>
   <body class="row"><?php
 $aside_width = 400;
-if (isset($_COOKIE['-jf_aside-width'])) {
+if (array_key_exists('-jf_aside-width', $_COOKIE)) {
    $aside_width = $_COOKIE['-jf_aside-width'];
-}?>
+}
+$anti_aside_width = "calc(100% - {$aside_width}px)";?>
     <aside class="aside rel" style="width: <?=$aside_width?>px">
       <div class="aside__content col jcsb">
         <div class="col">
@@ -98,7 +99,7 @@ if (isset($_COOKIE['-jf_aside-width'])) {
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main style="<?= "width: calc(100% - {$_COOKIE['-jf_aside-width']}px);" ?>">
+    <main style="<?= "width: $anti_aside_width;" ?>">
       <div class="row page_tabs">
         <a class="box p1 box_mode_<?php echo ($_GET['view'] == 'tree' ? 'light' : 'dark') ?> tdn" href="<?= query_update('view', 'tree') ?>">Tree View
         </a>
@@ -192,7 +193,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
             <td class="tac" colname="permission">edit</td>
           </tr><?php else : ?>
-          <tr class="item_T_list" data-item-id="{id}" data-item-type="{type}">
+          <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
@@ -446,7 +447,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td colname="type" colspan="2"><?= $child->type->name ?></td>
               <td class="tac" colname="permission">edit</td>
             </tr><?php else : ?>
-            <tr class="item_T_list" data-item-id="{id}" data-item-type="{type}">
+            <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">

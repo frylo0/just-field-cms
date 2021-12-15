@@ -2,9 +2,10 @@ include __item/aside__item.pug
 mixin aside()
    :php
       $aside_width = 400;
-      if (isset($_COOKIE['-jf_aside-width'])) {
+      if (array_key_exists('-jf_aside-width', $_COOKIE)) {
          $aside_width = $_COOKIE['-jf_aside-width'];
       }
+      $anti_aside_width = "calc(100% - {$aside_width}px)";
    - let pageName = global['page-name']
    - let width_str = "width: <?=$aside_width?>px"
    aside.aside&attributes(attributes).rel(style!=width_str)

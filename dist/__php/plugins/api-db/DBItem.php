@@ -77,8 +77,17 @@ namespace JustField {
          $this->parent_id = $this->parent;
       }
 
-      private function get_type_behaviour($type_name) {
+      /**
+       * Factory function to get behaviour *(consist get_value, create, remove, and so on methods)* for target type. In process of getting behaviour generate T_type object and set an ID to it.
+       * @param string|null $type_name Usually taken from $this, exception is when we create field inside of current
+       * @return T_field|T_image|T_object|null Returns type object (behaviour) with already set_id. Returns NULL if no relative behaviour have found.
+       */
+      private function get_type_behaviour($type_name = null) {
          global $jf_REG;
+
+         if ($type_name === null)
+            $type_name = $this->type->name;
+
          if (!array_key_exists($type_name, $jf_REG['DB']['type'])) {
             echo "<script>console.error(`Error: unable get_value of \"$type_name\" type. This type is not registered correctly. Add it to \$jf_REG['DB']['type']['$type_name'].`);</script>";
             return null;
@@ -100,11 +109,11 @@ namespace JustField {
       function get_children()
       {
          if (!$this->value) return null;
-         return $this->get_type_behaviour($this->type->name)->get_children($this);
+         return $this->get_type_behaviour()->get_children($this);
       }
       function get_child(string $key)
       {
-         return $this->get_type_behaviour($this->type->name)->get_child($this, $key);
+         return $this->get_type_behaviour()->get_child($this, $key);
       }
 
       function at_path(string $path)
@@ -125,10 +134,12 @@ namespace JustField {
          return $target;
       }
 
+      /**
+       * @return string $new_field_id
+       */
       function add_field($field_type_id)
       {
          //echo '<script>/*' . "1: Adding type id: $field_type_id" . '*/</script>';
-
          $type = new DBItemType($this->orm, $field_type_id);
 
          // put value to T table
@@ -149,7 +160,12 @@ namespace JustField {
          $new_field_id = $this->orm->select('MAX(`id_db-item`) AS max_id')()[0]['max_id'];
 
          // updating self value (special for duplicate method)
-         $value = explode(',', $this->value);
+         $value = $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+         if ($value == '') // if object is free
+            $value = [];
+         else // if object has children
+            $value = explode(',', $value);
+
          array_push($value, $new_field_id);
 
          // update current field
@@ -167,7 +183,7 @@ namespace JustField {
                   $files = $_FILES['value'];
 
                $value_set = ['value' => $value, '_FILES' => $files];
-               return $this->get_type_behaviour($this->type->name)->update($this, $value_set);
+               return $this->get_type_behaviour()->update($this, $value_set);
                break;
 
             case 'key':
@@ -184,7 +200,7 @@ namespace JustField {
 
       function remove()
       {
-         $this->get_type_behaviour($this->type->name)->remove($this);
+         $this->get_type_behaviour()->remove($this);
 
          // self remove
          $parent = new DBItem($this->orm, $this->parent);
@@ -196,28 +212,40 @@ namespace JustField {
          $this->orm->delete()->where_id($this->id)();
       }
 
+      /** @return string $new_field_id */
       function duplicate()
       {
-         return $this->duplicate_value_to($this, new DBItem($this->orm, $this->parent));
+         return DBItem::duplicate_field_to($this, new DBItem($this->orm, $this->parent));
       }
 
-      private function duplicate_value_to(DBItem $field, DBItem $target_parent)
+      /** 
+       * Duplicate $field to $target_parent, to the end of children. Also duplicate data in T_table using behaviour->duplicate_value_to method.
+       * @param DBItem $field Field to be copied with value in T_table.
+       * @param DBItem $target_parent Target parent field (object and so on). This object will consist $target at the end of $children after duplicate.
+       * @return string $new_field_id, or ID of duplicate in db-item table. */
+      static function duplicate_field_to(DBItem $field, DBItem $target_parent)
       {
-         $orm = $this->orm;
+         $orm = $field->orm;
 
+         // adding new field of target type in db_item scope, value is free and no data duplicate in T_table
+         /** @var string $new_field_id */
          $new_field_id = $target_parent->add_field($field->type->id);
          $new_field = new DBItem($orm, $new_field_id);
 
+         // copy key and name of target field in db_item scope
          $field_data = [
             'key' => $field->key,
             'name' => $field->name,
          ];
 
+         // foreach prop (key, name) => copy
          foreach ($field_data as $key => $value) {
             $new_field->update($key, $value);
          }
 
-         $this->get_type_behaviour($field->type->name)->duplicate_value_to($field, $new_field);
+         // copy VALUE of target file, means copy data in T_table, and so on (e.g. copy image file, or other things)
+         // if function works with 'object', then line lower means COPY ALL CHILDREN RECURSIVE.
+         $field->get_type_behaviour()->duplicate_value_to($field, $new_field);
 
          return $new_field_id;
       }

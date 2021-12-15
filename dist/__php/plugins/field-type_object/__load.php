@@ -20,19 +20,13 @@ class T_object
 
       function create()
       {
-         $this->orm->insert([
-            'id_field' => null,
-            'field_value' => '',
-         ])();
-
-         $id = $this->orm->select('MAX(`id_field`) as max_id')()[0]['max_id'];
-         $this->id = $id;
-         return $id;
+         // all object create logic is in DBItem.php
+         return '';
       }
 
-      function update($value)
+      function update(DBItem $item, $value)
       {
-         $this->orm->update(['field_value' => $value])->where("`id_field` = '{$this->id}'")();
+         $this->orm->update(['`db-item_value`' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
       }
 
       function get_value()
@@ -62,8 +56,7 @@ class T_object
       function get_child(DBItem $item, string $key) {
          $value = $item->value;
          if (!$value) return null;
-         console_log('is value');
-         console_log('key: ' . $key);
+
          $value = explode(',', $value);
 
          $this->orm->from('db-item');
@@ -78,9 +71,39 @@ class T_object
          return null;
       }
 
-      function delete()
+      function remove(DBItem $item)
       {
-         $this->orm->delete()->where_id($this->id)();
+         // all logic of self remove made by DBItem.php
+          
+         // logic of child delete
+         $children = $this->get_children($item);
+         if ($children) {
+            foreach ($children as $child) {
+               $child->remove();
+            }
+         }
+      }
+
+      function duplicate_value_to(DBItem $item, DBItem $new_item)
+      {
+         // take all OLD children
+         $children = $item->get_children($item);
+
+         // if no children in old item, then we can exit
+         if (!$children) return; // if no children given, then $children === null
+         // if there are some children in old item, then we are here
+
+         $new_children_id = []; // creating array to store children duplicates IDs
+         // then iterating each children and making duplicates from old item to new one
+         foreach ($children as $child) {
+            // receiving duplicate ID to variable
+            $new_child_id = DBItem::duplicate_field_to($child, $new_item); // duplicate child 
+            array_push($new_children_id, $new_child_id); // adding duplicate ID to storage
+         }
+         // if we are here, then $new_children_id is full, and has at list one duplicate ID
+
+         // now lets update the parent of children duplicates, to bind children to parent
+         $new_item->update('value', implode(',', $new_children_id)); // insert new children ids as value of new object
       }
    }
 
