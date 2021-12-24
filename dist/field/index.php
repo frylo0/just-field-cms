@@ -313,20 +313,20 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <td class="tac" colname="permission">edit</td>
           </tr><?php endif; ?>
         </template>
-        <template id="template_T_space"><?php if ($child) : ?>
+        <template id="template_T_space"><?php if (isset($child)) : ?>
           <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td colname="key"></td>
-            <td colname="name"></td>
-            <td class="w100" colname="value"></td>
+            <td class="w100 p0" colname="value" colspan="3">
+              <input class="w100" placeholder="Comment..." value="<?= $child->value ?>">
+            </td>
             <td colname="type" colspan="2"></td>
             <td class="tac" colname="permission"></td>
           </tr><?php else : ?>
-          <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+          <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td colname="key"></td>
-            <td colname="name"></td>
-            <td class="w100" colname="value"></td>
+            <td class="w100 p0" colname="value" colspan="3">
+              <input class="w100" placeholder="Comment..." value="{value}">
+            </td>
             <td colname="type" colspan="2"></td>
             <td class="tac" colname="permission"></td>
           </tr><?php endif; ?>
@@ -511,20 +511,20 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td colname="type" colspan="1">{type}</td>
               <td colname="subtype" colspan="1">{subtype}</td>
               <td class="tac" colname="permission">{permission}</td>
-            </tr><?php endif; ?><?php elseif ($child->type->name == 'space') : ?><?php if ($child) : ?>
+            </tr><?php endif; ?><?php elseif ($child->type->name == 'space') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-              <td colname="key"></td>
-              <td colname="name"></td>
-              <td class="w100" colname="value"></td>
+              <td class="w100 p0" colname="value" colspan="3">
+                <input class="w100" placeholder="Comment..." value="<?= $child->value ?>">
+              </td>
               <td colname="type" colspan="2"></td>
               <td class="tac" colname="permission"></td>
             </tr><?php else : ?>
-            <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+            <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-              <td colname="key"></td>
-              <td colname="name"></td>
-              <td class="w100" colname="value"></td>
+              <td class="w100 p0" colname="value" colspan="3">
+                <input class="w100" placeholder="Comment..." value="{value}">
+              </td>
               <td colname="type" colspan="2"></td>
               <td class="tac" colname="permission"></td>
             </tr><?php endif; ?><?php endif; ?>

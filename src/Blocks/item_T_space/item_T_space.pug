@@ -2,25 +2,24 @@ mixin item_T_space()
 
    - let tmp, tmp1;
 
-   <?php if ($child) : ?>
+   <?php if (isset($child)) : ?>
       - tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
       tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_space&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
-         td(colname='key')
-         td(colname='name')
-         td(colname='value').w100
+         - tmp = "<?= $child->value ?>"
+         td(colname='value', colspan=3).w100.p0
+            input(placeholder='Comment...', value!=tmp).w100
          td(colname='type', colspan=2)
          td.tac(colname='permission')
 
    <?php else : ?>
-      - tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
+      - tmp = '{id}', tmp1 = '{type}'
       tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_space&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
-         td(colname='key')
-         td(colname='name')
-         td(colname='value').w100
+         td(colname='value', colspan=3).w100.p0
+            input(placeholder='Comment...', value='{value}').w100
          td(colname='type', colspan=2)
          td.tac(colname='permission')
 
