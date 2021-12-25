@@ -8,6 +8,7 @@ include ../../Blocks/item_T_field/item_T_field.pug
 include ../../Blocks/item_T_list/item_T_list.pug
 include ../../Blocks/item_T_image/item_T_image.pug
 include ../../Blocks/item_T_space/item_T_space.pug
+include ../../Blocks/item_T_text/item_T_text.pug
 
 
 +die-if-bad()
@@ -38,7 +39,7 @@ html(lang="en")
       +favicon()
    body.row
       +aside()
-      main(style!=`<?= "width: $anti_aside_width;" ?>`)
+      main(style!=`<?= "width: $anti_aside_width;" ?>`).rel
          .row.page_tabs
             - tmp = `<?= query_update('view', 'tree') ?>`
             +box('a', `<?php echo ($_GET['view'] == 'tree' ? 'light' : 'dark') ?>`)(href!=tmp).tdn
@@ -105,6 +106,9 @@ html(lang="en")
                   +item_T_space()
                template#template_T_text
                   +item_T_text()
+                  
+               template#template_T_text_editor
+                  +item_T_text_editor()
 
                <?php $is_data = true; ?>
                table(data-update-link='./../scripts/?script=field-update')

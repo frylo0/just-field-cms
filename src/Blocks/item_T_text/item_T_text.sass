@@ -1,2 +1,33 @@
 .item_T_text
+   &__editor
+      background: $-c5-25
+      position: absolute
+      top: 0
+      width: 100%
+      min-height: calc(100vh - 3.25rem)
+      backdrop-filter: blur(10px)
    
+.editor-tabs
+   &__controls
+      display: flex
+   &__tabs
+      display: flex
+      flex: 1
+   &__tab
+      flex: 1
+      display: flex
+      justify-content: space-between
+      align-items: center
+      img
+         width: 0.7em
+         height: 0.7em
+   &__total-buttons
+      display: flex
+      > *
+         border-left: 1px solid $-c5
+         img
+            width: 1em
+            height: 1em
+   &__collapse-button
+   &__close-button
+   &__editorjs

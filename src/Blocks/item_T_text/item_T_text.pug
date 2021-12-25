@@ -34,3 +34,24 @@ mixin item_T_text()
          td.tac(colname='permission') {permission}
 
    <?php endif; ?>
+   
+mixin item_T_text_editor()
+   .item_T_text__editor.editor-tabs.dn
+      .editor-tabs__controls
+         .editor-tabs__tabs
+            .editor-tabs__tab.box.box_mode_light
+               .p1 Tab 1
+               .editor-tab__close-button.box.p1(data-tip='Close')
+                  // https://www.flaticon.com/packs/user-interface-176
+                  img(src='../__attach/Images/close.png')
+            .editor-tabs__tab.box.box_mode_dark
+               .p1 Tab 2
+               .editor-tab__close-button.box.p1(data-tip='Close')
+                  img(src='../__attach/Images/close-white.png')
+         .editor-tabs__total-buttons
+            .editor-tabs__colla.pse-button.box.p1.box_mode_light(data-tip='Collapse')
+               img(src='../__attach/Images/collapse.png')
+            .editor-tabs__close-button.box.p1.box_mode_light(data-tip='Close all editors')
+               img(src='../__attach/Images/close.png')
+      #editorjs.editor-tabs__editorjs
+      

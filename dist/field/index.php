@@ -100,7 +100,7 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main style="<?= "width: $anti_aside_width;" ?>">
+    <main class="rel" style="<?= "width: $anti_aside_width;" ?>">
       <div class="row page_tabs">
         <a class="box p1 box_mode_<?php echo ($_GET['view'] == 'tree' ? 'light' : 'dark') ?> tdn" href="<?= query_update('view', 'tree') ?>">Tree View
         </a>
@@ -363,6 +363,29 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <td colname="type" colspan="2">{type}</td>
             <td class="tac" colname="permission">{permission}</td>
           </tr><?php endif; ?>
+        </template>
+        <template id="template_T_text_editor">
+          <div class="item_T_text__editor editor-tabs dn">
+            <div class="editor-tabs__controls">
+              <div class="editor-tabs__tabs">
+                <div class="editor-tabs__tab box box_mode_light">
+                  <div class="p1">Tab 1</div>
+                  <div class="editor-tab__close-button box p1" data-tip="Close">
+                    <!-- https://www.flaticon.com/packs/user-interface-176--><img src="../__attach/Images/close.png">
+                  </div>
+                </div>
+                <div class="editor-tabs__tab box box_mode_dark">
+                  <div class="p1">Tab 2</div>
+                  <div class="editor-tab__close-button box p1" data-tip="Close"><img src="../__attach/Images/close-white.png"></div>
+                </div>
+              </div>
+              <div class="editor-tabs__total-buttons">
+                <div class="editor-tabs__colla pse-button box p1 box_mode_light" data-tip="Collapse"><img src="../__attach/Images/collapse.png"></div>
+                <div class="editor-tabs__close-button box p1 box_mode_light" data-tip="Close all editors"><img src="../__attach/Images/close.png"></div>
+              </div>
+            </div>
+            <div class="editor-tabs__editorjs" id="editorjs"></div>
+          </div>
         </template><?php $is_data = true; ?>
         <table data-update-link="./../scripts/?script=field-update">
           <thead>
