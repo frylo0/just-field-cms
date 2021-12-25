@@ -11,8 +11,9 @@ mixin item_T_space()
          td(colname='value', colspan=3).w100.p0.rel
             input(placeholder='La Commento...', value!=tmp).w100
             span(class!=`abs <?= ($child->value == '') ? 'dn' : '' ?>`) // la commento
-         td(colname='type', colspan=2)
-         td.tac(colname='permission')
+         - tmp = "<?= $child->type->name ?>"
+         td(colname='type', colspan=2) !{tmp}
+         td.tac(colname='permission') edit
 
    <?php else : ?>
       - tmp = '{id}', tmp1 = '{type}'
@@ -22,7 +23,7 @@ mixin item_T_space()
          td(colname='value', colspan=3).w100.p0.rel
             input(placeholder='La Commento...', value='{value}').w100
             span.abs.dn // la commento
-         td(colname='type', colspan=2)
-         td.tac(colname='permission')
+         td(colname='type', colspan=2) {type}
+         td.tac(colname='permission') {permission}
 
    <?php endif; ?>

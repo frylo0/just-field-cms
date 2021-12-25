@@ -1,0 +1,36 @@
+mixin item_T_text()
+
+   <?php if (isset($child)) : ?>
+   
+      - let tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
+      tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_text&attributes(attributes)
+         td(colname='order').page_table-order.row.jcc.aic.cup
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
+         td(colname='key').p0
+            - tmp = "<?= $child->key ?>"
+            input(placeholder='Input key...', value!=tmp)
+         td(colname='name').p0
+            - tmp = "<?= $child->name ?>"
+            input(placeholder='Input name...', value!=tmp)
+         td(colname='value').w100.p0
+            - tmp = "<?= $child->value ?>"
+            +button('Text editor').w100
+         - tmp = "<?= $child->type->name ?>"
+         td(colname='type', colspan=2) !{tmp}
+         td.tac(colname='permission') edit
+
+   <?php else : ?>
+
+      tr(data-item-id='{id}', data-item-type='{type}').item_T_text&attributes(attributes)
+         td(colname='order').page_table-order.row.jcc.aic.cup
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
+         td(colname='key').p0
+            input(placeholder='Input key...', value='{key}')
+         td(colname='name').p0
+            input(placeholder='Input name...', value='{name}')
+         td(colname='value').w100.p0
+            +button('Text editor').w100
+         td(colname='type', colspan=2) {type}
+         td.tac(colname='permission') {permission}
+
+   <?php endif; ?>

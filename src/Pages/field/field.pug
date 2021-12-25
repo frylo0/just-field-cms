@@ -95,6 +95,8 @@ html(lang="en")
                   +item_T_image()
                template#template_T_space
                   +item_T_space()
+               template#template_T_text
+                  +item_T_text()
 
                <?php $is_data = true; ?>
                table(data-update-link='./../scripts/?script=field-update')
@@ -124,6 +126,8 @@ html(lang="en")
                               +item_T_list()
                            <?php elseif ($child->type->name == 'space') : ?>
                               +item_T_space()
+                           <?php elseif ($child->type->name == 'text') : ?>
+                              +item_T_text()
                            <?php endif; ?>
                         <?php endforeach; ?>
                      <?php endif; ?>

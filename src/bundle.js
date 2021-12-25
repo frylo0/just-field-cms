@@ -24,3 +24,4 @@ import './Blocks/item_T_list/item_T_list';
 import './Blocks/item_T_image/item_T_image';
 import './Basic/popup/popup';
 import './Blocks/item_T_space/item_T_space';
+import './Blocks/item_T_text/item_T_text';

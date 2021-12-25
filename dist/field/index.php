@@ -319,16 +319,48 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <td class="w100 p0 rel" colname="value" colspan="3">
               <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
             </td>
-            <td colname="type" colspan="2"></td>
-            <td class="tac" colname="permission"></td>
+            <td colname="type" colspan="2"><?= $child->type->name ?></td>
+            <td class="tac" colname="permission">edit</td>
           </tr><?php else : ?>
           <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="3">
               <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
             </td>
-            <td colname="type" colspan="2"></td>
-            <td class="tac" colname="permission"></td>
+            <td colname="type" colspan="2">{type}</td>
+            <td class="tac" colname="permission">{permission}</td>
+          </tr><?php endif; ?>
+        </template>
+        <template id="template_T_text"><?php if (isset($child)) : ?>
+          <tr class="item_T_text" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="p0" colname="key">
+              <input placeholder="Input key..." value="<?= $child->key ?>">
+            </td>
+            <td class="p0" colname="name">
+              <input placeholder="Input name..." value="<?= $child->name ?>">
+            </td>
+            <td class="w100 p0" colname="value">
+              <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+              </button>
+            </td>
+            <td colname="type" colspan="2"><?= $child->type->name ?></td>
+            <td class="tac" colname="permission">edit</td>
+          </tr><?php else : ?>
+          <tr class="item_T_text" data-item-id="{id}" data-item-type="{type}">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="p0" colname="key">
+              <input placeholder="Input key..." value="{key}">
+            </td>
+            <td class="p0" colname="name">
+              <input placeholder="Input name..." value="{name}">
+            </td>
+            <td class="w100 p0" colname="value">
+              <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+              </button>
+            </td>
+            <td colname="type" colspan="2">{type}</td>
+            <td class="tac" colname="permission">{permission}</td>
           </tr><?php endif; ?>
         </template><?php $is_data = true; ?>
         <table data-update-link="./../scripts/?script=field-update">
@@ -517,16 +549,46 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td class="w100 p0 rel" colname="value" colspan="3">
                 <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
               </td>
-              <td colname="type" colspan="2"></td>
-              <td class="tac" colname="permission"></td>
+              <td colname="type" colspan="2"><?= $child->type->name ?></td>
+              <td class="tac" colname="permission">edit</td>
             </tr><?php else : ?>
             <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td class="w100 p0 rel" colname="value" colspan="3">
                 <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
               </td>
-              <td colname="type" colspan="2"></td>
-              <td class="tac" colname="permission"></td>
+              <td colname="type" colspan="2">{type}</td>
+              <td class="tac" colname="permission">{permission}</td>
+            </tr><?php endif; ?><?php elseif ($child->type->name == 'text') : ?><?php if (isset($child)) : ?>
+            <tr class="item_T_text" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+              <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="p0" colname="key">
+                <input placeholder="Input key..." value="<?= $child->key ?>">
+              </td>
+              <td class="p0" colname="name">
+                <input placeholder="Input name..." value="<?= $child->name ?>">
+              </td>
+              <td class="w100 p0" colname="value">
+                <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+                </button>
+              </td>
+              <td colname="type" colspan="2"><?= $child->type->name ?></td>
+              <td class="tac" colname="permission">edit</td>
+            </tr><?php else : ?>
+            <tr class="item_T_text" data-item-id="{id}" data-item-type="{type}">
+              <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="p0" colname="key">
+                <input placeholder="Input key..." value="{key}">
+              </td>
+              <td class="p0" colname="name">
+                <input placeholder="Input name..." value="{name}">
+              </td>
+              <td class="w100 p0" colname="value">
+                <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+                </button>
+              </td>
+              <td colname="type" colspan="2">{type}</td>
+              <td class="tac" colname="permission">{permission}</td>
             </tr><?php endif; ?><?php endif; ?>
 <?php endforeach; ?>
 <?php endif; ?>

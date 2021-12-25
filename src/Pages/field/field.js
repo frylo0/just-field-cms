@@ -23,6 +23,7 @@ $(document).ready(() => {
       field: document.getElementById('template_T_field'),
       image: document.getElementById('template_T_image'),
       space: document.getElementById('template_T_space'),
+      text: document.getElementById('template_T_text'),
    };
 
    const titleNoData = document.getElementById('title_no-data');
