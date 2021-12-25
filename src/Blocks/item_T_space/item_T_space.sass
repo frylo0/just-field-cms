@@ -2,6 +2,16 @@
    background-color: $-c4
    background-image: url('./../../Attach/Images/diag-dash-table.png')
    td
-      border-right: none
+      &:not(:first-child)
+         border-right: none
       &[colname="value"]
          color: $-c3
+         input::placeholder
+            color: $-c3-25
+         span
+            left: 1rem
+            top: 0.5rem
+            color: $-c5-50
+            font-size: 0.7em
+            font-style: italic
+            user-select: none

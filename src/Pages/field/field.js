@@ -82,6 +82,7 @@ $(document).ready(() => {
 
       if (typeName == 'object') item_T_object_handle(tr);
       else if (typeName == 'image') item_T_image_handle(tr);
+      else if (typeName == 'space') item_T_space_handle(tr);
    }
 
    // STOP: INPUT UPDATE
