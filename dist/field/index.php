@@ -317,7 +317,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="3">
-              <input class="w100" placeholder="Comment..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la comment</span>
+              <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
             </td>
             <td colname="type" colspan="2"></td>
             <td class="tac" colname="permission"></td>
@@ -325,7 +325,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="3">
-              <input class="w100" placeholder="Comment..." value="{value}"><span class="abs dn">// la comment</span>
+              <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
             </td>
             <td colname="type" colspan="2"></td>
             <td class="tac" colname="permission"></td>
@@ -515,7 +515,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td class="w100 p0 rel" colname="value" colspan="3">
-                <input class="w100" placeholder="Comment..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la comment</span>
+                <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
               </td>
               <td colname="type" colspan="2"></td>
               <td class="tac" colname="permission"></td>
@@ -523,7 +523,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td class="w100 p0 rel" colname="value" colspan="3">
-                <input class="w100" placeholder="Comment..." value="{value}"><span class="abs dn">// la comment</span>
+                <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
               </td>
               <td colname="type" colspan="2"></td>
               <td class="tac" colname="permission"></td>
