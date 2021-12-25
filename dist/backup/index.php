@@ -1,4 +1,6 @@
 <?php
+$PHP = '../'
+?><?php
 $VER = time();
 $PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
@@ -79,6 +81,8 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
           </a>
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../store">Store
           </a>
+          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../plugins">Plugins
+          </a>
         </div>
         <div class="col">
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../scripts?script=exit">Exit
@@ -87,35 +91,6 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main>
-      <div class="page_content ova w100">
-        <table>
-          <thead>
-            <tr>
-              <td>Order</td>
-              <td>Type</td>
-              <td>Permission</td>
-            </tr>
-          </thead>
-          <tbody><?php $types = $orm->from('type')->select('*')(); ?>
-<?php foreach($types as $curr_type) : ?>
-            <tr>
-              <td class="page_table-order row jcc aic cup"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-              <td class="w100"><?php if ($curr_type['type_is-basic']) : ?><em><?= $curr_type['type_name'] ?></em><?php else : ?>
-<?= $curr_type['type_name'] ?>
-<?php endif; ?>
-              </td>
-              <td class="tac">edit</td>
-            </tr><?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-      <div class="page_foot-panel w100 row">
-        <button class="box p1 box_mode_dark button tal cup brad0">Add
-        </button>
-        <button class="box p1 box_mode_dark button tal cup brad0">Delete<span style="color: #6CF6FF88"> (<span>0</span>)</span>
-        </button>
-      </div>
-    </main>
+    <main></main>
   <script src="../backup/backup.bundle.js"></script></body>
 </html>

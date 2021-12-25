@@ -26,6 +26,7 @@ namespace JustField {
          $this->type_table_orm->insert([
             'id_text' => null,
             'text_value' => '',
+            'text_html' => '',
          ])();
 
          $id = $this->type_table_orm->select('MAX(`id_text`) as max_id')()[0]['max_id'];
@@ -35,7 +36,10 @@ namespace JustField {
 
       function update(DBItem $item, array $value)
       {
-         $this->type_table_orm->update(['text_value' => $value['value']])->where("`id_text` = '{$this->id}'")();
+         $this->type_table_orm->update([
+            'text_value' => $value['value'],
+            'text_html' => $value['html'],
+         ])->where("`id_text` = '{$this->id}'")();
       }
 
       function get_value()
@@ -50,6 +54,7 @@ namespace JustField {
 
       function duplicate_value_to(DBItem $field, DBItem $new_field) {
          $new_field->update('value', $field->value);
+         //$new_field->update('html', $field->value);
       }
    }
 

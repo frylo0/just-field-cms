@@ -92,6 +92,8 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
           </a>
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../store">Store
           </a>
+          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../plugins">Plugins
+          </a>
         </div>
         <div class="col">
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../scripts?script=exit">Exit

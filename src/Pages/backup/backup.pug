@@ -1,3 +1,6 @@
+:php
+   $PHP = '../'
+
 include ../../bundle.pug
 
 +die-if-bad()
@@ -15,32 +18,4 @@ html(lang="en")
    body.row
       +aside()
       main
-         .page_content.ova.w100
-            table
-               thead
-                  tr
-                     td Order
-                     td Type
-                     td Permission
-               tbody
-                  <?php $types = $orm->from('type')->select('*')(); ?>
-                  <?php foreach($types as $curr_type) : ?>
-                     tr
-                        td.page_table-order.row.jcc.aic.cup
-                           img(src=`../__attach/Images/up-down.svg` draggable="false")
-                        td.w100
-                           <?php if ($curr_type['type_is-basic']) : ?>
-                              em <?= $curr_type['type_name'] ?>
-                           <?php else : ?>
-                              <?= $curr_type['type_name'] ?>
-                           <?php endif; ?>
-                        td.tac edit
-                  <?php endforeach; ?>
-         .page_foot-panel.w100.row
-            +button('Add', 'dark')
-            +button('Delete', 'dark')
-               span(style="color: #6CF6FF88")
-                  |  (
-                  span 0
-                  | )
          

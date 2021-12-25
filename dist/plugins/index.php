@@ -23,7 +23,7 @@ $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Store | Just Field</title>
+    <title>Plugins | Just Field</title>
     <link rel="apple-touch-icon" sizes="57x57" href="./../apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="./../apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="./../apple-icon-72x72.png">
@@ -41,7 +41,7 @@ $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="./../ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-  <link href="../store/store.bundle.css" rel="stylesheet"></head>
+  <link href="../plugins/plugins.bundle.css" rel="stylesheet"></head>
   <body class="row"><?php
 $aside_width = 400;
 if (array_key_exists('-jf_aside-width', $_COOKIE)) {
@@ -79,9 +79,9 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
           </a>
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../backup">Backup / Migrate
           </a>
-          <a class="box p1 box_mode_light cud block_disabled aside__item w100 db tdn" href="./../store">Store
+          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../store">Store
           </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../plugins">Plugins
+          <a class="box p1 box_mode_light cud block_disabled aside__item w100 db tdn" href="./../plugins">Plugins
           </a>
         </div>
         <div class="col">
@@ -91,6 +91,55 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main></main>
-  <script src="../store/store.bundle.js"></script></body>
+    <main class="rel" style="<?= "width: $anti_aside_width;" ?>">
+      <table class="w100" data-update-link="./../scripts/?script=field-update">
+        <thead>
+          <tr>
+            <td>Priority</td>
+            <td>Name</td>
+            <td class="w100">Description</td>
+            <td>Version</td>
+            <td>Enabled</td>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+$plugins_folder = $PHP . '/plugins';
+$plugin_list = glob("$plugins_folder/*", GLOB_ONLYDIR);
+$plugins = [];
+
+foreach ($plugin_list as $plugin_folder) {
+   $plugin = basename($plugin_folder);
+
+   $manifest_path = $plugin_folder . '/manifest.json';
+   if (!file_exists($manifest_path)) {
+      console_error("Error: no manifest in \"$plugin_folder\". Plugin \"$plugin\" won't be used.");
+      continue;
+   }
+
+   $manifest = json_decode(file_get_contents($manifest_path));
+
+   if (!$manifest->enabled) {
+      console_log("Plugin \"$plugin\" won't be used because disabled");
+      continue;
+   }
+
+   array_push($plugins, new Plugin($plugin, $plugin_folder, $manifest));
+}
+
+usort($plugins, function ($a, $b) { return -1 * ($a->manifest->priority <=> $b->manifest->priority); });
+?><?php foreach ($plugins as $plugin) : ?>
+<?php if (file_exists($plugin->load_path)) : ?>
+          <tr>
+            <td class="tar"><?= $plugin->manifest->priority ?></td>
+            <td class="whsnw"><?= $plugin->name ?></td>
+            <td><?= $plugin->manifest->description ?></td>
+            <td class="tac"><?= $plugin->manifest->version ?></td>
+            <td class="tac"><?= $plugin->manifest->enabled ? 'Yes' : 'No' ?></td>
+          </tr><?php endif; ?>
+<?php endforeach; ?>
+        </tbody>
+      </table>
+    </main>
+  <script src="../plugins/plugins.bundle.js"></script></body>
 </html>

@@ -1,4 +1,6 @@
 <?php
+$PHP = '../'
+?><?php
 $VER = time();
 $PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
@@ -78,6 +80,8 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../backup">Backup / Migrate
           </a>
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../store">Store
+          </a>
+          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../plugins">Plugins
           </a>
         </div>
         <div class="col">

@@ -5,6 +5,7 @@ CREATE TABLE
 ( 
    `id_text`    INT  NOT NULL   AUTO_INCREMENT , 
    `text_value` TEXT NOT NULL , 
+   `text_html` TEXT NOT NULL , 
    PRIMARY KEY (`id_text`)
 ) 
 ENGINE = InnoDB;
@@ -12,6 +13,6 @@ ENGINE = InnoDB;
 INSERT INTO `jf-cms_type` (
    `id_type`, `type_is-basic`, `type_name`, `type_descr`
 ) VALUES (
-   NULL,      '1',             'text',      '\"string\"'
+   NULL,      '1',             'text',      '{\"value\": \"string\", \"html\": \"string\"}'
 );
 */
