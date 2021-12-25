@@ -1,5 +1,6 @@
 <?php
-$PHP = '../'?><?php
+$PHP = '../'
+?><?php
 $VER = time();
 $PHP = (isset($PHP) ? $PHP : '') . './__php';
 $ATTACH = './src/__attach';
@@ -341,7 +342,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="<?= $child->name ?>">
             </td>
             <td class="w100 p0" colname="value">
-              <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value ?>">Text editor
               </button>
             </td>
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -356,7 +357,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="{name}">
             </td>
             <td class="w100 p0" colname="value">
-              <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}">Text editor
               </button>
             </td>
             <td colname="type" colspan="2">{type}</td>
@@ -569,7 +570,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="<?= $child->name ?>">
               </td>
               <td class="w100 p0" colname="value">
-                <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value ?>">Text editor
                 </button>
               </td>
               <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -584,7 +585,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="{name}">
               </td>
               <td class="w100 p0" colname="value">
-                <button class="box p1 box_mode_dark button tal cup brad0 w100">Text editor
+                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}">Text editor
                 </button>
               </td>
               <td colname="type" colspan="2">{type}</td>

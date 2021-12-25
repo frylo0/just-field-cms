@@ -8,3 +8,10 @@ CREATE TABLE
    PRIMARY KEY (`id_text`)
 ) 
 ENGINE = InnoDB;
+
+INSERT INTO `jf-cms_type` (
+   `id_type`, `type_is-basic`, `type_name`, `type_descr`
+) VALUES (
+   NULL,      '1',             'text',      '\"string\"'
+);
+*/

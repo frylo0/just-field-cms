@@ -1,6 +1,14 @@
 :php
    $PHP = '../'
+
 include ../../bundle.pug
+
+include ../../Blocks/item_T_object/item_T_object.pug
+include ../../Blocks/item_T_field/item_T_field.pug
+include ../../Blocks/item_T_list/item_T_list.pug
+include ../../Blocks/item_T_image/item_T_image.pug
+include ../../Blocks/item_T_space/item_T_space.pug
+
 
 +die-if-bad()
 - var global = { 'page-name': 'field' };

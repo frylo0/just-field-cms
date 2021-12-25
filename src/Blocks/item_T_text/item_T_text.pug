@@ -14,7 +14,7 @@ mixin item_T_text()
             input(placeholder='Input name...', value!=tmp)
          td(colname='value').w100.p0
             - tmp = "<?= $child->value ?>"
-            +button('Text editor').w100
+            +button('Text editor').w100(data-value!=tmp)
          - tmp = "<?= $child->type->name ?>"
          td(colname='type', colspan=2) !{tmp}
          td.tac(colname='permission') edit
@@ -29,7 +29,7 @@ mixin item_T_text()
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
          td(colname='value').w100.p0
-            +button('Text editor').w100
+            +button('Text editor').w100(data-value='{value}')
          td(colname='type', colspan=2) {type}
          td.tac(colname='permission') {permission}
 
