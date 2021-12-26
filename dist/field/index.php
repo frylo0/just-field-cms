@@ -148,6 +148,7 @@ $i = 0;
         <template id="template_T_field"><?php if (isset($child)) : ?>
           <tr class="item_T_field" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="<?= $child->key ?>">
             </td>
@@ -162,6 +163,7 @@ $i = 0;
           </tr><?php else : ?>
           <tr class="item_T_field" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
             </td>
@@ -178,6 +180,7 @@ $i = 0;
         <template id="template_T_object"><?php if (isset($child)) : ?>
           <tr class="item_T_object" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="<?= $child->key ?>">
             </td>
@@ -198,6 +201,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           </tr><?php else : ?>
           <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
             </td>
@@ -220,6 +224,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
         <template id="template_T_list"><?php if (isset($child)) : ?>
           <tr class="item_T_list" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="<?= $child->key ?>">
             </td>
@@ -244,6 +249,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           </tr><?php else : ?>
           <tr class="item_T_list" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
             </td>
@@ -267,6 +273,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
         <template id="template_T_image"><?php if (isset($child)) : ?>
           <tr class="item_T_image" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="<?= $child->key ?>">
             </td>
@@ -294,6 +301,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           </tr><?php else : ?>
           <tr class="item_T_image" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
             </td>
@@ -319,7 +327,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
         <template id="template_T_space"><?php if (isset($child)) : ?>
           <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="w100 p0 rel" colname="value" colspan="3">
+            <td class="w100 p0 rel" colname="value" colspan="4">
               <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
             </td>
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -327,7 +335,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           </tr><?php else : ?>
           <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="w100 p0 rel" colname="value" colspan="3">
+            <td class="w100 p0 rel" colname="value" colspan="4">
               <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
             </td>
             <td colname="type" colspan="2">{type}</td>
@@ -337,6 +345,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
         <template id="template_T_text"><?php if (isset($child)) : ?>
           <tr class="item_T_text" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="<?= $child->key ?>">
             </td>
@@ -352,6 +361,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           </tr><?php else : ?>
           <tr class="item_T_text" data-item-id="{id}" data-item-type="{type}">
             <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
               <input placeholder="Input key..." value="{key}">
             </td>
@@ -393,6 +403,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           <thead>
             <tr>
               <td>Order</td>
+              <td class="tac">ID</td>
               <td>Key</td>
               <td>Name</td>
               <td class="w100">Value</td>
@@ -409,6 +420,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
 <?php if ($child->type->name == 'field') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_field" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="<?= $child->key ?>">
               </td>
@@ -423,6 +435,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_field" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">
               </td>
@@ -437,6 +450,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php endif; ?><?php elseif ($child->type->name == 'image') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_image" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="<?= $child->key ?>">
               </td>
@@ -464,6 +478,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_image" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">
               </td>
@@ -487,6 +502,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php endif; ?><?php elseif ($child->type->name == 'object') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_object" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="<?= $child->key ?>">
               </td>
@@ -507,6 +523,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">
               </td>
@@ -527,6 +544,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php endif; ?><?php elseif ($child->type->name == 'list') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_list" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="<?= $child->key ?>">
               </td>
@@ -551,6 +569,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_list" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">
               </td>
@@ -572,7 +591,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php endif; ?><?php elseif ($child->type->name == 'space') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-              <td class="w100 p0 rel" colname="value" colspan="3">
+              <td class="w100 p0 rel" colname="value" colspan="4">
                 <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
               </td>
               <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -580,7 +599,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-              <td class="w100 p0 rel" colname="value" colspan="3">
+              <td class="w100 p0 rel" colname="value" colspan="4">
                 <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
               </td>
               <td colname="type" colspan="2">{type}</td>
@@ -588,6 +607,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php endif; ?><?php elseif ($child->type->name == 'text') : ?><?php if (isset($child)) : ?>
             <tr class="item_T_text" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="<?= $child->key ?>">
               </td>
@@ -603,6 +623,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             </tr><?php else : ?>
             <tr class="item_T_text" data-item-id="{id}" data-item-type="{type}">
               <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
               <td class="p0" colname="key">
                 <input placeholder="Input key..." value="{key}">
               </td>

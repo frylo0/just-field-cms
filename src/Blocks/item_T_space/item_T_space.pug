@@ -8,7 +8,7 @@ mixin item_T_space()
          td(colname='order').page_table-order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
          - tmp = "<?= $child->value ?>"
-         td(colname='value', colspan=3).w100.p0.rel
+         td(colname='value', colspan=4).w100.p0.rel
             input(placeholder='La Commento...', value!=tmp).w100
             span(class!=`abs <?= ($child->value == '') ? 'dn' : '' ?>`) // la commento
          - tmp = "<?= $child->type->name ?>"
@@ -20,7 +20,7 @@ mixin item_T_space()
       tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_space&attributes(attributes)
          td(colname='order').page_table-order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
-         td(colname='value', colspan=3).w100.p0.rel
+         td(colname='value', colspan=4).w100.p0.rel
             input(placeholder='La Commento...', value='{value}').w100
             span.abs.dn // la commento
          td(colname='type', colspan=2) {type}
