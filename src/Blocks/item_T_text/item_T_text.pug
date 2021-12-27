@@ -14,8 +14,12 @@ mixin item_T_text()
             - tmp = "<?= $child->name ?>"
             input(placeholder='Input name...', value!=tmp)
          td(colname='value').w100.p0
-            - tmp = "<?= $child->value ?>"
-            +button('Text editor').w100(data-value!=tmp)
+            - tmp = "<?= $child->value['value'] ?>"
+            - tmp1 = "<?= $child->id ?>"
+            +button('Text editor').w100(
+               data-value!=tmp,
+               data-item-id!=tmp1
+            )
          - tmp = "<?= $child->type->name ?>"
          td(colname='type', colspan=2) !{tmp}
          td.tac(colname='permission') edit
@@ -31,7 +35,10 @@ mixin item_T_text()
          td(colname='name').p0
             input(placeholder='Input name...', value='{name}')
          td(colname='value').w100.p0
-            +button('Text editor').w100(data-value='{value}')
+            +button('Text editor').w100(
+               data-value='{value}',
+               data-item-id='{id}'
+            )
          td(colname='type', colspan=2) {type}
          td.tac(colname='permission') {permission}
 
@@ -41,13 +48,13 @@ mixin item_T_text_editor()
    .item_T_text__editor.editor-tabs.dn
       .editor-tabs__controls
          .editor-tabs__tabs
-            .editor-tabs__tab.box.box_mode_light
-               .p1 Tab 1
+            .editor-tabs__tab.editor-tabs__tab_focused.box.box_mode_light.dn(data-id='{id}')
+               .p1 {title}
                .editor-tab__close-button.box.p1(data-tip='Close')
                   // https://www.flaticon.com/packs/user-interface-176
                   img(src='../__attach/Images/close.png')
-            .editor-tabs__tab.box.box_mode_dark
-               .p1 Tab 2
+            .editor-tabs__tab.editor-tabs__tab_unfocused.box.box_mode_dark.dn(data-id='{id}')
+               .p1 {title}
                .editor-tab__close-button.box.p1(data-tip='Close')
                   img(src='../__attach/Images/close-white.png')
          .editor-tabs__total-buttons

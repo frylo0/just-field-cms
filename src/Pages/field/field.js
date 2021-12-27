@@ -61,7 +61,7 @@ $(document).ready(() => {
 
       tr.dataset.itemId = res.id;
       tr.dataset.itemType = typeName;
-      innerHTMLreplace({
+      innerHTMLreplace(tr, {
          key: '',
          name: '',
          type: typeName,
@@ -75,12 +75,6 @@ $(document).ready(() => {
       document.querySelector('table > tbody').append(tr);
 
       titleNoData.classList.add('dn');
-
-      function innerHTMLreplace(descriptor) {
-         for (let prop in descriptor) {
-            tr.innerHTML = tr.innerHTML.replace(new RegExp('{' + prop + '}', 'g'), descriptor[prop]);
-         }
-      }
    });
 
    function rowHandle(row, typeName) {

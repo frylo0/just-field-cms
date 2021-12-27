@@ -1,8 +1,8 @@
 <?php
 
 namespace JustField {
-   class T_text
-   {
+   $T_text_assets_folder = '../__assets/T_text/';
+   class T_text {
       function __construct($orm)
       {
          $this->orm = clone $orm;
@@ -36,15 +36,24 @@ namespace JustField {
 
       function update(DBItem $item, array $value)
       {
+         $json = json_decode($value['value']);
+
+         $value = htmlentities(json_encode($json->value));
+         $html = $json->html;
+
          $this->type_table_orm->update([
-            'text_value' => $value['value'],
-            'text_html' => $value['html'],
+            'text_value' => $value,
+            'text_html' => $html,
          ])->where("`id_text` = '{$this->id}'")();
       }
 
       function get_value()
       {
-         return $this->type_table_orm->select('text_value')->where("`id_text` = '{$this->id}'")()[0]['text_value'];
+         $res = $this->type_table_orm->select('text_value, text_html')->where("`id_text` = '{$this->id}'")()[0];
+         return [
+            'value' => $res['text_value'],
+            'html' => $res['text_html'],
+         ];
       }
 
       function remove()

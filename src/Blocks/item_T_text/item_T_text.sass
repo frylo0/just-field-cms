@@ -4,7 +4,7 @@
       position: absolute
       top: 0
       width: 100%
-      min-height: calc(100vh - 3.25rem)
+      height: calc(100vh - 3.25rem)
       backdrop-filter: blur(10px)
    
 .editor-tabs
@@ -31,3 +31,10 @@
    &__collapse-button
    &__close-button
    &__editorjs
+      height: calc(100vh - 3.25rem * 2)
+      overflow-y: auto
+      &::-webkit-scrollbar
+         width: 10px
+         height: 10px
+      &::-webkit-scrollbar-thumb
+         background: $-c2

@@ -353,7 +353,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="<?= $child->name ?>">
             </td>
             <td class="w100 p0" colname="value">
-              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value ?>">Text editor
+              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value['value'] ?>" data-item-id="<?= $child->id ?>">Text editor
               </button>
             </td>
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -369,7 +369,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="{name}">
             </td>
             <td class="w100 p0" colname="value">
-              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}">Text editor
+              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}" data-item-id="{id}">Text editor
               </button>
             </td>
             <td colname="type" colspan="2">{type}</td>
@@ -380,14 +380,14 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
           <div class="item_T_text__editor editor-tabs dn">
             <div class="editor-tabs__controls">
               <div class="editor-tabs__tabs">
-                <div class="editor-tabs__tab box box_mode_light">
-                  <div class="p1">Tab 1</div>
+                <div class="editor-tabs__tab editor-tabs__tab_focused box box_mode_light dn" data-id="{id}">
+                  <div class="p1">{title}</div>
                   <div class="editor-tab__close-button box p1" data-tip="Close">
                     <!-- https://www.flaticon.com/packs/user-interface-176--><img src="../__attach/Images/close.png">
                   </div>
                 </div>
-                <div class="editor-tabs__tab box box_mode_dark">
-                  <div class="p1">Tab 2</div>
+                <div class="editor-tabs__tab editor-tabs__tab_unfocused box box_mode_dark dn" data-id="{id}">
+                  <div class="p1">{title}</div>
                   <div class="editor-tab__close-button box p1" data-tip="Close"><img src="../__attach/Images/close-white.png"></div>
                 </div>
               </div>
@@ -615,7 +615,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="<?= $child->name ?>">
               </td>
               <td class="w100 p0" colname="value">
-                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value ?>">Text editor
+                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value['value'] ?>" data-item-id="<?= $child->id ?>">Text editor
                 </button>
               </td>
               <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -631,7 +631,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="{name}">
               </td>
               <td class="w100 p0" colname="value">
-                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}">Text editor
+                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}" data-item-id="{id}">Text editor
                 </button>
               </td>
               <td colname="type" colspan="2">{type}</td>
