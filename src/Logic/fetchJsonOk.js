@@ -23,12 +23,45 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
          console.error('On fetchJsonOk: ' + fetchUrl);
          console.error(err.message);
 
+         let $wrapper = $(`
+            <div class="fetch-json-error col">
+               <div class="row jcsb aic" style="box-shadow: 0px 3px 42px -20px #000;">
+                  <div style="font-size: 1.25em; margin-left: 1rem;">Fetch JSON Error</div>
+                  <div 
+                     class="editor-tabs__close-button box p1 box_mode_light"
+                     onclick="action('click: fetchJsonOk error close button')(this)"
+                  >
+                     <img src="../__attach/Images/close.png"
+                          style="height: 1em; width: 1em" />
+                  </div>
+               </div>
+            </div>
+         `)
+            .css({
+               position: 'absolute',
+               left: '0',
+               right: '0',
+               top: '0',
+               bottom: '0',
+               zIndex: '10000',
+               background: '#ffffffaa',
+               backdropFilter: 'blur(10px)',
+               overflow: 'auto',
+               color: 'black',
+            });
+         
+         when('click: fetchJsonOk error close button', el => {
+            $(el).parents('.fetch-json-error').remove();
+         });
+            
          let pre = document.createElement('pre');
          pre.innerHTML = await resFetch.text();
-         pre.style = 'border: 1px solid red; background: #fff; padding: 1em; color: #000;';
          pre.className = 'php-error';
+         pre.style = 'padding: 1em;';
          document.querySelectorAll('.php-error').forEach(el => el.remove());
-         document.body.append(pre);
+
+         $(pre).appendTo($wrapper);
+         $wrapper.appendTo(document.body);
 
          reject(err);
       }

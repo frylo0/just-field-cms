@@ -14,6 +14,10 @@ import ImageTool from '@editorjs/image';
 import tippy from 'tippy.js';
 
 
+const item_T_text_uploadByFile = '../__php/plugins/field-type_text/upload-by-file.php';
+const item_T_text_uploadByUrl = '../__php/plugins/field-type_text/upload-by-url.php';
+
+
 function item_T_text_blocksToHTML(blocks) {
    let res = '';
    let items = '';
@@ -95,13 +99,11 @@ function item_T_text_blocksToHTML(blocks) {
          case 'image':
             res += `
             <figure>
-               <div style="
-                  background-image: url('${block.data.file.url}');
-                  background-repeat: no-repeat;
-                  background-size: ${block.data.stretched ? 'cover' : 'contain'}"
+               <img 
+                  src="${block.data.file.url}" 
+                  width="${block.data.stretched ? '100%' : ''}"
                   data-with-border="${block.data.withBorder}
-                  data-with-background="${block.data.withBackground}">
-               </div>
+                  data-with-background="${block.data.withBackground}" />
                <figcaption>${block.data.caption}</figcaption>
             </figure>
             `;
@@ -112,8 +114,6 @@ function item_T_text_blocksToHTML(blocks) {
             console.warn(block);
       };
    }
-   console.log(blocks);
-   console.log(res.replace(/\s+/g, ' '));
    return res;
 }
 
@@ -217,6 +217,62 @@ function item_T_text_initEditor() {
                endpoints: {
                   byFile: '../__php/plugins/field-type_text/upload-by-file.php', // backend file uploader endpoint
                   byUrl: '../__php/plugins/field-type_text/upload-by-url.php', // endpoint that provides uploading by url
+               },
+               uploader: {
+                  /**
+                    * Upload file to the server and return an uploaded image data
+                    * @param {File} file - file selected from the device or pasted by drag-n-drop
+                    * @return {Promise.<{success, file: {url}}>}
+                    */
+                  async uploadByFile(file) {
+                     let id = window.item_T_text_editor.state.editorLastChangeId;
+                     console.log('Last change id is:', id);
+                     console.log('Upload by file args:', file);
+
+                     let url = window.location.href;
+                     url = url.split('/');
+                     while (url.pop() != 'field'); // pop until remove 'field'
+                     url = url.join('/'); // now url is host of JustField CMS
+
+                     const formData = new FormData();
+                     formData.append('id', id);
+                     formData.append('image', file);
+                     formData.append('host', url);
+
+                     let res = await fetchJsonOk('Uploading image', item_T_text_uploadByFile, {
+                        method: 'POST',
+                        body: formData,
+                     });
+                     
+                     return res;
+                  },
+                  /**
+                    * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
+                    * @param {string} url - pasted image URL
+                    * @return {Promise.<{success, file: {url}}>}
+                    */
+                  async uploadByUrl(file) {
+                     let id = window.item_T_text_editor.state.editorLastChangeId;
+                     console.log('Last change id is:', id);
+                     console.log('Upload by file args:', file);
+
+                     let url = window.location.href;
+                     url = url.split('/');
+                     while (url.pop() != 'field'); // pop until remove 'field'
+                     url = url.join('/'); // now url is host of JustField CMS
+
+                     const formData = new FormData();
+                     formData.append('id', id);
+                     formData.append('image', file);
+                     formData.append('host', url);
+
+                     let res = await fetchJsonOk('Uploading image', item_T_text_uploadByUrl, {
+                        method: 'POST',
+                        body: formData,
+                     });
+                     
+                     return res;
+                  }
                }
             }
          }
@@ -227,6 +283,8 @@ function item_T_text_initEditor() {
          window.item_T_text_editor.state.ready = true;
       },
       onChange(api, event) {
+         window.item_T_text_editor.state.editorLastChangeId = event.id;
+         console.log('Editor.js change, with ID:', event.id);
          (async function () {
             let editorContent = await window.item_T_text_editor.editorjs.save();
             if (editorContent.blocks.length == 0)
@@ -244,8 +302,7 @@ function item_T_text_initEditor() {
                method: 'POST',
                body: formData,
             });
-
-            console.log(res);
+            console.log('Editor.js onChange after save blocks:', editorContent);
          }());
       },
    });
@@ -256,6 +313,7 @@ function item_T_text_initEditor() {
       state: {
          currentID: null,
          ready: false,
+         editorLastChangeId: null,
       },
 
       _addTab(targetID, title) {
