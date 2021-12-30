@@ -103,7 +103,7 @@ function item_T_text_blocksToHTML(blocks) {
                <img 
                   src="${block.data.file.url}" 
                   width="${block.data.stretched ? '100%' : ''}"
-                  data-with-border="${block.data.withBorder}
+                  data-with-border="${block.data.withBorder}"
                   data-with-background="${block.data.withBackground}" />
                <figcaption>${block.data.caption}</figcaption>
             </figure>

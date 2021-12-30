@@ -12,6 +12,6 @@ $db = new JustField\DB($orm);
    <title>TMP</title>
 </head>
 <body style="background: grey">
-   <?= $db->at_id('499')->value['html']; ?>
+   <?= $db->at_path('docs')->value['html']; ?>
 </body>
 </html>
