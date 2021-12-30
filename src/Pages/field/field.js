@@ -62,6 +62,7 @@ $(document).ready(() => {
       tr.dataset.itemId = res.id;
       tr.dataset.itemType = typeName;
       innerHTMLreplace(tr, {
+         id: res.id,
          key: '',
          name: '',
          type: typeName,

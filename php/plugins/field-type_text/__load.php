@@ -1,8 +1,9 @@
 <?php
-
 namespace JustField {
-   $T_text_assets_folder = '../__assets/T_text/';
+require_once __DIR__ . '/deleteDir.php';
    class T_text {
+      static private string $assets_folder = '../__assets/T_text/';
+
       function __construct($orm)
       {
          $this->orm = clone $orm;
@@ -31,6 +32,10 @@ namespace JustField {
 
          $id = $this->type_table_orm->select('MAX(`id_text`) as max_id')()[0]['max_id'];
          $this->id = $id;
+         
+         mkdir(T_text::$assets_folder . $id);
+         chmod(T_text::$assets_folder . $id, 0777);
+
          return $id;
       }
 
@@ -59,6 +64,7 @@ namespace JustField {
       function remove()
       {
          $this->type_table_orm->delete()->where_id($this->id)();
+         deleteDir(T_text::$assets_folder . $this->id);
       }
 
       function duplicate_value_to(DBItem $field, DBItem $new_field) {

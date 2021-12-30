@@ -4,28 +4,31 @@ require_once __DIR__ . '/upload-exception.php';
 require_once __DIR__ . '/get-file-any-ext.php';
 
 
+// For DB queries and DBItem
+require_once __DIR__ . '/../../db-connect-info.php';
+require_once __DIR__ . '/../api-orm/__load.php';
+require_once __DIR__ . '/../api-db/__load.php';
+require_once __DIR__ . '/../field-type_text/__load.php';
+
+$db = new JustField\DB($orm);
+
+
 $assets_folder = '__assets/T_text/';
 $php_assets_folder = '../../../' . $assets_folder;
+
+$item_id = $_POST['item-id'];
 $id = $_POST['id'];
 $file = $_FILES['image'];
 $host = $_POST['host'];
 
 if ($file['error'] != UPLOAD_ERR_OK) 
    throw new UploadException($value['error']);
-
-// STOP: This block of code can remove file with same name if it exists.
-// But Editor.js ImageTool plugin don't provide functionality to update images.
-// So image can't be updated, what means, file can not exist, only new file can be uploaded.
-// ------------------------------------------------------------------------------------
-//$old_file = get_file_any_ext($php_assets_folder, $id, 'jpeg|jpg|png|gif|svg'); // file to unlink has any ext
-//if ($old_file) {
-//   // old file exists
-//   $old_file = $php_assets_folder . $old_file;
-//   if (file_exists($old_file)) unlink($old_file);
-//}
+   
+$orm->is_log = true;
+$field_id = $db->at_id($item_id)->value_id;
 
 $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-$target_name = "{$id}.{$ext}";
+$target_name = "$field_id/{$id}.{$ext}";
 $target_file = "$php_assets_folder$target_name"; // assets_folder has '/' at end
 
 move_uploaded_file($file['tmp_name'], $target_file);

@@ -16,6 +16,7 @@ import tippy from 'tippy.js';
 
 const item_T_text_uploadByFile = '../__php/plugins/field-type_text/upload-by-file.php';
 const item_T_text_uploadByUrl = '../__php/plugins/field-type_text/upload-by-url.php';
+const item_T_text_delete = '../__php/plugins/field-type_text/delete.php';
 
 
 function item_T_text_blocksToHTML(blocks) {
@@ -132,15 +133,23 @@ function item_T_text_initEditor() {
    $editor.$tabUnfocused = $editor.find('.editor-tabs__tab_unfocused');
 
    when('click: .editor-tabs close button', e => {
-      window.item_T_text_editor.hide();
+      window.item_T_text_editor.close();
    });
    when('click: .editor-tabs single tab close button', e => {
-      window.item_T_text_editor.hide();
+      window.item_T_text_editor.close();
    });
 
-   new tippy($editor.find('[data-tip]').toArray(), {
-      content: ref => ref.dataset.tip,
-   });
+   let tips = {
+      tippy: null,
+      init() {
+         this.tippy = new tippy($editor.find('[data-tip]').toArray(), {
+            content: ref => ref.dataset.tip,
+         });
+      },
+      destroy() {
+         this.tippy.forEach(instance => instance.destroy());
+      }
+   };
    
    const editorjs = new EditorJS({
       holder: 'editorjs',
@@ -214,10 +223,6 @@ function item_T_text_initEditor() {
          image: {
             class: ImageTool,
             config: {
-               endpoints: {
-                  byFile: '../__php/plugins/field-type_text/upload-by-file.php', // backend file uploader endpoint
-                  byUrl: '../__php/plugins/field-type_text/upload-by-url.php', // endpoint that provides uploading by url
-               },
                uploader: {
                   /**
                     * Upload file to the server and return an uploaded image data
@@ -235,6 +240,7 @@ function item_T_text_initEditor() {
                      url = url.join('/'); // now url is host of JustField CMS
 
                      const formData = new FormData();
+                     formData.append('item-id', item_T_text_editor.state.currentID);
                      formData.append('id', id);
                      formData.append('image', file);
                      formData.append('host', url);
@@ -253,8 +259,6 @@ function item_T_text_initEditor() {
                     */
                   async uploadByUrl(file) {
                      let id = window.item_T_text_editor.state.editorLastChangeId;
-                     console.log('Last change id is:', id);
-                     console.log('Upload by file args:', file);
 
                      let url = window.location.href;
                      url = url.split('/');
@@ -284,17 +288,16 @@ function item_T_text_initEditor() {
       },
       onChange(api, event) {
          window.item_T_text_editor.state.editorLastChangeId = event.id;
-         console.log('Editor.js change, with ID:', event.id);
+         //console.log('Editor.js change, with api:', api, 'and event:', event);
          (async function () {
+
             let editorContent = await window.item_T_text_editor.editorjs.save();
-            if (editorContent.blocks.length == 0)
-               editorContent = '';
 
             const formData = new FormData();
             formData.append('item_id', window.item_T_text_editor.state.currentID);
             formData.append('colname', 'value');
             formData.append('value', JSON.stringify({
-               value: editorContent,
+               value: editorContent.blocks.length == 0 ? '' : editorContent, // free value if editor free
                html: item_T_text_blocksToHTML(editorContent.blocks),
             }));
 
@@ -302,64 +305,121 @@ function item_T_text_initEditor() {
                method: 'POST',
                body: formData,
             });
-            console.log('Editor.js onChange after save blocks:', editorContent);
-         }());
+            
+
+            // if !lastBlocks, then editor just loaded and don't need to do anything, so exit
+            if (!window.item_T_text_editor.state.lastBlocks) return;
+
+            // after change handlers (e.g. some stuff after delete or after add)
+            const lastBlocks = window.item_T_text_editor.state.lastBlocks.blocks;
+
+            let targetBlockFromLast = null;
+            for (let block of lastBlocks) 
+               if (block.id == event.id) {
+                  targetBlockFromLast = block;
+                  break;
+               }
+
+            if (lastBlocks.length > editorContent.blocks.length) {
+               // on delete
+               this.onBlockDelete(targetBlockFromLast);
+            } else if (lastBlocks.length < editorContent.blocks.length) {
+               // on add
+               this.onBlockAdd(targetBlockFromLast);
+            } else {
+               // on update (block value change)
+               this.onBlockUpdate(targetBlockFromLast);
+            }
+            window.item_T_text_editor.state.lastBlocks = editorContent;
+
+         }.bind(window.item_T_text_editor)());
       },
    });
    
    window.item_T_text_editor = {
-      $editor, editorjs,
+      $editor, editorjs, tips,
       
       state: {
          currentID: null,
          ready: false,
          editorLastChangeId: null,
+         lastBlocks: {
+            blocks: [],
+         },
       },
 
       _addTab(targetID, title) {
          let $tab = this.$editor.$tabFocused.clone();
+         
+         $tab[0].dataset.id = targetID;
          innerHTMLreplace($tab[0], {
             id: targetID,
             title: title,
          });
+
+         $tab.find('.editor-tab__close-button').click(action('click: .editor-tabs single tab close button'));
+         
          $tab.removeClass('dn');
          $tab.appendTo(this.$editor.$tabs);
       },
 
-      show(targetID, value, title) {
+      show() {
          this.$editor.removeClass('dn');
-         
-         this._addTab(targetID, title);
-         if (value)
-            this.load(JSON.parse(value));
-
-         this.state.currentID = targetID;
       },
       hide() {
          this.$editor.addClass('dn');
       },
       
-      async load(data) {
-         // if no data given then don't need to load it
-         if (!data) return;
+      open(targetID, value, title) {
+         this._addTab(targetID, title);
+         this.load(value ? JSON.parse(value) : null);
 
+         this.state.currentID = targetID;
+         this.tips.init();
+      
+         this.show();
+      },
+      close() {
+         this.$editor.$tabs.find('.editor-tabs__tab:not(.dn)').remove();
+         this.tips.destroy();
+         this.state.lastBlocks = { blocks: [] };
+         this.hide();
+      },
+      
+      async load(data) {
          // if editor is not ready, then wait till become ready, and do same thing
          if (!window.item_T_text_editor.state.ready)
             return new Promise((res, rej) => {
                setTimeout(() => {
-                  this.load(data)
-                     .then(r => res(r))
-                     .catch(err => rej(err));
+                  // if no data given then don't need to load it
+                  if (!data) {
+                     window.item_T_text_editor.editorjs.clear(); // clear editorjs because of remove-add bug - if no data, then editor should be cleared
+                  }
+                  else {
+                     this.load(data)
+                        .then(r => {
+
+                           window.item_T_text_editor.state.lastBlocks = data;
+                           res(r);
+                        })
+                        .catch(err => rej(err));
+                  }
                }, 500);
             });
 
          // else
-         // if editor loaded and data provided, then load promise (editorjs.render)
-         return new Promise((res, rej) => {
-            this.editorjs.render(data)
-               .then(r => res(r))
-               .catch(err => rej(err));
-         });
+         // if editor loaded, then load promise (editorjs.render)
+         // if no data given then don't need to load it
+         if (!data) {
+            window.item_T_text_editor.editorjs.clear(); // clear editorjs because of remove-add bug - if no data, then editor should be cleared
+         }
+         else {
+            return new Promise((res, rej) => {
+               this.editorjs.render(data)
+                  .then(r => res(r))
+                  .catch(err => rej(err));
+            });
+         }
       },
       async save() {
          return new Promise((res, rej) => {
@@ -367,6 +427,37 @@ function item_T_text_initEditor() {
                .then(outputData => res(outputData))
                .catch(error => rej(error));
          });
+      },
+
+      async onBlockAdd(block) {
+         // on editor add block
+      },
+      async onBlockDelete(block) {
+         // on editor delete block
+         switch (block.type) {
+            case 'image':
+               const fileUrl = block.data.file.url;
+
+               // if file not in T_text folder, then image was pasted by url and don't need to delete from server
+               if (!fileUrl.match(/__assets\/T_text/)) return; // so exit function
+               // else file on server and need to delete
+
+               const fileName = fileUrl.split('/').slice(-2).join('/');
+
+               const formData = new FormData();
+               formData.append('file-name', fileName);
+               let res = await fetchJsonOk('Deleting image', item_T_text_delete, {
+                  method: 'POST',
+                  body: formData,
+               });
+               break;
+
+            default:
+               console.warn(`onBlockDelete: block.type "${block.type}" has no handler. (block:`, block, ').');
+         }
+      },
+      async onBlockUpdate(block) {
+         // on editor update block
       },
    };
 }
@@ -388,7 +479,7 @@ $(document).ready(() => {
    when(`click: ${pref} text editor button`, e => {
       let $currentTarget = $(e.currentTarget);
       let $tr = $currentTarget.parents('tr');
-      window.item_T_text_editor.show(
+      window.item_T_text_editor.open(
          e.currentTarget.dataset.itemId, // id
          e.currentTarget.dataset.value, // value
          $tr.find('[colname="name"] input').val() || $tr.find('[colname="key"] input').val() // editor title
