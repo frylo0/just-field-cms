@@ -232,7 +232,6 @@ function item_T_text_initEditor() {
                   async uploadByFile(file) {
                      let id = window.item_T_text_editor.state.editorLastChangeId;
                      console.log('Last change id is:', id);
-                     console.log('Upload by file args:', file);
 
                      let url = window.location.href;
                      url = url.split('/');
@@ -305,6 +304,10 @@ function item_T_text_initEditor() {
                method: 'POST',
                body: formData,
             });
+            
+            // updating data-value on target row button, to render changed value on new editor open on same row
+            const $targetRow = $($('[colname="id"]').toArray().find(col => col.textContent == this.state.currentID)).parents('tr');
+            $targetRow.find('[colname="value"] button').attr('data-value', res.data);
             
 
             // if !lastBlocks, then editor just loaded and don't need to do anything, so exit

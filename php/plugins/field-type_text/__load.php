@@ -1,6 +1,7 @@
 <?php
 namespace JustField {
 require_once __DIR__ . '/deleteDir.php';
+require_once __DIR__ . '/copyDir.php';
    class T_text {
       static private string $assets_folder = '../__assets/T_text/';
 
@@ -43,13 +44,16 @@ require_once __DIR__ . '/deleteDir.php';
       {
          $json = json_decode($value['value']);
 
-         $value = htmlentities(json_encode($json->value));
+         $value_raw = json_encode($json->value);
+         $value = htmlentities($value_raw);
          $html = $json->html;
 
          $this->type_table_orm->update([
             'text_value' => $value,
             'text_html' => $html,
          ])->where("`id_text` = '{$this->id}'")();
+
+         return str_replace('"', '\"', $value_raw);
       }
 
       function get_value()
@@ -68,8 +72,32 @@ require_once __DIR__ . '/deleteDir.php';
       }
 
       function duplicate_value_to(DBItem $field, DBItem $new_field) {
-         $new_field->update('value', $field->value);
-         //$new_field->update('html', $field->value);
+         function replace_id($old_string, $old_id, $new_id) {
+            $new_string = $old_string;
+            $new_string = str_replace("__assets/T_text/$old_id/", "__assets/T_text/$new_id/", $new_string);
+            $new_string = str_replace("__assets\\/T_text\\/$old_id\\/", "__assets\\/T_text\\/$new_id\\/", $new_string);
+            return $new_string;
+         }
+
+         $new_field->update('value', json_encode([
+            'value' => json_decode(
+               replace_id(
+                  html_entity_decode($field->value['value']), 
+                  $field->value_id, 
+                  $new_field->value_id
+               )
+            ),
+            'html' => replace_id(
+               $field->value['html'], 
+               $field->value_id, 
+               $new_field->value_id
+            ),
+         ]));
+
+         copyDir(
+            T_text::$assets_folder . $field->value_id,
+            T_text::$assets_folder . $new_field->value_id
+         );
       }
    }
 
