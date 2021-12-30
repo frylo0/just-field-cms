@@ -196,6 +196,7 @@ class ORM {
    }
 }
 
+require_once __DIR__ . '/../../db-connect-info.php';
 $orm = new ORM(
    'localhost', 
    jf_DB_LOGIN, 

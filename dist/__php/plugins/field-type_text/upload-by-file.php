@@ -5,7 +5,6 @@ require_once __DIR__ . '/get-file-any-ext.php';
 
 
 // For DB queries and DBItem
-require_once __DIR__ . '/../../db-connect-info.php';
 require_once __DIR__ . '/../api-orm/__load.php';
 require_once __DIR__ . '/../api-db/__load.php';
 require_once __DIR__ . '/../field-type_text/__load.php';

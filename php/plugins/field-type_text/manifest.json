@@ -7,7 +7,7 @@
    "tags": [
       "built-in"
    ],
-   "depends_on": [],
+   "depends_on": ["api-db"],
    "php": {
       "url_match": []
    },
