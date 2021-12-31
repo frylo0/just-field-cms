@@ -1,0 +1,38 @@
+mixin item_T_boolean()
+   <?php if (isset($child)) : ?>
+   
+      - let tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
+      tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_boolean&attributes(attributes)
+         td(colname='order').page_table-order.row.jcc.aic.cup
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
+         td(colname='id').tac!= tmp
+         td(colname='key').p0
+            - tmp = "<?= $child->key ?>"
+            input(placeholder='Input key...', value!=tmp)
+         td(colname='name').p0
+            - tmp = "<?= $child->name ?>"
+            input(placeholder='Input name...', value!=tmp)
+         td(colname='value').w100.p1
+            <input type="checkbox" <?= $child->value ? 'checked=\"checked\"' : '' ?> id="item_T_boolean_id_<?= $child->id ?>" />
+            <label for="item_T_boolean_id_<?= $child->id ?>"></label>
+         - tmp = "<?= $child->type->name ?>"
+         td(colname='type', colspan=2) !{tmp}
+         td.tac(colname='permission') edit
+
+   <?php else : ?>
+
+      tr(data-item-id='{id}', data-item-type='{type}').item_T_boolean&attributes(attributes)
+         td(colname='order').page_table-order.row.jcc.aic.cup
+            img(src=`../__attach/Images/up-down.svg` draggable="false")
+         td(colname='id').tac {id}
+         td(colname='key').p0
+            input(placeholder='Input key...', value='{key}')
+         td(colname='name').p0
+            input(placeholder='Input name...', value='{name}')
+         td(colname='value').w100.p1
+            <input type="checkbox" id="item_T_boolean_id_{id}" />
+            <label for="item_T_boolean_id_{id}"></label>
+         td(colname='type', colspan=2) {type}
+         td.tac(colname='permission') {permission}
+
+   <?php endif; ?>

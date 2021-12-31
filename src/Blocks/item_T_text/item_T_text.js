@@ -489,6 +489,10 @@ $(document).ready(() => {
       );
    });
    
+   when('duplicateRow: text', (tr, id, typeName) => {
+      $('[colname="value"] button', tr).attr('data-item-id', id);
+   });
+   
    item_T_text_handle(document, true);
    item_T_text_initEditor();
    

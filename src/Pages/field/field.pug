@@ -9,6 +9,7 @@ include ../../Blocks/item_T_list/item_T_list.pug
 include ../../Blocks/item_T_image/item_T_image.pug
 include ../../Blocks/item_T_space/item_T_space.pug
 include ../../Blocks/item_T_text/item_T_text.pug
+include ../../Blocks/item_T_boolean/item_T_boolean.pug
 
 
 +die-if-bad()
@@ -106,6 +107,8 @@ html(lang="en")
                   +item_T_space()
                template#template_T_text
                   +item_T_text()
+               template#template_T_boolean
+                  +item_T_boolean()
                   
                template#template_T_text_editor
                   +item_T_text_editor()
@@ -141,6 +144,8 @@ html(lang="en")
                               +item_T_space()
                            <?php elseif ($child->type->name == 'text') : ?>
                               +item_T_text()
+                           <?php elseif ($child->type->name == 'boolean') : ?>
+                              +item_T_boolean()
                            <?php endif; ?>
                         <?php endforeach; ?>
                      <?php endif; ?>

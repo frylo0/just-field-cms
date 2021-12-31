@@ -1,0 +1,45 @@
+.item_T_boolean
+   [colname="value"] > *
+      font-size: 0.2em
+      
+   $label-font-size: 2.5
+
+   input[type="checkbox"] 
+      visibility: hidden
+      display: none
+      &:checked + label 
+         transform: rotate(360deg)
+         background-color: $-c5
+         &:before 
+            transform: translateX(#{to_em(90px) / $label-font-size})
+            background-color: $-c1
+            content: '1'
+            color: $-c5
+
+   label 
+      display: flex
+      width: to_em(180px)
+      height: to_em(90px)
+      border: #{to_em(6px)} solid
+      border-radius: 99em
+      position: relative
+      transition: transform .75s ease-in-out
+      transform-origin: 50% 50%
+      cursor: pointer
+      
+      &:before 
+         font-size: #{$label-font-size}em
+         transition: transform .75s ease
+         transition-delay: .5s
+         color: $-c1
+         content: '0'
+         display: flex
+         justify-content: center
+         align-items: center
+         position: absolute
+         width: to_em(54px) / $label-font-size
+         height: to_em(54px) / $label-font-size
+         background-color: $-c5
+         border-radius: 50%
+         top: to_em(12px) / $label-font-size
+         left: to_em(12px) / $label-font-size

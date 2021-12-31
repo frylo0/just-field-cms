@@ -1,13 +1,13 @@
 {
-   "description": "Basic database API.",
+   "description": "Basic field type \"Boolean\".",
    "version": "1.0.0",
    "author": "frity corp.",
-   "priority": 9800,
+   "priority": 0,
    "enabled": true,
    "tags": [
       "built-in"
    ],
-   "depends_on": [ "api-orm" ],
+   "depends_on": [ "api-db" ],
    "php": {
       "url_match": []
    },

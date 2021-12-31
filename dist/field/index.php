@@ -376,6 +376,38 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
             <td class="tac" colname="permission">{permission}</td>
           </tr><?php endif; ?>
         </template>
+        <template id="template_T_boolean"><?php if (isset($child)) : ?>
+          <tr class="item_T_boolean" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
+            <td class="p0" colname="key">
+              <input placeholder="Input key..." value="<?= $child->key ?>">
+            </td>
+            <td class="p0" colname="name">
+              <input placeholder="Input name..." value="<?= $child->name ?>">
+            </td>
+            <td class="w100 p1" colname="value"><input type="checkbox" <?= $child->value ? 'checked=\"checked\"' : '' ?> id="item_T_boolean_id_<?= $child->id ?>" />
+<label for="item_T_boolean_id_<?= $child->id ?>"></label>
+            </td>
+            <td colname="type" colspan="2"><?= $child->type->name ?></td>
+            <td class="tac" colname="permission">edit</td>
+          </tr><?php else : ?>
+          <tr class="item_T_boolean" data-item-id="{id}" data-item-type="{type}">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
+            <td class="p0" colname="key">
+              <input placeholder="Input key..." value="{key}">
+            </td>
+            <td class="p0" colname="name">
+              <input placeholder="Input name..." value="{name}">
+            </td>
+            <td class="w100 p1" colname="value"><input type="checkbox" id="item_T_boolean_id_{id}" />
+<label for="item_T_boolean_id_{id}"></label>
+            </td>
+            <td colname="type" colspan="2">{type}</td>
+            <td class="tac" colname="permission">{permission}</td>
+          </tr><?php endif; ?>
+        </template>
         <template id="template_T_text_editor">
           <div class="item_T_text__editor editor-tabs dn">
             <div class="editor-tabs__controls">
@@ -633,6 +665,36 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <td class="w100 p0" colname="value">
                 <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}" data-item-id="{id}">Text editor
                 </button>
+              </td>
+              <td colname="type" colspan="2">{type}</td>
+              <td class="tac" colname="permission">{permission}</td>
+            </tr><?php endif; ?><?php elseif ($child->type->name == 'boolean') : ?><?php if (isset($child)) : ?>
+            <tr class="item_T_boolean" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+              <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id"><?= $child->id ?></td>
+              <td class="p0" colname="key">
+                <input placeholder="Input key..." value="<?= $child->key ?>">
+              </td>
+              <td class="p0" colname="name">
+                <input placeholder="Input name..." value="<?= $child->name ?>">
+              </td>
+              <td class="w100 p1" colname="value"><input type="checkbox" <?= $child->value ? 'checked=\"checked\"' : '' ?> id="item_T_boolean_id_<?= $child->id ?>" />
+<label for="item_T_boolean_id_<?= $child->id ?>"></label>
+              </td>
+              <td colname="type" colspan="2"><?= $child->type->name ?></td>
+              <td class="tac" colname="permission">edit</td>
+            </tr><?php else : ?>
+            <tr class="item_T_boolean" data-item-id="{id}" data-item-type="{type}">
+              <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="tac" colname="id">{id}</td>
+              <td class="p0" colname="key">
+                <input placeholder="Input key..." value="{key}">
+              </td>
+              <td class="p0" colname="name">
+                <input placeholder="Input name..." value="{name}">
+              </td>
+              <td class="w100 p1" colname="value"><input type="checkbox" id="item_T_boolean_id_{id}" />
+<label for="item_T_boolean_id_{id}"></label>
               </td>
               <td colname="type" colspan="2">{type}</td>
               <td class="tac" colname="permission">{permission}</td>

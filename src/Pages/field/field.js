@@ -6,6 +6,7 @@ import './../../Blocks/item_T_list/item_T_list';
 import './../../Blocks/item_T_image/item_T_image';
 import './../../Blocks/item_T_space/item_T_space';
 import './../../Blocks/item_T_text/item_T_text';
+import './../../Blocks/item_T_boolean/item_T_boolean';
 
 
 // Code libs and plugins
@@ -32,6 +33,7 @@ $(document).ready(() => {
       image: document.getElementById('template_T_image'),
       space: document.getElementById('template_T_space'),
       text: document.getElementById('template_T_text'),
+      boolean: document.getElementById('template_T_boolean'),
    };
 
    const titleNoData = document.getElementById('title_no-data');
@@ -46,6 +48,35 @@ $(document).ready(() => {
    const $buttonAddContent = $(`${pref}__content`);
    const $buttonAddType = $(`${pref}__type`);
    const fieldAddLink = $buttonAdd.attr('data-add-link');
+   
+   function createRow(id, typeName, replacements = {}) {
+      let template = templates[typeName];
+      let tr = template.content.cloneNode(true).firstElementChild;
+
+      tr.dataset.itemId = id;
+      tr.dataset.itemType = typeName;
+
+      const repl = {
+         id: id,
+         key: '',
+         name: '',
+         type: typeName,
+         subtype: '',
+         value: '',
+         permission: 'edit',
+      };
+      for (let prop in replacements) {
+         let val = replacements[prop];
+         repl[prop] = val;
+      }
+      innerHTMLreplace(tr, repl);
+
+      rowHandle(tr, typeName);
+      document.querySelector('table > tbody').append(tr);
+      titleNoData.classList.add('dn');
+      
+      return tr;
+   }
 
    $buttonAdd.on('click', e => {
       $buttonAddContent.toggleClass('dn');
@@ -56,26 +87,7 @@ $(document).ready(() => {
 
       const typeName = e.target.textContent.trim();
 
-      let template = templates[typeName];
-      let tr = template.content.cloneNode(true).firstElementChild;
-
-      tr.dataset.itemId = res.id;
-      tr.dataset.itemType = typeName;
-      innerHTMLreplace(tr, {
-         id: res.id,
-         key: '',
-         name: '',
-         type: typeName,
-         subtype: '',
-         value: '',
-         permission: 'edit',
-      });
-
-      rowHandle(tr, typeName);
-
-      document.querySelector('table > tbody').append(tr);
-
-      titleNoData.classList.add('dn');
+      createRow(res.id, typeName);
    });
 
    function rowHandle(row, typeName) {
@@ -88,6 +100,7 @@ $(document).ready(() => {
       else if (typeName == 'image') item_T_image_handle(tr);
       else if (typeName == 'space') item_T_space_handle(tr);
       else if (typeName == 'text') item_T_text_handle(tr);
+      else if (typeName == 'boolean') item_T_boolean_handle(tr);
    }
 
    // STOP: INPUT UPDATE
@@ -266,19 +279,22 @@ $(document).ready(() => {
    });
 
    async function duplicateRow(row) {
-      const keyEl = row.querySelector('[colname="key"] > input');
-      const key = keyEl ? keyEl.value : '';
-
       const fetchUrl = duplicateLink + `&item_id=${row.dataset.itemId}`;
-      const res = await fetchJsonOk('Duplicating', fetchUrl);
+      const res = await fetchJsonOk('Duplicating', fetchUrl); // sending query to duplicate values in DB
 
-      const rowCopy = row.cloneNode(true);
-      rowCopy.dataset.itemId = res.id;
-      $('[colname="id"]', rowCopy).html(res.id);
+      const rowCopy = row.cloneNode(true); // clone target node
+      rowCopy.dataset.itemId = res.id; // changing tr(data-item-id) to new one
+      $('[colname="id"]', rowCopy).html(res.id); // updating visible id
+      
       // TODO: make js duplicate factory for types
-      const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim();
-      rowHandle(rowCopy, typeName);
-      rowCopy.classList.remove('tr_selected');
+      const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim(); // taking typeName for rowHandle
+      rowHandle(rowCopy, typeName); // handling all events for new row, according to it type
+      rowCopy.classList.remove('tr_selected'); // removing row selection
+
+      // any type can handle to target type action, e.g. boolean update id in label(for) attribute
+      action(`duplicateRow: ${typeName}`)(rowCopy, res.id, typeName);
+
+      // adding new row to table
       row.parentElement.append(rowCopy);
    }
 });
