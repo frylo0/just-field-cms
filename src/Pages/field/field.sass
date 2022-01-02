@@ -50,6 +50,24 @@ main
    &::-webkit-scrollbar-thumb
       background: $-c2
 
+   tr 
+      td
+         &[colname="key"], &[colname="name"]
+            overflow: hidden
+            &:hover
+               z-index: 300
+               input:not(:focus)
+                  animation: input-flying 6s linear infinite
+                  animation-delay: 1.5s
+                  width: 200%
+
+         @keyframes input-flying
+            0%
+               transform: translateX(0%)
+            100%
+               transform: translateX(-100%)
+
+
 .page_foot-panel
    background: $-c5-50
 
