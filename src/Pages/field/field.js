@@ -8,6 +8,7 @@ import './../../Blocks/item_T_space/item_T_space';
 import './../../Blocks/item_T_text/item_T_text';
 import './../../Blocks/item_T_boolean/item_T_boolean';
 import './../../Blocks/item_T_file/item_T_file';
+import './../../Blocks/item_T_audio/item_T_audio';
 
 
 // Code libs and plugins
