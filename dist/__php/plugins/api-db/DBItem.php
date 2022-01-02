@@ -245,9 +245,13 @@ namespace JustField {
 
          // copy VALUE of target file, means copy data in T_table, and so on (e.g. copy image file, or other things)
          // if function works with 'object', then line lower means COPY ALL CHILDREN RECURSIVE.
-         $field->get_type_behaviour()->duplicate_value_to($field, $new_field);
+         $duplicate_res = $field->get_type_behaviour()->duplicate_value_to($field, $new_field);
 
-         return $new_field_id;
+         $ret = new \stdClass();
+         $ret->new_field_id = $new_field_id;
+         $ret->duplicate_res = $duplicate_res;
+
+         return $ret;
       }
    };
 }

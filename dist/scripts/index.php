@@ -118,9 +118,12 @@ if (isset($_GET['script']) || isset($_POST['script'])):
       $from_get($item_id, 'item_id');
 
       $db->orm->is_log = false;
-      $new_id = $db->at_id($item_id)->duplicate();
+      $ret = $db->at_id($item_id)->duplicate();
 
-      echo '{ "status": "OK", "id": '.$new_id.' }';
+      $new_id = $ret->new_field_id;
+      $data = $ret->duplicate_res;
+
+      echo '{ "status": "OK", "id": '.$new_id.', "data": "'.$data.'" }';
 
 
    elseif ($script == 'info'):

@@ -9,6 +9,7 @@ import './../../Blocks/item_T_text/item_T_text';
 import './../../Blocks/item_T_boolean/item_T_boolean';
 import './../../Blocks/item_T_file/item_T_file';
 import './../../Blocks/item_T_audio/item_T_audio';
+import './../../Blocks/item_T_video/item_T_video';
 
 
 // Code libs and plugins
@@ -283,7 +284,7 @@ $(document).ready(() => {
       rowCopy.classList.remove('tr_selected'); // removing row selection
 
       // any type can handle to target type action, e.g. boolean update id in label(for) attribute
-      action(`duplicateRow: ${typeName}`)(rowCopy, res.id, typeName);
+      action(`duplicateRow: ${typeName}`)(rowCopy, res.id, typeName, res);
 
       // adding new row to table
       row.parentElement.append(rowCopy);
