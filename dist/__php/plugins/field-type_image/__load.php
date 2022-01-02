@@ -81,7 +81,7 @@ namespace JustField {
          $value = $value['_FILES'];
          global $assets_folder;
 
-         if ($value['error'] != UPLOAD_ERR_OK) 
+         if ($value['error'] != UPLOAD_ERR_OK)
             throw new UploadException($value['error']);
 
          $old_file = $this->get_value()->src;
@@ -136,6 +136,70 @@ namespace JustField {
          if (file_exists($old_file)) unlink($old_file);
 
          $this->type_table_orm->delete()->where_id($this->id)();
+      }
+
+      static function render_item(DBItem $child) { ?>
+         <tr class="item_T_image" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
+            <td class="p0" colname="key">
+               <input placeholder="Input key..." value="<?= $child->key ?>">
+            </td>
+            <td class="p0" colname="name">
+               <input placeholder="Input name..." value="<?= $child->name ?>">
+            </td>
+            <td class="w100 p0" colname="value">
+               <div class="row">
+                  <?php if ($child->value->src) : ?>
+                     <div class="item_T_image__thumbnail row jcc aic"><img src="<?= $child->value->src ?>">
+                     </div>
+                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="<?= $child->value->src ?>">Show
+                     </button>
+                  <?php else : ?>
+                     <div class="item_T_image__thumbnail item_T_image__thumbnail_free row jcc aic"><img class="dn" src=""></div>
+                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="" disabled="disabled">Show
+                     </button>
+                  <?php endif; ?>
+                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__upload-button">Upload
+                  </button>
+                  <form class="dn item_T_image__file-form">
+                     <input class="item_T_image__file" type="file" name="image" accept="image/*">
+                  </form>
+               </div>
+            </td>
+            <td colname="type" colspan="2"><?= $child->type->name ?></td>
+            <td class="tac" colname="permission">edit</td>
+         </tr>
+      <?php }
+
+      static function render_template() { ?>
+         <tr class="item_T_image" data-item-id="{id}" data-item-type="{type}">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
+            <td class="p0" colname="key">
+               <input placeholder="Input key..." value="{key}">
+            </td>
+            <td class="p0" colname="name">
+               <input placeholder="Input name..." value="{name}">
+            </td>
+            <td class="w100 p0" colname="value">
+               <div class="row">
+                  <div class="item_T_image__thumbnail item_T_image__thumbnail_free row jcc aic"><img class="dn" src=""></div>
+                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" href="{value}" disabled="disabled">Show
+                  </button>
+                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__upload-button">Upload
+                  </button>
+                  <form class="dn item_T_image__file-form">
+                     <input class="item_T_image__file" type="file" name="image" accept="image/*">
+                  </form>
+               </div>
+            </td>
+            <td colname="type" colspan="2">{type}</td>
+            <td class="tac" colname="permission">edit</td>
+         </tr>
+      <?php }
+
+      static function render_addictive_templates() {
       }
    }
 

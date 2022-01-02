@@ -52,4 +52,5 @@ $(document).ready(() => {
    window.item_T_image_handle = function (row) {
       action(`${pref} init`)(0, row);
    };
+   when('rowHandle: image', tr => window.item_T_image_handle(tr));
 });

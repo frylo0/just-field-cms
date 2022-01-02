@@ -494,6 +494,7 @@ $(document).ready(() => {
    });
    
    item_T_text_handle(document, true);
+   when('rowHandle: text', tr => item_T_text_handle(tr));
    item_T_text_initEditor();
    
    window.item_T_text_handle = item_T_text_handle;

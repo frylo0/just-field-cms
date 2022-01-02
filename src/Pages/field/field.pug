@@ -3,13 +3,7 @@
 
 include ../../bundle.pug
 
-include ../../Blocks/item_T_object/item_T_object.pug
-include ../../Blocks/item_T_field/item_T_field.pug
 include ../../Blocks/item_T_list/item_T_list.pug
-include ../../Blocks/item_T_image/item_T_image.pug
-include ../../Blocks/item_T_space/item_T_space.pug
-include ../../Blocks/item_T_text/item_T_text.pug
-include ../../Blocks/item_T_boolean/item_T_boolean.pug
 
 
 +die-if-bad()
@@ -27,6 +21,8 @@ include ../../Blocks/item_T_boolean/item_T_boolean.pug
          return; 
       return './?' . str_replace("$key=".$_GET[$key], "$key=$value", $_SERVER['QUERY_STRING']); 
    };
+
+   $types = $orm->table('type')->select('*')();
 
 - let tmp, tmp1
 
@@ -95,23 +91,25 @@ html(lang="en")
                <?php endforeach; ?>
 
             .page_content.ova.w100
-               template#template_T_field
-                  +item_T_field()
-               template#template_T_object
-                  +item_T_object()
-               template#template_T_list
-                  +item_T_list()
-               template#template_T_image
-                  +item_T_image()
-               template#template_T_space
-                  +item_T_space()
-               template#template_T_text
-                  +item_T_text()
-               template#template_T_boolean
-                  +item_T_boolean()
+               <script> var templates = {}; </script>
+               <?php foreach ($types as $curr_type) : ?>
+                  <?php $type_name = $curr_type['type_name']; ?>
+                  <?php if (array_key_exists($type_name, $jf_REG['DB']['type'])) : ?>
+                     
+                     <template id="template_T_<?= $type_name ?>">
+                        <?php $jf_REG['DB']['type'][$type_name]::render_template($global); ?>
+                     </template>
+                     <script>templates['<?= $type_name ?>'] = document.getElementById('template_T_<?= $type_name ?>');</script>
+                        
+                     <?php $jf_REG['DB']['type'][$type_name]::render_addictive_templates(); ?>
+                     
+                  <?php else : ?>
+
+                     <script>console.warn(`field/index.php: On template rendering, "<?= $type_name ?>" class is not registered in $jf_REG['DB']['type'].`)</script>
+
+                  <?php endif; ?>
                   
-               template#template_T_text_editor
-                  +item_T_text_editor()
+               <?php endforeach; ?>
 
                <?php $is_data = true; ?>
                table(data-update-link='./../scripts/?script=field-update')
@@ -132,21 +130,7 @@ html(lang="en")
                         <?php $is_data = false; ?>
                      <?php else : ?>
                         <?php foreach ($children as $child) : ?>
-                           <?php if ($child->type->name == 'field') : ?>
-                              +item_T_field()
-                           <?php elseif ($child->type->name == 'image') : ?>
-                              +item_T_image()
-                           <?php elseif ($child->type->name == 'object') : ?>
-                              +item_T_object()
-                           <?php elseif ($child->type->name == 'list') : ?>
-                              +item_T_list()
-                           <?php elseif ($child->type->name == 'space') : ?>
-                              +item_T_space()
-                           <?php elseif ($child->type->name == 'text') : ?>
-                              +item_T_text()
-                           <?php elseif ($child->type->name == 'boolean') : ?>
-                              +item_T_boolean()
-                           <?php endif; ?>
+                           <?php $jf_REG['DB']['type'][$child->type->name]::render_item($child, $global); ?>
                         <?php endforeach; ?>
                      <?php endif; ?>
 
@@ -163,7 +147,6 @@ html(lang="en")
             .row
                +button('Add', 'dark').page_button-add.rel(data-add-link='./../scripts/?script=field-add')
                   .page_button-add__content.abs.col.top0.left0.dn
-                     <?php $types = $orm->table('type')->select('*')(); ?>
                      <?php foreach ($types as $curr_type) : ?>
                         - tmp = "<?= $curr_type['id_type'] ?>"
                         - tmp1 = "<?= $curr_type['type_name'] ?>"

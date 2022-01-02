@@ -19,6 +19,7 @@ $(document).ready(() => {
    });
    
    item_T_space_handle(document, true);
+   when('rowHandle: space', tr => item_T_space_handle(tr));
    
    window.item_T_space_handle = item_T_space_handle;
 });

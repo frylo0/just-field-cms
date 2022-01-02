@@ -7,6 +7,7 @@ import './../../Blocks/item_T_image/item_T_image';
 import './../../Blocks/item_T_space/item_T_space';
 import './../../Blocks/item_T_text/item_T_text';
 import './../../Blocks/item_T_boolean/item_T_boolean';
+import './../../Blocks/item_T_file/item_T_file';
 
 
 // Code libs and plugins
@@ -26,15 +27,7 @@ globalEventone();
 $(document).ready(() => {
    const pref = '.page_button-add';
 
-   const templates = {
-      object: document.getElementById('template_T_object'),
-      list: document.getElementById('template_T_list'),
-      field: document.getElementById('template_T_field'),
-      image: document.getElementById('template_T_image'),
-      space: document.getElementById('template_T_space'),
-      text: document.getElementById('template_T_text'),
-      boolean: document.getElementById('template_T_boolean'),
-   };
+   const templates = window.templates;
 
    const titleNoData = document.getElementById('title_no-data');
 
@@ -95,12 +88,9 @@ $(document).ready(() => {
 
       $(tr).on('pointerdown', action('pointerdown: tr'));
       $('td > input', tr).on('keyup', action('keyup: td input'));
-
-      if (typeName == 'object') item_T_object_handle(tr);
-      else if (typeName == 'image') item_T_image_handle(tr);
-      else if (typeName == 'space') item_T_space_handle(tr);
-      else if (typeName == 'text') item_T_text_handle(tr);
-      else if (typeName == 'boolean') item_T_boolean_handle(tr);
+      
+      // factory for rowHandle: each field define own function on action with target type name
+      action(`rowHandle: ${typeName}`)(tr);
    }
 
    // STOP: INPUT UPDATE

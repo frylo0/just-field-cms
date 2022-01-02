@@ -2,40 +2,33 @@
 
 namespace JustField {
 
-class T_object
-   {
+   class T_object {
       var \ORM $orm;
       var $id;
 
-      function __construct($orm)
-      {
+      function __construct($orm) {
          $this->orm = clone $orm;
          $this->id = null;
       }
 
-      function set_id($id)
-      {
+      function set_id($id) {
          $this->id = $id;
       }
 
-      function create()
-      {
+      function create() {
          // all object create logic is in DBItem.php
          return '';
       }
 
-      function update(DBItem $item, $value)
-      {
+      function update(DBItem $item, $value) {
          $this->orm->update(['`db-item_value`' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
       }
 
-      function get_value()
-      {
+      function get_value() {
          return $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
       }
 
-      function get_children(DBItem $item)
-      {
+      function get_children(DBItem $item) {
          $value = $item->value;
 
          if ($value != '') {
@@ -47,8 +40,7 @@ class T_object
             }
 
             return $children;
-         }
-         else {
+         } else {
             return null;
          }
       }
@@ -71,10 +63,9 @@ class T_object
          return null;
       }
 
-      function remove(DBItem $item)
-      {
+      function remove(DBItem $item) {
          // all logic of self remove made by DBItem.php
-          
+
          // logic of child delete
          $children = $this->get_children($item);
          if ($children) {
@@ -84,8 +75,7 @@ class T_object
          }
       }
 
-      function duplicate_value_to(DBItem $item, DBItem $new_item)
-      {
+      function duplicate_value_to(DBItem $item, DBItem $new_item) {
          // take all OLD children
          $children = $item->get_children($item);
 
@@ -104,6 +94,71 @@ class T_object
 
          // now lets update the parent of children duplicates, to bind children to parent
          $new_item->update('value', implode(',', $new_children_id)); // insert new children ids as value of new object
+      }
+
+      static function render_item(DBItem $child, array $global) { ?>
+         <?php
+         $path_parts = $global['path_parts'];
+         $path = $global['path'];
+         ?>
+         <tr class="item_T_object" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id"><?= $child->id ?></td>
+            <td class="p0" colname="key">
+               <input placeholder="Input key..." value="<?= $child->key ?>">
+            </td>
+            <td class="p0" colname="name">
+               <input placeholder="Input name..." value="<?= $child->name ?>">
+            </td>
+            <td class="w100 p0" colname="value">
+               <?php
+               $path_i = count($path_parts) + 1;
+               $loc_path = '';
+               if ($path == '') :
+                  $loc_path = $child->key;
+               else :
+                  $loc_path = "{$path}/{$child->key}";
+               endif;
+               ?>
+               <a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>">Open</a>
+            </td>
+            <td colname="type" colspan="2"><?= $child->type->name ?></td>
+            <td class="tac" colname="permission">edit</td>
+         </tr>
+      <?php }
+
+      static function render_template($global) { ?>
+         <?php
+         $path_parts = $global['path_parts'];
+         $path = $global['path'];
+         ?>
+         <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
+            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="tac" colname="id">{id}</td>
+            <td class="p0" colname="key">
+               <input placeholder="Input key..." value="{key}">
+            </td>
+            <td class="p0" colname="name">
+               <input placeholder="Input name..." value="{name}">
+            </td>
+            <td class="w100 p0" colname="value">
+               <?php
+               $path_i = count($path_parts) + 1;
+               $loc_path = '';
+               if ($path == '') :
+                  $loc_path = '{key}';
+               else :
+                  $loc_path = "{$path}/{key}";
+               endif;
+               ?>
+               <a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>">Open</a>
+            </td>
+            <td colname="type" colspan="2">{type}</td>
+            <td class="tac" colname="permission">{permission}</td>
+         </tr>
+      <?php }
+
+      static function render_addictive_templates() {
       }
    }
 

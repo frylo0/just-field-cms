@@ -13,6 +13,7 @@ $(document).ready(() => {
    });
 
    item_T_object_handle(document, true);
+   when('rowHandle: object', tr => item_T_object_handle(tr));
 
    window.item_T_object_handle = item_T_object_handle;
 });

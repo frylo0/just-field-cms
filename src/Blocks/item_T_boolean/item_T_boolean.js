@@ -27,5 +27,6 @@ $(document).ready(() => {
    });
    
    item_T_boolean_handle(document, true);
+   when('rowHandle: boolean', tr => item_T_boolean_handle(tr));
    window.item_T_boolean_handle = item_T_boolean_handle;
 });
