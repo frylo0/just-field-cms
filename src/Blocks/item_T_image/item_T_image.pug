@@ -15,9 +15,9 @@ mixin item_T_image()
             input(placeholder='Input name...', value!=tmp)
          td(colname='value').w100.p0
             .row
-               <?php if (isset($child->value['src'])) : ?>
+               <?php if (isset($child->value->src)) : ?>
                   .item_T_image__thumbnail.row.jcc.aic
-                     - tmp = "<?= $child->value['src'] ?>"
+                     - tmp = "<?= $child->value->src ?>"
                      img(src!=tmp)
                   +button('Show')(data-mfp-src!=tmp).item_T_image__show-button
                <?php else : ?>

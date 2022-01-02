@@ -14,7 +14,7 @@ mixin item_T_text()
             - tmp = "<?= $child->name ?>"
             input(placeholder='Input name...', value!=tmp)
          td(colname='value').w100.p0
-            - tmp = "<?= $child->value['value'] ?>"
+            - tmp = "<?= $child->value->value ?>"
             - tmp1 = "<?= $child->id ?>"
             +button('Text editor').w100(
                data-value!=tmp,

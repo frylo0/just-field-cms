@@ -84,7 +84,7 @@ namespace JustField {
          if ($value['error'] != UPLOAD_ERR_OK) 
             throw new UploadException($value['error']);
 
-         $old_file = $this->get_value()['src'];
+         $old_file = $this->get_value()->src;
          if (file_exists($old_file)) unlink($old_file);
 
          $ext = strtolower(pathinfo($value['name'], PATHINFO_EXTENSION));
@@ -102,8 +102,8 @@ namespace JustField {
          global $assets_folder;
 
          $image_value = $field->value;
-         $image_src = $image_value['src'];
-         $image_name = $image_value['name'];
+         $image_src = $image_value->src;
+         $image_name = $image_value->name;
 
          $ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
          $target_name = "{$new_field->value_id}.{$ext}";
@@ -123,14 +123,16 @@ namespace JustField {
          global $assets_folder;
 
          $src = $this->type_table_orm->select('`image_src`')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
-         return [
-            'name' => $src,
-            'src' => $src ? $assets_folder . $src : '',
-         ];
+
+         $ret = new \stdClass();
+         $ret->name = $src;
+         $ret->src = $src ? $assets_folder . $src : '';
+
+         return $ret;
       }
 
       function remove(DBItem $item) {
-         $old_file = $item->value['src'];
+         $old_file = $item->value->src;
          if (file_exists($old_file)) unlink($old_file);
 
          $this->type_table_orm->delete()->where_id($this->id)();

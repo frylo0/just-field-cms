@@ -1,5 +1,6 @@
 <?php
 namespace JustField {
+
 require_once __DIR__ . '/deleteDir.php';
 require_once __DIR__ . '/copyDir.php';
    class T_text {
@@ -59,10 +60,12 @@ require_once __DIR__ . '/copyDir.php';
       function get_value()
       {
          $res = $this->type_table_orm->select('text_value, text_html')->where("`id_text` = '{$this->id}'")()[0];
-         return [
-            'value' => $res['text_value'],
-            'html' => $res['text_html'],
-         ];
+
+         $ret = new \stdClass();
+         $ret->value = $res['text_value'];
+         $ret->html = $res['text_html'];
+
+         return $ret;
       }
 
       function remove()
@@ -82,13 +85,13 @@ require_once __DIR__ . '/copyDir.php';
          $new_field->update('value', json_encode([
             'value' => json_decode(
                replace_id(
-                  html_entity_decode($field->value['value']), 
+                  html_entity_decode($field->value->value), 
                   $field->value_id, 
                   $new_field->value_id
                )
             ),
             'html' => replace_id(
-               $field->value['html'], 
+               $field->value->html, 
                $field->value_id, 
                $new_field->value_id
             ),

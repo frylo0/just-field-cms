@@ -9,9 +9,9 @@
    <title>TMP</title>
 </head>
 <body style="background: grey">
-   <?php if (field('is_docs_visible')) : ?>
+   <?php if (pv('is_docs_visible')) : ?>
       <h1>Docs</h1>
-      <?= field('docs')['html']; ?>
+      <?= pv('docs')->html; ?>
    <?php endif; ?>
 </body>
 </html>

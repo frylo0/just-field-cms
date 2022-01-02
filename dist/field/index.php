@@ -281,10 +281,10 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="<?= $child->name ?>">
             </td>
             <td class="w100 p0" colname="value">
-              <div class="row"><?php if (isset($child->value['src'])) : ?>
-                <div class="item_T_image__thumbnail row jcc aic"><img src="<?= $child->value['src'] ?>">
+              <div class="row"><?php if (isset($child->value->src)) : ?>
+                <div class="item_T_image__thumbnail row jcc aic"><img src="<?= $child->value->src ?>">
                 </div>
-                <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="<?= $child->value['src'] ?>">Show
+                <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="<?= $child->value->src ?>">Show
                 </button><?php else : ?>
                 <div class="item_T_image__thumbnail item_T_image__thumbnail_free row jcc aic"><img class="dn" src=""></div>
                 <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="" disabled="disabled">Show
@@ -353,7 +353,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
               <input placeholder="Input name..." value="<?= $child->name ?>">
             </td>
             <td class="w100 p0" colname="value">
-              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value['value'] ?>" data-item-id="<?= $child->id ?>">Text editor
+              <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value->value ?>" data-item-id="<?= $child->id ?>">Text editor
               </button>
             </td>
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
@@ -490,10 +490,10 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="<?= $child->name ?>">
               </td>
               <td class="w100 p0" colname="value">
-                <div class="row"><?php if (isset($child->value['src'])) : ?>
-                  <div class="item_T_image__thumbnail row jcc aic"><img src="<?= $child->value['src'] ?>">
+                <div class="row"><?php if (isset($child->value->src)) : ?>
+                  <div class="item_T_image__thumbnail row jcc aic"><img src="<?= $child->value->src ?>">
                   </div>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="<?= $child->value['src'] ?>">Show
+                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="<?= $child->value->src ?>">Show
                   </button><?php else : ?>
                   <div class="item_T_image__thumbnail item_T_image__thumbnail_free row jcc aic"><img class="dn" src=""></div>
                   <button class="box p1 box_mode_dark button tal cup brad0 item_T_image__show-button" data-mfp-src="" disabled="disabled">Show
@@ -647,7 +647,7 @@ endif;?><a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&c
                 <input placeholder="Input name..." value="<?= $child->name ?>">
               </td>
               <td class="w100 p0" colname="value">
-                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value['value'] ?>" data-item-id="<?= $child->id ?>">Text editor
+                <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value->value ?>" data-item-id="<?= $child->id ?>">Text editor
                 </button>
               </td>
               <td colname="type" colspan="2"><?= $child->type->name ?></td>
