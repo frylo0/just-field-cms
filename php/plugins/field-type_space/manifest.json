@@ -1,4 +1,5 @@
 {
+   "icon": "",
    "description": "Basic field type \"Space\".",
    "version": "1.0.0",
    "author": "frity corp.",
@@ -16,5 +17,7 @@
    },
    "css": {
       "url_match": []
-   }
+   },
+   "settings": {},
+   "readme": "./_readme.md"
 }

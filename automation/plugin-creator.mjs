@@ -36,6 +36,7 @@ export const config = {
 
 // manifest file template
 const manifest = {
+   icon: "", // -------------- plugin icon
    description: "", // ------- plugin description
    version: '1.0.0', // ------ plugin version
    author: 'frity corp.', // - plugin author
@@ -52,6 +53,8 @@ const manifest = {
    css: { // ----------------- css settings
       url_match: [], // ---------- urls on which plugin css part works
    },
+   settings: { }, // --------- inner plugin settings
+   readme: './_readme.md', // --- plugin tutorials and so on
 };
 
 // entry point
@@ -133,6 +136,7 @@ export async function renewPluginFiles(pluginName) {
       '__load.css': '',
       '_inst.php': '',
       '_uninst.php': '',
+      '_readme.md': '',
    };
 
    // for each file in creating list, if not exist, then create and write content

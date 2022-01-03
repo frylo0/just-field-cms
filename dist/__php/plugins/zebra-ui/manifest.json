@@ -1,4 +1,5 @@
 {
+   "icon": "",
    "description": "Basic theme for Just Field CMS.",
    "version": "1.0.0",
    "author": "frity corp.",
@@ -18,5 +19,7 @@
    },
    "css": {
       "url_match": []
-   }
+   },
+   "settings": {},
+   "readme": "./_readme.md"
 }
