@@ -137,6 +137,7 @@ export async function renewPluginFiles(pluginName) {
       '_inst.php': '',
       '_uninst.php': '',
       '_readme.md': '',
+      '_readme.tpl.md': '<!-- Source file for MDTPL, check this repo for more info: https://github.com/fritylo/md-tpl -->\n\n',
    };
 
    // for each file in creating list, if not exist, then create and write content
