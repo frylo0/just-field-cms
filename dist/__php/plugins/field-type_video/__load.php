@@ -172,5 +172,5 @@ namespace JustField {
       }
    }
 
-   $jf_REG['DB']['type']['video'] = 'JustField\T_video';
+   $reg->DB->type['video'] = 'JustField\T_video';
 }

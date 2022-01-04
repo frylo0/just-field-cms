@@ -149,14 +149,14 @@ $i = 0;
       <div class="page_content ova w100"><script> var templates = {}; </script>
 <?php foreach ($types as $curr_type) : ?>
 <?php $type_name = $curr_type['type_name']; ?>
-<?php if (array_key_exists($type_name, $jf_REG['DB']['type'])) : ?>
+<?php if (array_key_exists($type_name, $reg->DB->type)) : ?>
 <template id="template_T_<?= $type_name ?>">
-<?php $jf_REG['DB']['type'][$type_name]::render_template($global); ?>
+<?php $reg->DB->type[$type_name]::render_template($global); ?>
 </template>
 <script>templates['<?= $type_name ?>'] = document.getElementById('template_T_<?= $type_name ?>');</script>
-<?php $jf_REG['DB']['type'][$type_name]::render_addictive_templates(); ?>
+<?php $reg->DB->type[$type_name]::render_addictive_templates(); ?>
 <?php else : ?>
-<script>console.warn(`field/index.php: On template rendering, "<?= $type_name ?>" class is not registered in $jf_REG['DB']['type'].`)</script>
+<script>console.warn(`field/index.php: On template rendering, "<?= $type_name ?>" class is not registered in $reg->DB->type.`)</script>
 <?php endif; ?>
 <?php endforeach; ?>
 <?php $is_data = true; ?>
@@ -178,7 +178,7 @@ $i = 0;
 <?php $is_data = false; ?>
 <?php else : ?>
 <?php foreach ($children as $child) : ?>
-<?php $jf_REG['DB']['type'][$child->type->name]::render_item($child, $global); ?>
+<?php $reg->DB->type[$child->type->name]::render_item($child, $global); ?>
 <?php endforeach; ?>
 <?php endif; ?>
           </tbody>

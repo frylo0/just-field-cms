@@ -2,8 +2,8 @@
 
 namespace JustField {
 
-   $jf_REG['DB'] = [];
-   $jf_REG['DB']['type'] = [];
+   $reg->DB = new \stdClass();
+   $reg->DB->type = [];
 
    class DB
    {

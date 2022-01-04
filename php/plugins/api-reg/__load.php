@@ -1,2 +1,2 @@
 <?php
-$jf_REG = [];
+$reg = new stdClass();

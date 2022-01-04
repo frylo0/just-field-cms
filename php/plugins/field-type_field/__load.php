@@ -85,5 +85,5 @@ namespace JustField {
       }
    }
 
-   $jf_REG['DB']['type']['field'] = 'JustField\T_field';
+   $reg->DB->type['field'] = 'JustField\T_field';
 }

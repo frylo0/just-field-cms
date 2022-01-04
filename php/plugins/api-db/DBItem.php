@@ -83,17 +83,17 @@ namespace JustField {
        * @return T_field|T_image|T_object|null Returns type object (behaviour) with already set_id. Returns NULL if no relative behaviour have found.
        */
       private function get_type_behaviour($type_name = null) {
-         global $jf_REG;
+         global $reg;
 
          if ($type_name === null)
             $type_name = $this->type->name;
 
-         if (!array_key_exists($type_name, $jf_REG['DB']['type'])) {
-            echo "<script>console.error(`Error: unable get_value of \"$type_name\" type. This type is not registered correctly. Add it to \$jf_REG['DB']['type']['$type_name'].`);</script>";
+         if (!array_key_exists($type_name, $reg->DB->type)) {
+            echo "<script>console.error(`Error: unable get_value of \"$type_name\" type. This type is not registered correctly. Add it to \$reg->DB->type['$type_name'].`);</script>";
             return null;
          }
             
-         $behaviour = new $jf_REG['DB']['type'][$type_name]($this->orm);
+         $behaviour = new $reg->DB->type[$type_name]($this->orm);
          $behaviour->set_id($this->id);
          return $behaviour;
       }

@@ -203,5 +203,5 @@ namespace JustField {
       }
    }
 
-   $jf_REG['DB']['type']['image'] = 'JustField\T_image';
+   $reg->DB->type['image'] = 'JustField\T_image';
 }

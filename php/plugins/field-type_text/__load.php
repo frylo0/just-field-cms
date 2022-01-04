@@ -163,5 +163,5 @@ namespace JustField {
       <?php }
    }
 
-   $jf_REG['DB']['type']['text'] = 'JustField\T_text';
+   $reg->DB->type['text'] = 'JustField\T_text';
 }

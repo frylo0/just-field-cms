@@ -85,5 +85,5 @@ namespace JustField {
       }
    }
 
-   $jf_REG['DB']['type']['boolean'] = 'JustField\T_boolean';
+   $reg->DB->type['boolean'] = 'JustField\T_boolean';
 }

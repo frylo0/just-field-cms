@@ -169,5 +169,5 @@ namespace JustField {
       }
    }
 
-   $jf_REG['DB']['type']['audio'] = 'JustField\T_audio';
+   $reg->DB->type['audio'] = 'JustField\T_audio';
 }

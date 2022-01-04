@@ -182,5 +182,5 @@ namespace JustField {
       
    }
 
-   $jf_REG['DB']['type']['file'] = 'JustField\T_file';
+   $reg->DB->type['file'] = 'JustField\T_file';
 }
