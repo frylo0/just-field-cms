@@ -7,6 +7,8 @@
    </head>
    
    <body>
+
+      <?php // phpinfo(); ?>
       
       <?php
          if (array_key_exists('to', $_POST)) {
@@ -16,7 +18,8 @@
             $message = $_POST['message'];
             
             $header = "From:{$_POST['from']} \r\n";
-            $header .= "Cc:afgh@somedomain.com \r\n";
+            // $header .= "Cc:email1@gmail.com,email2@gmail.com,email3@gmail.com \r\n"; // another recipients visible
+            // $header .= "Bcc:email1@gmail.com,email2@gmail.com,email3@gmail.com \r\n"; // another recipients hidden
             $header .= "MIME-Version: 1.0\r\n";
             $header .= "Content-type: text/html\r\n";
             
