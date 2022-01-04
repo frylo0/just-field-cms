@@ -17,13 +17,12 @@ mixin aside()
             +box('div', 'none').aside__logged-as
                span Logged as 
                strong.tdu <?= $user_info['account_login'] ?>
-            +aside__item('Dashboard', './../dashboard', (pageName == 'main'))
-            +aside__item('Fields', './../field', (pageName == 'field'))
-            +aside__item('Field types', './../field-type', (pageName == 'field-type'))
-            +aside__item('Accounts', './../account', (pageName == 'account'))
-            +aside__item('Backup / Migrate', './../backup', (pageName == 'backup'))
-            +aside__item('Store', './../store', (pageName == 'store'))
-            +aside__item('Plugins', './../plugins', (pageName == 'plugins'))
+            :php
+               $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+               $actual_link = trim($actual_link, "\t\n\r\0\x0B/");
+            <?php foreach($reg->interface_plugin->aside->menu_items as $item) : ?>
+               +aside__item()
+            <?php endforeach; ?>
          .col
             +aside__item('Exit', './../scripts?script=exit')
       .aside__resizer.abs.h100

@@ -67,21 +67,17 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
             </svg><strong class="plo75">Just Field CMS</strong>
           </div>
           <div class="box p1 box_mode_none aside__logged-as"><span>Logged as </span><strong class="tdu"><?= $user_info['account_login'] ?></strong>
-          </div>
-          <a class="box p1 box_mode_light cud block_disabled aside__item w100 db tdn" href="./../dashboard">Dashboard
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../field">Fields
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../field-type">Field types
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../account">Accounts
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../backup">Backup / Migrate
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../store">Store
-          </a>
-          <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../plugins">Plugins
-          </a>
+          </div><?php
+$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$actual_link = trim($actual_link, "\t\n\r\0\x0B/");?><?php foreach($reg->interface_plugin->aside->menu_items as $item) : ?><?php
+$is_current = false;
+$item_abs_link = JustField\InterfacePlugin\Aside::rel2abs($item->link, $actual_link);
+
+if ($item_abs_link == $actual_link)
+   $is_current = true;
+?>
+          <a class="box p1 box_mode_ <?= ($is_current ? 'cud box_disabled box_mode_light' : 'box_mode_dark') ?> aside__item w100 db tdn" href="<?= $item->link ?>"><?= $item->title ?>
+          </a><?php endforeach; ?>
         </div>
         <div class="col">
           <a class="box p1 box_mode_dark aside__item w100 db tdn" href="./../scripts?script=exit">Exit

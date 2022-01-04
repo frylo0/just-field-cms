@@ -1,3 +1,21 @@
-mixin aside__item(name, href, current=false)
-   +box('a', (current ? 'light' : 'dark'))(href=href, class=( current ? 'cud block_disabled' : '' )).aside__item&attributes(attributes).w100.db.tdn
-      = name
+mixin aside__item(title, link, current=false)
+
+   if !title || !link
+
+      :php
+         $is_current = false;
+         $item_abs_link = JustField\InterfacePlugin\Aside::rel2abs($item->link, $actual_link);
+         
+         if ($item_abs_link == $actual_link)
+            $is_current = true;
+
+      - let tmp =  '<?= $item->link ?>'
+      - let tmp1 = "<?= ($is_current ? 'cud box_disabled box_mode_light' : 'box_mode_dark') ?>"
+      - let tmp2 = '<?= $item->title ?>'
+      +box('a', '')(href!=tmp, class!=tmp1).aside__item&attributes(attributes).w100.db.tdn
+         | !{tmp2}
+   
+   else
+      +box('a', (current ? 'light' : 'dark'))(href=link, class=( current ? 'cud block_disabled' : '' )).aside__item&attributes(attributes).w100.db.tdn
+         = title
+      
