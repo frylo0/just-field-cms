@@ -17,13 +17,21 @@ if (!isset($_SESSION['id'])) {
    exit("<meta http-equiv='refresh' content='0; url=./../login'>");
    die;
 }?><?php
-$user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0];?><!DOCTYPE html>
+$user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0];?><?php
+$title = '';
+$plugin_name = '';
+
+if (array_key_exists('p', $_GET)) {
+   $plugin_name = $_GET['p'];
+   $title = $reg->interface->plugin_page->get_title($plugin_name);
+}
+?><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Backup / Migrate | Just Field</title>
+    <title><?= $title ?> | Just Field</title>
     <link rel="apple-touch-icon" sizes="57x57" href="./../apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="./../apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="./../apple-icon-72x72.png">
@@ -41,7 +49,7 @@ $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="./../ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-  <link href="../backup/backup.bundle.css" rel="stylesheet"></head>
+  <link href="../plugin-page/plugin-page.bundle.css" rel="stylesheet"></head>
   <body class="row"><?php
 $aside_width = 400;
 if (array_key_exists('-jf_aside-width', $_COOKIE)) {
@@ -87,6 +95,8 @@ if ($is_url_match)
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main></main>
-  <script src="../backup/backup.bundle.js"></script></body>
+    <main class="rel" style="<?= "width: $anti_aside_width;" ?>"><?php
+$reg->interface->plugin_page->render($plugin_name);?>
+    </main>
+  <script src="../plugin-page/plugin-page.bundle.js"></script></body>
 </html>

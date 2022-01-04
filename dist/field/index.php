@@ -83,11 +83,11 @@ $anti_aside_width = "calc(100% - {$aside_width}px)";?>
           <div class="box p1 box_mode_none aside__logged-as"><span>Logged as </span><strong class="tdu"><?= $user_info['account_login'] ?></strong>
           </div><?php
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$actual_link = trim($actual_link, "\t\n\r\0\x0B/");?><?php foreach($reg->interface_plugin->aside->menu_items as $item) : ?><?php
+$actual_link = trim($actual_link, "\t\n\r\0\x0B/");?><?php foreach($reg->interface->aside->menu_items as $item) : ?><?php
 $is_current = false;
-$item_abs_link = JustField\InterfacePlugin\Aside::rel2abs($item->link, $actual_link);
+$is_url_match = JustField\InterfacePlugin\Aside::is_url_match($item->link, $actual_link);
 
-if ($item_abs_link == $actual_link)
+if ($is_url_match)
    $is_current = true;
 ?>
           <a class="box p1 box_mode_ <?= ($is_current ? 'cud box_disabled box_mode_light' : 'box_mode_dark') ?> aside__item w100 db tdn" href="<?= $item->link ?>"><?= $item->title ?>

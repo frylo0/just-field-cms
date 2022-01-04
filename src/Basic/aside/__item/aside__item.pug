@@ -4,9 +4,9 @@ mixin aside__item(title, link, current=false)
 
       :php
          $is_current = false;
-         $item_abs_link = JustField\InterfacePlugin\Aside::rel2abs($item->link, $actual_link);
+         $is_url_match = JustField\InterfacePlugin\Aside::is_url_match($item->link, $actual_link);
          
-         if ($item_abs_link == $actual_link)
+         if ($is_url_match)
             $is_current = true;
 
       - let tmp =  '<?= $item->link ?>'
