@@ -100,7 +100,7 @@ if ($is_url_match)
           <tbody><?php $accounts = $orm->from('account')->select('*')(); ?>
 <?php foreach ($accounts as $curr_account) : ?>
             <tr>
-              <td class="page_table-order row jcc aic cup"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="table__order row jcc aic cup"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td><?= $curr_account['account_login'] ?></td>
               <td><a class="link" href="mailto:<?= $curr_account['account_email'] ?>"><?= $curr_account['account_email'] ?></a>
               </td>

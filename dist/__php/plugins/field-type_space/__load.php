@@ -47,7 +47,7 @@ namespace JustField {
 
       static function render_item(DBItem $child) { ?>
          <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="4">
                <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
             </td>
@@ -58,7 +58,7 @@ namespace JustField {
 
       static function render_template() { ?>
          <tr class="item_T_space" data-item-id="{id}" data-item-type="{type}">
-            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="4">
                <input class="w100" placeholder="La Commento..." value="{value}"><span class="abs dn">// la commento</span>
             </td>

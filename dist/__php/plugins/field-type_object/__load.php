@@ -21,7 +21,7 @@ namespace JustField {
       }
 
       function update(DBItem $item, $value) {
-         $this->orm->update(['`db-item_value`' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
+         $this->orm->update(['db-item_value' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
       }
 
       function get_value() {
@@ -87,7 +87,7 @@ namespace JustField {
          // then iterating each children and making duplicates from old item to new one
          foreach ($children as $child) {
             // receiving duplicate ID to variable
-            $new_child_id = DBItem::duplicate_field_to($child, $new_item); // duplicate child 
+            $new_child_id = DBItem::duplicate_field_to($child, $new_item)->new_field_id; // duplicate child 
             array_push($new_children_id, $new_child_id); // adding duplicate ID to storage
          }
          // if we are here, then $new_children_id is full, and has at list one duplicate ID
@@ -102,7 +102,7 @@ namespace JustField {
          $path = $global['path'];
          ?>
          <tr class="item_T_object" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
                <input placeholder="Input key..." value="<?= $child->key ?>">
@@ -133,7 +133,7 @@ namespace JustField {
          $path = $global['path'];
          ?>
          <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
-            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
                <input placeholder="Input key..." value="{key}">

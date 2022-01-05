@@ -96,7 +96,7 @@ namespace JustField {
 
       static function render_item(DBItem $child) { ?>
          <tr class="item_T_video" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="page_table-order row jcc aic cup" colname="order">
+            <td class="table__order row jcc aic cup" colname="order">
                <img src="../__attach/Images/up-down.svg" draggable="false">
             </td>
             <td class="tac" colname="id"><?= $child->id ?></td>
@@ -139,7 +139,7 @@ namespace JustField {
 
       static function render_template() { ?>
          <tr class="item_T_video" data-item-id="{id}" data-item-type="{type}">
-            <td class="page_table-order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="tac" colname="id">{id}</td>
             <td class="p0" colname="key">
                <input placeholder="Input key..." value="{key}">

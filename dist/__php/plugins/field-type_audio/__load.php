@@ -97,7 +97,7 @@ namespace JustField {
       static function render_item(DBItem $child) { ?>
 
          <tr class="item_T_audio" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td colname='order' class="page_table-order row jcc aic cup">
+            <td colname='order' class="table__order row jcc aic cup">
                <img src="../__attach/Images/up-down.svg" draggable="false" />
             </td>
             <td colname='id' class="tac"><?= $child->id ?></td>
@@ -136,7 +136,7 @@ namespace JustField {
       static function render_template() { ?>
 
          <tr class="item_T_audio" data-item-id="{id}" data-item-type="{type}">
-            <td colname='order' class="page_table-order row jcc aic cup">
+            <td colname='order' class="table__order row jcc aic cup">
                <img src="../__attach/Images/up-down.svg" draggable="false" />
             </td>
             <td colname='id' class="tac">{id}</td>

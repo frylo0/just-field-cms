@@ -100,7 +100,7 @@ if ($is_url_match)
           <tbody><?php $types = $orm->from('type')->select('*')(); ?>
 <?php foreach($types as $curr_type) : ?>
             <tr>
-              <td class="page_table-order row jcc aic cup"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
+              <td class="table__order row jcc aic cup"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
               <td class="w100"><?php if ($curr_type['type_is-basic']) : ?><em><?= $curr_type['type_name'] ?></em><?php else : ?>
 <?= $curr_type['type_name'] ?>
 <?php endif; ?>

@@ -4,7 +4,7 @@ mixin item_T_text()
    
       - let tmp = "<?= $child->id ?>", tmp1 = "<?= $child->type->name ?>"
       tr(data-item-id!=tmp, data-item-type!=tmp1).item_T_text&attributes(attributes)
-         td(colname='order').page_table-order.row.jcc.aic.cup
+         td(colname='order').table__order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
          td(colname='id').tac!= tmp
          td(colname='key').p0
@@ -27,7 +27,7 @@ mixin item_T_text()
    <?php else : ?>
 
       tr(data-item-id='{id}', data-item-type='{type}').item_T_text&attributes(attributes)
-         td(colname='order').page_table-order.row.jcc.aic.cup
+         td(colname='order').table__order.row.jcc.aic.cup
             img(src=`../__attach/Images/up-down.svg` draggable="false")
          td(colname='id').tac {id}
          td(colname='key').p0

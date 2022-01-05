@@ -11,8 +11,6 @@ include ../../Blocks/item_T_list/item_T_list.pug
 +get-user-info()
 
 :php
-   $db = new JustField\DB($orm);
-
    if (!isset($_GET['view']))
       header('Location: ./../field?view=tree');
 
@@ -112,7 +110,10 @@ html(lang="en")
                <?php endforeach; ?>
 
                <?php $is_data = true; ?>
-               table(data-update-link='./../scripts/?script=field-update')
+               <?php $parent = $db->at_path($path); ?>
+               
+               - tmp = '<?= $parent->id ?>'
+               table.table(data-update-link='./../scripts/?script=field-update' data-parent-id!=tmp)
                   thead
                      tr
                         td Order
@@ -123,8 +124,7 @@ html(lang="en")
                         td(colspan="2") Type
                         td Permission
                   tbody
-                     <?php $children = $db->at_path($path); ?>
-                     <?php $children = $children->get_children(); ?>
+                     <?php $children = $parent->get_children(); ?>
 
                      <?php if ($children == null) : ?>
                         <?php $is_data = false; ?>

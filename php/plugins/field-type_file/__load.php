@@ -101,7 +101,7 @@ namespace JustField {
             data-item-id="<?=$child->id?>"
             data-item-type="<?= $child->type->name ?>"
          >
-            <td colname='order' class="page_table-order row jcc aic cup" >
+            <td colname='order' class="table__order row jcc aic cup" >
                <img src="../__attach/Images/up-down.svg" draggable="false" />
             </td>
             <td colname='id' class="tac"><?= $child->id ?></td>
@@ -146,7 +146,7 @@ namespace JustField {
             data-item-id="{id}"
             data-item-type="{type}"
          >
-            <td colname='order' class="page_table-order row jcc aic cup" >
+            <td colname='order' class="table__order row jcc aic cup" >
                <img src="../__attach/Images/up-down.svg" draggable="false" />
             </td>
             <td colname='id' class="tac">{id}</td>

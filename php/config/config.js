@@ -1,0 +1,1 @@
+../plugins/plugin-config/__load.js

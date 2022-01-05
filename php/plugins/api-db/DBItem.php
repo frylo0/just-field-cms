@@ -222,7 +222,7 @@ namespace JustField {
        * Duplicate $field to $target_parent, to the end of children. Also duplicate data in T_table using behaviour->duplicate_value_to method.
        * @param DBItem $field Field to be copied with value in T_table.
        * @param DBItem $target_parent Target parent field (object and so on). This object will consist $target at the end of $children after duplicate.
-       * @return string $new_field_id, or ID of duplicate in db-item table. */
+       * @return stdClass<new_field_id,duplicate_res> Return->new_field_id, or ID of duplicate in db-item table. Return->duplicate_res, ot return from T_->duplicate function. */
       static function duplicate_field_to(DBItem $field, DBItem $target_parent)
       {
          $orm = $field->orm;

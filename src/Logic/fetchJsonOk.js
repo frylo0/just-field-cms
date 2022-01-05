@@ -16,6 +16,15 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
       try {
          //window.open(fetchUrl, '_blank');
          //return;
+
+         // if body is not form data but object literal
+         if (!(fetchOptions.body instanceof FormData) && (Object.prototype.toString.call(fetchOptions.body) === '[object Object]')) {
+            const formData = new FormData();
+            for (let prop in fetchOptions.body) {
+               formData.append(prop, fetchOptions.body[prop]);
+            }
+            fetchOptions.body = formData;
+         }
          resFetch = await fetch(fetchUrl, fetchOptions);
          res = await resFetch.clone().json();
       } catch (err) {

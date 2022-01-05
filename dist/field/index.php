@@ -18,8 +18,6 @@ if (!isset($_SESSION['id'])) {
    die;
 }?><?php
 $user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0];?><?php
-$db = new JustField\DB($orm);
-
 if (!isset($_GET['view']))
    header('Location: ./../field?view=tree');
 
@@ -156,7 +154,8 @@ $i = 0;
 <?php endif; ?>
 <?php endforeach; ?>
 <?php $is_data = true; ?>
-        <table data-update-link="./../scripts/?script=field-update">
+<?php $parent = $db->at_path($path); ?>
+        <table class="table" data-update-link="./../scripts/?script=field-update" data-parent-id="<?= $parent->id ?>">
           <thead>
             <tr>
               <td>Order</td>
@@ -168,8 +167,7 @@ $i = 0;
               <td>Permission</td>
             </tr>
           </thead>
-          <tbody><?php $children = $db->at_path($path); ?>
-<?php $children = $children->get_children(); ?>
+          <tbody><?php $children = $parent->get_children(); ?>
 <?php if ($children == null) : ?>
 <?php $is_data = false; ?>
 <?php else : ?>

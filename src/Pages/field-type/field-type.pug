@@ -29,7 +29,7 @@ html(lang="en")
                   <?php $types = $orm->from('type')->select('*')(); ?>
                   <?php foreach($types as $curr_type) : ?>
                      tr
-                        td.page_table-order.row.jcc.aic.cup
+                        td.table__order.row.jcc.aic.cup
                            img(src=`../__attach/Images/up-down.svg` draggable="false")
                         td.w100
                            <?php if ($curr_type['type_is-basic']) : ?>

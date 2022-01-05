@@ -8,7 +8,8 @@ table
       font: inherit
       color: inherit
       outline: none
-      width: fit-content
+      min-width: 10em
+      width: 100%
 thead 
    td
       background-color: $-c4
@@ -38,3 +39,13 @@ td
       width: 10%
    &[colname="name"]
       width: 20%
+      
+.table
+   &__order
+      cursor: row-resize
+   &__tr_ordering
+      opacity: 0.5
+   &__tr_possible-place-before
+      border-top: 1px solid $-c5
+   &__tr_possible-place-after
+      border-bottom: 1px solid $-c5

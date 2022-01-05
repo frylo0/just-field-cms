@@ -69,7 +69,21 @@ namespace JustField {
       }
    }
 
-   require_once __DIR__ . '/page.php';
+   class MailingConfig {
+      private $_selectors_to_emails = [];
+
+      function set_selectors_to_emails($func) {
+         $this->_selectors_to_emails[0] = $func;
+      }
+
+      function selectors_to_emails(DBItem $selectors) {
+         return $this->_selectors_to_emails[0]($selectors);
+      }
+   }
+   $reg->mailing = new MailingConfig();
+
+
+   require_once __DIR__ . '/page.php';   
 
    $reg->interface->aside->add_menu_item('Mailing', '../plugin-page/?p=mailing');
    $reg->interface->plugin_page->add_renderer('mailing', 'Mailing', 'mailing_page');
