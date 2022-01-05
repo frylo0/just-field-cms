@@ -45,6 +45,10 @@ namespace JustField {
          $new_field->update('value', $field->value);
       }
 
+      function to_string($item_value) {
+         return $item_value;
+      }
+
       static function render_item(DBItem $child) { ?>
          <tr class="item_T_field" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>

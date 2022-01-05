@@ -253,5 +253,9 @@ namespace JustField {
 
          return $ret;
       }
+      
+      function __toString() {
+         return $this->get_type_behaviour()->to_string($this->value);
+      }
    };
 }

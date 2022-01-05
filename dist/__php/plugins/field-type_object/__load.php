@@ -96,6 +96,10 @@ namespace JustField {
          $new_item->update('value', implode(',', $new_children_id)); // insert new children ids as value of new object
       }
 
+      function to_string($item_value) {
+         return $item_value;
+      }
+
       static function render_item(DBItem $child, array $global) { ?>
          <?php
          $path_parts = $global['path_parts'];

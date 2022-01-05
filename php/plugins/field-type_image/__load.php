@@ -120,13 +120,13 @@ namespace JustField {
       }
 
       function get_value() {
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          $src = $this->type_table_orm->select('`image_src`')->where("`id_image` = '{$this->id}'")()[0]['image_src'];
 
          $ret = new \stdClass();
          $ret->name = $src;
-         $ret->src = $src ? $assets_folder . $src : '';
+         $ret->src = $src ? $reg->path_to_jf_php_folder . $assets_folder . $src : '';
 
          return $ret;
       }
@@ -136,6 +136,10 @@ namespace JustField {
          if (file_exists($old_file)) unlink($old_file);
 
          $this->type_table_orm->delete()->where_id($this->id)();
+      }
+
+      function to_string($item_value) {
+         return $item_value->src;
       }
 
       static function render_item(DBItem $child) { ?>

@@ -94,6 +94,10 @@ namespace JustField {
          $this->type_table_orm->delete()->where_id($this->id)();
       }
 
+      function to_string($item_value) {
+         return $item_value->src;
+      }
+
       static function render_item(DBItem $child) { ?>
 
          <tr class="item_T_audio" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
