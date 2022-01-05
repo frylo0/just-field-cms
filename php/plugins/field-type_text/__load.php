@@ -51,7 +51,11 @@ namespace JustField {
             'text_html' => $html,
          ])->where("`id_text` = '{$this->id}'")();
 
-         return str_replace('"', '\"', $value_raw);
+         $res = $value_raw;
+         $res = str_replace('\"', '&jfescapedquote;', $res);
+         $res = str_replace('"', '\"', $res);
+         $res = str_replace('&jfescapedquote;', '\"', $res);
+         return $res;
       }
 
       function get_value() {
