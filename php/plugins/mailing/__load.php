@@ -82,9 +82,15 @@ namespace JustField {
    }
    $reg->mailing = new MailingConfig();
 
-
-   require_once __DIR__ . '/page.php';   
+   require_once __DIR__ . '/page.php';
 
    $reg->interface->aside->add_menu_item('Mailing', '../plugin-page/?p=mailing');
-   $reg->interface->plugin_page->add_renderer('mailing', 'Mailing', 'mailing_page');
+   $reg->interface->plugin_page->add_renderer(
+      'mailing', 
+      'Mailing', 
+      'mailing_page', // rendering function
+      null, // foot panel
+      '<style>' . file_get_contents(__DIR__ . '/page.css') . '</style>', 
+      '<script>' . file_get_contents(__DIR__ . '/page.js') . '</script>'
+   );
 }

@@ -4,6 +4,7 @@ $(document).ready(() => {
    
    function item_T_boolean_handle(context, usePrefix = false) {
       $(`${usePrefix ? pref : ''} [colname="value"] > input`, context).on('change', action(`change: ${pref} checkbox`));
+      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
    }
 
    when(`change: ${pref} checkbox`, async e => {

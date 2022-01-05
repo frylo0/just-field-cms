@@ -5,6 +5,7 @@ $(document).ready(() => {
 
    function item_T_object_handle(context, usePrefix = false) {
       $(`${usePrefix ? pref : ''} [colname="key"] > input`, context).on('keyup', action(`keyup: ${pref} key input`));
+      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
    }
 
    when(`keyup: ${pref} key input`, e => {

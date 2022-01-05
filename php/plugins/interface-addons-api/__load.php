@@ -98,30 +98,61 @@ namespace JustField\InterfacePlugin {
       }
    }
 
+
+   class PluginPageRendererInfo {
+      var $page_title;
+      private $_renderer = [];
+      private $_footpanel_renderer = [];
+      var string $styles = '';
+      var string $scripts = '';      
+
+      function set_renderer($renderer) {
+         $this->_renderer[0] = $renderer;
+      }
+      function render() {
+         $this->_renderer[0]();
+      }
+
+      function set_footpanel_renderer($renderer) {
+         if ($renderer)
+            $this->_footpanel_renderer[0] = $renderer;
+      }
+      function footpanel_render() {
+         if (array_key_exists(0, $this->_footpanel_renderer) && $this->_footpanel_renderer)
+            $this->_footpanel_renderer[0]();
+      }
+   }
    class PluginPage {
       var array $renderers = [];
 
-      function add_renderer($plugin_name, $page_title, $renderer) {
-         $this->renderers[$plugin_name] = [$page_title, $renderer];
+      function add_renderer($plugin_name, $page_title, $renderer, $footpanel_renderer = null, $custom_styles = '', $custom_scripts = '') {
+         $rend = new PluginPageRendererInfo();
+
+         $rend->page_title = $page_title;
+         $rend->set_renderer($renderer);
+         $rend->set_footpanel_renderer($footpanel_renderer);
+         $rend->styles = $custom_styles;
+         $rend->scripts = $custom_scripts;
+
+         $this->renderers[$plugin_name] = $rend;
       }
 
-      function get_title($plugin_name) {
+      function get_renderer($plugin_name) {
          if (array_key_exists($plugin_name, $this->renderers))
-            return $this->renderers[$plugin_name][0];
-         else
-            return "Error: \"$plugin_name\" has no renderer";
-      }
-
-      function render($plugin_name) {
-         if (array_key_exists($plugin_name, $this->renderers))
-            $this->renderers[$plugin_name][1]();
+            return $this->renderers[$plugin_name];
          else {
-            echo <<<HTML
-               <div class="box p1">
-                  <h1>No plugin page defined for plugin "$plugin_name"</h1>
-                  <p>To add plugin page renderer, please use this code in your plugin:<br><code><strong style="font-face: monospace;">\$reg->interface->plugin_page->add_renderer('$plugin_name', function () { /* page code here */ } );</strong></code></p>
-               </div>
+            $ret = new PluginPageRendererInfo();
+            $ret->title = "Error: \"$plugin_name\" has no renderer";
+            $ret->set_renderer(function () {
+               global $plugin_name;
+               echo <<<HTML
+                  <div class="box p1">
+                     <h1>No plugin page defined for plugin "$plugin_name"</h1>
+                     <p>To add plugin page renderer, please use this code in your plugin:<br><code><strong style="font-face: monospace;">\$reg->interface->plugin_page->add_renderer('$plugin_name', function () { /* page code here */ } );</strong></code></p>
+                  </div>
 HTML;
+            });
+            return $ret;
          }
       }
    }
@@ -143,8 +174,6 @@ HTML;
 
          $this->plugin_page = new PluginPage();
       }
-
-      
    }
 
    $reg->interface = new InterfacePlugin();

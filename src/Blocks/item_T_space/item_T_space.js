@@ -9,6 +9,7 @@ $(document).ready(() => {
     */
    function item_T_space_handle(context, usePrefix = false) {
       $(`${usePrefix ? pref : ''} input`, context).keyup(action(`keyup: ${pref} input`));
+      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
    }
 
    when(`keyup: ${pref} input`, e => {

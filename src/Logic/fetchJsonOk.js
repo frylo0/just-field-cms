@@ -81,9 +81,9 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
          resolve(res);
       }
       else {
-         let message = `When ${startMessage} item at URL: ${fetchUrl}`;
-         console.error(message);
-         reject(new Error(message));
+         let message = `When ${startMessage} item at URL, res.status was not "OK": ${fetchUrl}`;
+         console.error(message, res);
+         reject({message, res});
       }
    });
 }

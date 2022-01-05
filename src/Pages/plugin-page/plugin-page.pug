@@ -12,7 +12,7 @@ include ../../bundle.pug
 
    if (array_key_exists('p', $_GET)) {
       $plugin_name = $_GET['p'];
-      $title = $reg->interface->plugin_page->get_title($plugin_name);
+      $rend = $reg->interface->plugin_page->get_renderer($plugin_name);
    }
 
 <!DOCTYPE html>
@@ -21,10 +21,21 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
-      title <?= $title ?> | Just Field
+      title <?= $rend->page_title ?> | Just Field
+      - let tmp = '<?= $rend->styles ?>'
+      | !{tmp}
       +favicon()
    body.row
       +aside()
       main(style!=`<?= "width: $anti_aside_width;" ?>`).rel
-         :php
-            $reg->interface->plugin_page->render($plugin_name);
+         .page_content
+            :php
+               $rend->render();
+         .page_foot-panel.w100.row.jcsb
+            div
+               :php
+                  $rend->footpanel_render();
+            .row
+               #statusbar.p1 Ready
+   :php
+      echo $rend->scripts;

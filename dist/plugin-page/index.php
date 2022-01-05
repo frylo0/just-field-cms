@@ -23,7 +23,7 @@ $plugin_name = '';
 
 if (array_key_exists('p', $_GET)) {
    $plugin_name = $_GET['p'];
-   $title = $reg->interface->plugin_page->get_title($plugin_name);
+   $rend = $reg->interface->plugin_page->get_renderer($plugin_name);
 }
 ?><!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@ if (array_key_exists('p', $_GET)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $title ?> | Just Field</title>
+    <title><?= $rend->page_title ?> | Just Field</title><?= $rend->styles ?>
     <link rel="apple-touch-icon" sizes="57x57" href="./../apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="./../apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="./../apple-icon-72x72.png">
@@ -95,8 +95,19 @@ if ($is_url_match)
       </div>
       <div class="aside__resizer abs h100"></div>
     </aside>
-    <main class="rel" style="<?= "width: $anti_aside_width;" ?>"><?php
-$reg->interface->plugin_page->render($plugin_name);?>
+    <main class="rel" style="<?= "width: $anti_aside_width;" ?>">
+      <div class="page_content"><?php
+$rend->render();?>
+      </div>
+      <div class="page_foot-panel w100 row jcsb">
+        <div><?php
+$rend->footpanel_render();?>
+        </div>
+        <div class="row">
+          <div class="p1" id="statusbar">Ready</div>
+        </div>
+      </div>
     </main>
-  <script src="../plugin-page/plugin-page.bundle.js"></script></body>
+  <script src="../plugin-page/plugin-page.bundle.js"></script></body><?php
+echo $rend->scripts;?>
 </html>

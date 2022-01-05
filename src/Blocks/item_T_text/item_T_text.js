@@ -477,6 +477,7 @@ $(document).ready(() => {
     */
    function item_T_text_handle(context, usePrefix = false) {
       $(`${usePrefix ? pref : ''} [colname="value"] button`, context).click(action(`click: ${pref} text editor button`));
+      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
    }
    
    when(`click: ${pref} text editor button`, e => {

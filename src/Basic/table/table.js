@@ -3,8 +3,6 @@ $(document).ready(() => {
    const updateLink = document.querySelector('table').dataset.updateLink;
    const parentId = document.querySelector('table').dataset.parentId;
    
-   $(`${pref}__order`).on('pointerdown', action(`pointerdown: ${pref} order`));
-
    window.isTableOrdering = false;
    window.tableTrsRect = [];
    when(`pointerdown: ${pref} order`, e => {
@@ -82,4 +80,6 @@ $(document).ready(() => {
          }
       }
    })
+   
+   when('rowHandle: ')
 });

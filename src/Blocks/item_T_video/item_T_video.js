@@ -12,6 +12,7 @@ $(document).ready(() => {
       $buttonShow.on('click', action(`click: ${pref} button show`));
       $buttonUpload.on('click', () => action(`click: ${pref} button upload`)($file));
       $file.on('change', () => action(`change: ${pref} file`)($buttonShow, $file, item, $thumbnail));
+      $('.table__order', row).on('pointerdown', action('pointerdown: .table order'));
    });
    $(`${pref}`).each(action(`${pref} init`));
 

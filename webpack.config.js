@@ -159,9 +159,9 @@ else { // production
     loader: 'babel-loader',
   });
   config.module.rules.find(r => (r.test + '') == (/\.pug$/ + '')).use.options.pretty = false;
-  config.plugins.push(new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: ['./**/*'], //dist folder clean up
-  }));
+  //config.plugins.push(new CleanWebpackPlugin({
+  //  cleanOnceBeforeBuildPatterns: ['./**/*'], //dist folder clean up
+  //}));
 }
 
 factory.exclude(config, ['node_modules', 'dist']);

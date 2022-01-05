@@ -10,6 +10,7 @@ $(document).ready(() => {
 
       $buttonUpload.on('click', () => action(`click: ${pref} button upload`)($file));
       $file.on('change', () => action(`change: ${pref} file`)($player, $file, item));
+      $(`${pref} .table__order`, row).on('pointerdown', action(`pointerdown: .table order`));
    });
    $(`${pref}`).each(action(`${pref} init`));
 

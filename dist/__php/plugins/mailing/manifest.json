@@ -8,7 +8,7 @@
    "tags": [
       "built-in"
    ],
-   "depends_on": [ "api-db" ],
+   "depends_on": [ "api-db", "interface-addons-api" ],
    "php": {
       "url_match": []
    },
