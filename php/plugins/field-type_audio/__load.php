@@ -102,10 +102,10 @@ namespace JustField {
             </td>
             <td colname='id' class="tac"><?= $child->id ?></td>
             <td colname='key' class="p0">
-               <input placeholder='Input key...' value="<?= $child->key ?>" />
+               <input placeholder='Input key...' value="<?= htmlspecialChars($child->key) ?>" />
             </td>
             <td colname='name' class="p0">
-               <input placeholder='Input name...' value="<?= $child->name ?>" />
+               <input placeholder='Input name...' value="<?= htmlspecialChars($child->name) ?>" />
             </td>
             <td colname="value" class="w100 p0">
                <div class="row">

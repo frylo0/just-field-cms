@@ -49,7 +49,7 @@ namespace JustField {
          <tr class="item_T_space" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
             <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="w100 p0 rel" colname="value" colspan="4">
-               <input class="w100" placeholder="La Commento..." value="<?= $child->value ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
+               <input class="w100" placeholder="La Commento..." value="<?= htmlspecialChars($child->value) ?>"><span class="abs <?= ($child->value == '') ? 'dn' : '' ?>">// la commento</span>
             </td>
             <td colname="type" colspan="2"><?= $child->type->name ?></td>
             <td class="tac" colname="permission">edit</td>

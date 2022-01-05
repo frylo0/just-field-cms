@@ -143,10 +143,10 @@ namespace JustField {
             <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
             <td class="tac" colname="id"><?= $child->id ?></td>
             <td class="p0" colname="key">
-               <input placeholder="Input key..." value="<?= $child->key ?>">
+               <input placeholder="Input key..." value="<?= htmlspecialChars($child->key) ?>">
             </td>
             <td class="p0" colname="name">
-               <input placeholder="Input name..." value="<?= $child->name ?>">
+               <input placeholder="Input name..." value="<?= htmlspecialChars($child->name) ?>">
             </td>
             <td class="w100 p0" colname="value">
                <div class="row">
