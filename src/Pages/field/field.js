@@ -10,6 +10,7 @@ import './../../Blocks/item_T_boolean/item_T_boolean';
 import './../../Blocks/item_T_file/item_T_file';
 import './../../Blocks/item_T_audio/item_T_audio';
 import './../../Blocks/item_T_video/item_T_video';
+import './../../Blocks/item_T_mirror/item_T_mirror';
 
 
 // Code libs and plugins
@@ -23,6 +24,9 @@ import 'tippy.js/dist/backdrop.css';
 import 'tippy.js/dist/border.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/shift-away-subtle.css';
+
+// Cookies
+import { setCookie, getCookie } from '../../Plugins/cookie';
 
 globalEventone(); 
 
@@ -40,11 +44,11 @@ $(document).ready(() => {
 
    // STOP: ADD BUTTONS
    const $buttonAdd = $(pref);
-   const $buttonAddContent = $(`${pref}__content`);
+   const $buttonAddContent = $(`${pref} .page_button__content`);
    const $buttonAddType = $(`${pref}__type`);
    const fieldAddLink = $buttonAdd.attr('data-add-link');
    
-   function createRow(id, typeName, replacements = {}) {
+   function createRow(id, typeName, replacements = {}, isHandle = true) {
       let template = templates[typeName];
       let tr = template.content.cloneNode(true).firstElementChild;
 
@@ -59,6 +63,8 @@ $(document).ready(() => {
          subtype: '',
          value: '',
          permission: 'edit',
+         path: path,
+         path_i: path.split('/').length + 1,
       };
       for (let prop in replacements) {
          let val = replacements[prop];
@@ -66,16 +72,23 @@ $(document).ready(() => {
       }
       innerHTMLreplace(tr, repl);
 
-      rowHandle(tr, typeName);
-      document.querySelector('table > tbody').append(tr);
-      titleNoData.classList.add('dn');
+      if (isHandle)
+         rowHandle(tr, typeName);
+      appendRow(tr);
       
       return tr;
    }
+   window.createRow = createRow;
+   
+   function appendRow(tr) {
+      document.querySelector('table > tbody').append(tr);
+      titleNoData.classList.add('dn');
+   }
+   
+   $('.page_button_with-content').on('click', e => {
+      $(e.currentTarget).find('.page_button__content').toggleClass('dn');
+   })
 
-   $buttonAdd.on('click', e => {
-      $buttonAddContent.toggleClass('dn');
-   });
    $buttonAddType.on('click', async e => {
       const fetchUrl = fieldAddLink + `&type-id=${e.target.dataset.id}&path=${window.state.path}`;
       const res = await fetchJsonOk('Adding', fetchUrl);
@@ -90,15 +103,21 @@ $(document).ready(() => {
 
       $(tr).on('pointerdown', action('pointerdown: tr'));
       $('td > input', tr).on('keyup', action('keyup: td input'));
+      $('.table__order', tr).on('pointerdown', action(`pointerdown: .table order`));
+
+      action('rowHandle defaults')(tr);
       
       // factory for rowHandle: each field define own function on action with target type name
       action(`rowHandle: ${typeName}`)(tr);
    }
+   window.rowHandle = rowHandle;
+   $('.table tbody tr').each((i, row) => rowHandle(row, row.dataset.itemType));
 
    // STOP: INPUT UPDATE
    const updateLink = document.querySelector('table').dataset.updateLink;
+   const renderLink = document.querySelector('table').dataset.renderLink;
 
-   $('td > input').on('keyup', action('keyup: td input', e => {
+   $('td:not([colname="value"]) > input').on('keyup', action('keyup: td input', e => {
       if ('keyUpTimeout' in e.target) { // is timeout
          clearTimeout(e.target.keyUpTimeout);
       }
@@ -140,12 +159,20 @@ $(document).ready(() => {
    const $buttonDuplicateCount = $('#button-duplicate-count');
    const $buttonDuplicate = $('.page_button-duplicate');
 
-   const tip = new tippy([$buttonDelete[0], $buttonDuplicate[0]], {
+   const $buttonMoveCount = $('#button-move-count');
+   const $buttonMove = $('.page_button-move');
+   const $buttonMoveControlsCount = $('#button-move-controls-count');
+   const $buttonMoveControls = $('.page_button-move-controls');
+   const $buttonMoveHere = $('.page_button-move-here');
+   const $buttonMoveCancel = $('.page_button-move-cancel');
+
+   const tip = new tippy([$buttonDelete[0], $buttonDuplicate[0], $buttonMove[0]], {
       content: 'No items selected. Use Ctrl+Click to select row',
    });
    const tips = {
       delete: tip[0],
       duplicate: tip[1],
+      move: tip[2],
    };
 
    let tipDelConfirm_visible = false;
@@ -166,9 +193,9 @@ $(document).ready(() => {
       }
    });
 
-   $trs.on('pointerdown', action('pointerdown: tr', e => {
+   when('pointerdown: tr', e => {
       if (!(/*keyboarder.isPressed('Shift') || */keyboarder.isPressed('Control'))) {
-         console.warn('tr pointer down with no /*Shift or*/ Control pressed');
+         //console.warn('tr pointer down with no /*Shift or*/ Control pressed');
          return;
       }
 
@@ -184,7 +211,8 @@ $(document).ready(() => {
 
       renderButton($buttonDeleteCount, tips.delete);
       renderButton($buttonDuplicateCount, tips.duplicate);
-   }));
+      renderButton($buttonMoveCount, tips.move);
+   });
 
    function renderButton($buttonCount, tip) {
       $buttonCount.text(` (${selectedRows.length})`);
@@ -231,6 +259,7 @@ $(document).ready(() => {
       selectedRows.splice(0, selectedRows.length); // clear selectedRows
       renderButton($buttonDeleteCount, tips.delete);
       renderButton($buttonDuplicateCount, tips.duplicate);
+      renderButton($buttonMoveCount, tips.move);
    });
 
    async function deleteRow(row) {
@@ -278,7 +307,6 @@ $(document).ready(() => {
       rowCopy.dataset.itemId = res.id; // changing tr(data-item-id) to new one
       $('[colname="id"]', rowCopy).html(res.id); // updating visible id
       
-      // TODO: make js duplicate factory for types
       const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim(); // taking typeName for rowHandle
       rowHandle(rowCopy, typeName); // handling all events for new row, according to it type
       rowCopy.classList.remove('tr_selected'); // removing row selection
@@ -289,4 +317,81 @@ $(document).ready(() => {
       // adding new row to table
       row.parentElement.append(rowCopy);
    }
+   
+   // STOP: ROW MOVE
+   const moveLink = $buttonMove[0].dataset.moveLink;
+   $buttonMove.on('click', e => {
+      // If no rows selected, then exit
+      if ($buttonMoveCount.hasClass('dn')) return;
+
+      // Taking selected rows ids
+      let moveIds = [];
+      for (const row of selectedRows)
+         moveIds.push(row.dataset.itemId);
+
+      // Adding move rows to local storage
+      setCookie('-jf_move', moveIds.join(','), 10000000);
+      
+      // Hide move button & show move controls
+      $buttonMove.addClass('dn');
+      $buttonMoveControls.removeClass('dn');
+      
+      // Update move controls count
+      $buttonMoveControlsCount.text($buttonMoveCount.text());
+   });
+   function returnMoveButton() {
+      // Hide controls & Show simple move button
+      $buttonMoveControls.addClass('dn');
+      $buttonMove.removeClass('dn');
+      
+      // Clearing cookie
+      setCookie('-jf_move', '', 10000000);
+   }
+   // Handle move cancel button
+   $buttonMoveCancel.on('click', e => {
+      returnMoveButton();
+   });
+   // Handle move here button
+   $buttonMoveHere.on('click', async e => {
+      const moveLink = e.currentTarget.dataset.moveLink;
+      const targetParentId = $('table.table').attr('data-parent-id');
+
+      let moveIds = getCookie('-jf_move', '', 10000000);
+      // if no ids in cookie, then exit function
+      if (!moveIds) return;
+      // else, moving here
+      moveIds = moveIds.split(',');
+      
+      const trs = {};
+      const $trIds = $('.page_content .table tr').toArray().forEach(el => { trs[el.dataset.itemId] = el; });
+      // for each id, sending to scripts/index.php
+      for (let id of moveIds) {
+         // if page has tr with suchid, then skip (same place move)
+         if (id in trs) continue;
+         // send query to backend
+         let res;
+         res = await fetchJsonOk('Moving', moveLink, {
+            method: 'POST',
+            body: {
+               item_id: id,
+               target_parent_id: targetParentId,
+            },
+         });
+         const targetType = res.type;
+         res = await fetchJsonOk('Rendering', renderLink, {
+            method: 'POST',
+            body: {
+               item_id: id,
+            },
+         });
+
+         // add new tr to table
+         const tr = $(res.html)[0];
+         appendRow(tr);
+         
+         rowHandle(tr, targetType);
+      }
+      
+      returnMoveButton();
+   });
 });

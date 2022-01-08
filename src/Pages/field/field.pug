@@ -21,6 +21,9 @@ include ../../Blocks/item_T_list/item_T_list.pug
    };
 
    $types = $orm->table('type')->select('*')();
+   
+   use JustField\DBItem as DBItem;
+   
 
 - let tmp, tmp1
 
@@ -46,10 +49,10 @@ html(lang="en")
          <?php if ($_GET['view'] == 'tree') : ?>
             .page_path.row.aic.w100.pl1
                :php
-                  $full_path = (array_key_exists('path', $_GET) ? $_GET['path'] : '');
+                  $full_path = (array_key_exists('p', $_GET) ? $_GET['p'] : '');
                   $curr_path_i = 0;
-                  if (array_key_exists('curr_path_i', $_GET))
-                     $curr_path_i = $_GET['curr_path_i'];
+                  if (array_key_exists('pi', $_GET))
+                     $curr_path_i = $_GET['pi'];
                   $curr_path_i = intval($curr_path_i);
                   
                   $parts = explode('/', $full_path);
@@ -81,7 +84,7 @@ html(lang="en")
 
                <?php foreach ($parts as $part): ?>
                   <?php $is_curr = ($i == $curr_path_i); ?>
-                  - tmp = "<?= query_update('curr_path_i', $i) ?>"
+                  - tmp = "<?= query_update('pi', $i) ?>"
                   - tmp1 = "<?= $is_curr ? 'page_path__part_curr' : '' ?>"
                   a(href!=tmp, class!=tmp1).page_path__part.tdn
                      <?= $part ?>
@@ -93,12 +96,11 @@ html(lang="en")
                <?php foreach ($types as $curr_type) : ?>
                   <?php $type_name = $curr_type['type_name']; ?>
                   <?php if (array_key_exists($type_name, $reg->DB->type)) : ?>
-                     
+
                      <template id="template_T_<?= $type_name ?>">
-                        <?php $reg->DB->type[$type_name]::render_template($global); ?>
+                        <?php DBItem::render($type_name); ?>
                      </template>
                      <script>templates['<?= $type_name ?>'] = document.getElementById('template_T_<?= $type_name ?>');</script>
-                        
                      <?php $reg->DB->type[$type_name]::render_addictive_templates(); ?>
                      
                   <?php else : ?>
@@ -113,7 +115,12 @@ html(lang="en")
                <?php $parent = $db->at_path($path); ?>
                
                - tmp = '<?= $parent->id ?>'
-               table.table(data-update-link='./../scripts/?script=field-update' data-parent-id!=tmp)
+               table.table(
+                  data-update-link='./../scripts/?script=field-update',
+                  data-render-link='./../scripts/?script=field-render',
+                  data-value-render-link='./../scripts/?script=field-value-render',
+                  data-parent-id!=tmp
+               )
                   thead
                      tr
                         td Order
@@ -130,7 +137,9 @@ html(lang="en")
                         <?php $is_data = false; ?>
                      <?php else : ?>
                         <?php foreach ($children as $child) : ?>
-                           <?php $reg->DB->type[$child->type->name]::render_item($child, $global); ?>
+                        
+                           <?php DBItem::render($child->type->name, $child); ?>
+
                         <?php endforeach; ?>
                      <?php endif; ?>
 
@@ -145,8 +154,8 @@ html(lang="en")
 
          .page_foot-panel.w100.row.jcsb
             .row
-               +button('Add', 'dark').page_button-add.rel(data-add-link='./../scripts/?script=field-add')
-                  .page_button-add__content.abs.col.top0.left0.dn
+               +button('Add', 'dark').page_button_with-content.page_button-add.rel(data-add-link='./../scripts/?script=field-add')
+                  .page_button__content.abs.col.top0.left0.dn
                      <?php foreach ($types as $curr_type) : ?>
                         - tmp = "<?= $curr_type['id_type'] ?>"
                         - tmp1 = "<?= $curr_type['type_name'] ?>"
@@ -155,14 +164,31 @@ html(lang="en")
                      
                +button('Delete', 'dark').page_button-delete(data-delete-link='./../scripts/?script=field-delete')
                   span(style="color: #6CF6FF88").dn#button-delete-count
-                     |  (
-                     span 0
-                     | )
+                     |  (0)
                +button('Duplicate', 'dark').page_button-duplicate(data-duplicate-link='./../scripts/?script=field-duplicate')
                   span(style="color: #6CF6FF88").dn#button-duplicate-count
-                     |  (
-                     span 0
-                     | )
+                     |  (0)
+
+               :php
+                  $move = ''; $move_arr = [];
+                  if (array_key_exists('-jf_move', $_COOKIE))
+                     $move = $_COOKIE['-jf_move'];
+                  if ($move != '')
+                     $move_arr = explode(',', $move);
+                  $move_count = count($move_arr);
+
+               - tmp = "<?= ( $move ? 'dn' : '' ) ?>"
+               +button('Move', 'dark').page_button-move(class!=tmp, data-move-link='./../scripts/?script=field-move')
+                  span(style="color: #6CF6FF88").dn#button-move-count
+                     |  (0)
+               - tmp = "<?= ( $move ? '' : 'dn' ) ?>"
+               +button('Move', 'light').page_button_with-content.page_button-move-controls.rel(class!=tmp)
+                  - tmp = "<?= ( $move ? \" ($move_count)\" : ' (0)' ) ?>"
+                  span(style="color: #6e00ffa6")#button-move-controls-count
+                     | !{tmp}
+                  .page_button__content.abs.col.top0.left0.dn
+                     +box('div', 'dark').page_button-move-here(data-move-link='./../scripts/?script=field-move') Here
+                     +box('div', 'dark').page_button-move-cancel Cancel
             .row
                #statusbar.p1 Ready
          

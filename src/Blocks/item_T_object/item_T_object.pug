@@ -22,7 +22,7 @@ mixin item_T_object()
                else :
                   $loc_path = "{$path}/{$child->key}";
                endif;
-            - tmp = "./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>"
+            - tmp = "./../field?view=tree&p=<?= $loc_path ?>&pi=<?= $path_i ?>"
             +link('Open', tmp).p1.db
          - tmp = "<?= $child->type->name ?>"
          td(colname='type', colspan=2) !{tmp}
@@ -47,7 +47,7 @@ mixin item_T_object()
                else :
                   $loc_path = "{$path}/{key}";
                endif;
-            - tmp = "./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>"
+            - tmp = "./../field?view=tree&p=<?= $loc_path ?>&pi=<?= $path_i ?>"
             +link('Open', tmp).p1.db
          td(colname='type', colspan=2) {type}
          td.tac(colname='permission') {permission}

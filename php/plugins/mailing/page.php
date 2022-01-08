@@ -38,7 +38,7 @@
                   <td colname="sender"><?= $sender ?></td>
                   <td colname="name"><?= $name ?></td>
                   <td colname="subject" class="w100"><?= $subject ?></td>
-                  <td colname="inspect"><a style="color: var(--c2)" href="../field/?path=mailing/<?= $mail->key ?>&curr_path_i=2&view=tree">Open</a></td>
+                  <td colname="inspect"><a style="color: var(--c2)" href="../field/?p=mailing/<?= $mail->key ?>&pi=2&view=tree">Open</a></td>
                   <td colname="send" class="p0">
                      <button class="box p1 box_mode_dark button tac cup brad0 w100 mailing_button_send"
                         data-sender="<?= htmlspecialchars($sender) ?>"
@@ -63,7 +63,7 @@
          How to add newsletter:
       </p>
       <ol class="pr1">
-         <li>Duplicate field with name <strong><code>__tpl__</code></strong> at <code><a href="../field/?view=tree&path=mailing&curr_path_i=1" style="color: var(--c2);"><strong>/mailing</strong></a></code> path.</li>
+         <li>Duplicate field with name <strong><code>__tpl__</code></strong> at <code><a href="../field/?view=tree&p=mailing&pi=1" style="color: var(--c2);"><strong>/mailing</strong></a></code> path.</li>
          <li>Change key, and name to something with sense. <span style="color: red">(!important)</span></li>
          <li>Change newsletter content: subject, message, and selectors.</li>
       </ol>

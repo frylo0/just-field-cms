@@ -10,6 +10,7 @@
 @import ../../Blocks/item_T_file/item_T_file
 @import ../../Blocks/item_T_audio/item_T_audio
 @import ../../Blocks/item_T_video/item_T_video
+@import ../../Blocks/item_T_mirror/item_T_mirror
 
 
 main
@@ -61,9 +62,11 @@ main
       user-select: none
       height: 1em
 
-.page_button-add
+.page_button
    &__content
       transform: translateY(-100%)
-   &__type
-      min-width: 10em
+      > *
+         min-width: 10em
+   &-add
+      &__type
 
