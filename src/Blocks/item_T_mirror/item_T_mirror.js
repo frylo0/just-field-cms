@@ -171,7 +171,7 @@ $(document).ready(() => {
       let colname = getOption('colname');
 
       if (url == updateLink && colname == 'value') {
-         console.log('mirror catch value update:', {updateLink, colname, itemId, res, options, url});
+         //console.log('mirror catch value update:', {updateLink, colname, itemId, res, options, url});
 
          $orig = $(`tr[data-item-id="${itemId}"]`);
          

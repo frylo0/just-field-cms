@@ -42,10 +42,18 @@ namespace JustField {
             ->where("`db-item_parent` = '{$this->id}'")
             ();
 
-         if ($res)
-            return array_map(function ($row) {
-               return new DBItem($this->orm, $row['id_db-item']);
-            }, $res);
+         if ($res) {
+            $children = [];
+
+            $children_mixed = [];
+            foreach ($res as $row)
+               $children_mixed[$row['id_db-item']] = new DBItem($this->orm, $row['id_db-item']);
+
+            foreach (explode(',', $value) as $id)
+               array_push($children, $children_mixed[$id]);
+            
+            return $children;
+         }
          else
             return null;
       }
