@@ -2,8 +2,8 @@ $(document).ready(() => {
    const pref = '.item_T_image'; // prefix for current folder
    const updateLink = document.querySelector('table').dataset.updateLink;
 
-   when(`${pref} init`, function (i, row) {
-      const item = row;
+   when('rowHandle: image', tr => {
+      const row = tr, item = tr;
       const $buttonUpload = $(`${pref}__upload-button`, row);
       const $buttonShow = $(`${pref}__show-button`, row);
       const $thumbnail = $(`${pref}__thumbnail`, row);
@@ -12,9 +12,7 @@ $(document).ready(() => {
       $buttonShow.on('click', action(`click: ${pref} button show`));
       $buttonUpload.on('click', () => action(`click: ${pref} button upload`)($file));
       $file.on('change', () => action(`change: ${pref} file`)($buttonShow, $file, item, $thumbnail));
-      $('.table__order', row).on('pointerdown', action('pointerdown: .table order'));
    });
-   $(`${pref}`).each(action(`${pref} init`));
 
    when(`click: ${pref} button show`, e => {
       $.magnificPopup.open({
@@ -32,7 +30,7 @@ $(document).ready(() => {
       const fetchUrl = updateLink;
 
       const formData = new FormData();
-      formData.append('item_id', item.dataset.itemId);
+      formData.append('item_id', $(item).find('[colname="value"]')[0].dataset.itemId);
       formData.append('colname', 'value');
       formData.append('value', $file[0].files[0]);
 
@@ -49,9 +47,4 @@ $(document).ready(() => {
       const $thumbnailImg = $thumbnail.removeClass(`${pref}__thumbnail_free`.slice(1)).find('img').removeClass('dn');
       $thumbnailImg.attr('src', res.data);
    });
-
-   window.item_T_image_handle = function (row) {
-      action(`${pref} init`)(0, row);
-   };
-   when('rowHandle: image', tr => window.item_T_image_handle(tr));
 });

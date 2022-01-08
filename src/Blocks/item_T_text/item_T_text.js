@@ -307,7 +307,7 @@ function item_T_text_initEditor() {
             
             // updating data-value on target row button, to render changed value on new editor open on same row
             const $targetRow = $($('[colname="id"]').toArray().find(col => col.textContent == this.state.currentID)).parents('tr');
-            $targetRow.find('[colname="value"] button').attr('data-value', res.data);
+            $targetRow.find('[colname="value"] button').attr('data-value', res.data.replace(/\\"/g, '"'));
             
 
             // if !lastBlocks, then editor just loaded and don't need to do anything, so exit
@@ -469,16 +469,9 @@ function item_T_text_initEditor() {
 $(document).ready(() => {
    const pref = '.item_T_text'; // prefix for current folder
    
-   /**
-    * Bind event listeners for element(s) given as context of function work. According to context do bind in any cases of usage (onload, field add, etc.).
-    * @param {HTMLElement | JQuery} context The context param for JQuery in $('selector', context). According to context may need to use prefix of this field type (e.g. on load when context=document) or not (e.g. on field add, when context=$newCreatedTableRow)
-    * @param {boolean} usePref Param to specify use this field type selector prefix ('.item_T_text') or not. This param is closely related to context param.
-    * @returns {void} Nothing
-    */
-   function item_T_text_handle(context, usePrefix = false) {
-      $(`${usePrefix ? pref : ''} [colname="value"] button`, context).click(action(`click: ${pref} text editor button`));
-      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
-   }
+   when('rowHandle: text', tr => {
+      $('[colname="value"] button', tr).click(action(`click: ${pref} text editor button`));
+   });
    
    when(`click: ${pref} text editor button`, e => {
       let $currentTarget = $(e.currentTarget);
@@ -493,10 +486,6 @@ $(document).ready(() => {
    when('duplicateRow: text', (tr, id, typeName) => {
       $('[colname="value"] button', tr).attr('data-item-id', id);
    });
-   
-   item_T_text_handle(document, true);
-   when('rowHandle: text', tr => item_T_text_handle(tr));
+
    item_T_text_initEditor();
-   
-   window.item_T_text_handle = item_T_text_handle;
 });

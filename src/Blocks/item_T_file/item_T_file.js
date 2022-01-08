@@ -2,17 +2,15 @@ $(document).ready(() => {
    const pref = '.item_T_file'; // prefix for current folder
    const updateLink = document.querySelector('table').dataset.updateLink;
 
-   when(`${pref} init`, function (i, row) {
-      const item = row;
+   when('rowHandle: file', tr => {
+      const row = tr, item = tr;
       const $buttonUpload = $(`${pref}__upload-button`, row);
       const $buttonDownload = $(`${pref}__download-button`, row);
       const $file = $(`${pref}__file`, row);
 
       $buttonUpload.on('click', () => action(`click: ${pref} button upload`)($file));
       $file.on('change', () => action(`change: ${pref} file`)($buttonDownload, $file, item));
-      $('.table__order', row).on('pointerdown', action('pointerdown: .table order'));
    });
-   $(`${pref}`).each(action(`${pref} init`));
 
    when(`click: ${pref} button upload`, $file => {
       $file.trigger('click');
@@ -21,7 +19,7 @@ $(document).ready(() => {
       const fetchUrl = updateLink;
 
       const formData = new FormData();
-      formData.append('item_id', item.dataset.itemId);
+      formData.append('item_id', $(item).find('[colname="value"]')[0].dataset.itemId);
       formData.append('colname', 'value');
       formData.append('value', $file[0].files[0]);
 
