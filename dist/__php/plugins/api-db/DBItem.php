@@ -42,9 +42,9 @@ namespace JustField {
 
       var $parent_id; // ak. parent
 
-      function __construct($orm, $id, $parent_path = '')
+      function __construct($orm, $id)
       {
-         $this->refresh_with_args($id, $orm, $parent_path);
+         $this->refresh_with_args($id, $orm);
       }
 
       /**
@@ -65,6 +65,7 @@ namespace JustField {
             
          $behaviour = new $reg->DB->type[$type_name]($this->orm);
          $behaviour->set_id($this->id);
+
          return $behaviour;
       }
 
@@ -77,12 +78,10 @@ namespace JustField {
 
       
       function refresh() {
-         $parent_path = explode('/', $this->path);
-         array_pop($parent_path);
-         $this->refresh_with_args($this->id, $this->orm, implode('/', $parent_path));
+         $this->refresh_with_args($this->id, $this->orm);
       }
 
-      private function refresh_with_args($id, $orm, $parent_path = '') {
+      private function refresh_with_args($id, $orm) {
          $this->orm = $orm;
          $this->id = $id;
 

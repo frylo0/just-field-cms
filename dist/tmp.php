@@ -43,7 +43,7 @@
          <input type="submit" value="send">
 
          <?php
-         $nesters = $db->at_id(603)->get_nesters();
+         $nesters = $db->at_id(42)->get_children();
          var_dump($nesters);
          ?>
 

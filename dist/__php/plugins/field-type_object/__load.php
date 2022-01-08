@@ -24,43 +24,46 @@ namespace JustField {
          $this->orm->update(['db-item_value' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
       }
 
-      function get_value() {
-         return $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+      function get_value($data = null) {
+         if (!$data)
+            return $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+         else {
+            return $data;
+         }
       }
 
       function get_children(DBItem $item) {
          $value = $item->value;
+         if (!$value) return null;
 
-         if ($value != '') {
-            $children = [];
+         $res = $this->orm
+            ->from('db-item')
+            ->select('`id_db-item`')
+            ->where("`db-item_parent` = '{$this->id}'")
+            ();
 
-            $children_id = explode(',', $value);
-            foreach ($children_id as $child_id) {
-               array_push($children, new DBItem($this->orm, $child_id));
-            }
-
-            return $children;
-         } else {
+         if ($res)
+            return array_map(function ($row) {
+               return new DBItem($this->orm, $row['id_db-item']);
+            }, $res);
+         else
             return null;
-         }
       }
 
       function get_child(DBItem $item, string $key) {
          $value = $item->value;
          if (!$value) return null;
 
-         $value = explode(',', $value);
+         $res = $this->orm
+            ->from('db-item')
+            ->select('`id_db-item`')
+            ->where("`db-item_key` = '$key' AND `db-item_parent` = '{$this->id}'")
+            ();
 
-         $this->orm->from('db-item');
-
-         foreach ($value as $child_id) {
-            $curr = $this->orm->select('*')->where("`id_db-item` = '$child_id'")()[0];
-            if ($curr['db-item_key'] == $key) {
-               return new DBItem($this->orm, $child_id, $item->path);
-            }
-         }
-         console_log('reached end');
-         return null;
+         if ($res)
+            return new DBItem($item->orm, $res[0]['id_db-item']);
+         else
+            return null;
       }
 
       function remove(DBItem $item) {
