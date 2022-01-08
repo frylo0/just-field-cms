@@ -305,6 +305,7 @@ $(document).ready(() => {
 
       const rowCopy = row.cloneNode(true); // clone target node
       rowCopy.dataset.itemId = res.id; // changing tr(data-item-id) to new one
+      $(rowCopy).find('[colname="value"]').attr('data-item-id', res.id); // update td value item id
       $('[colname="id"]', rowCopy).html(res.id); // updating visible id
       
       const typeName = rowCopy.querySelector('[colname="type"]').textContent.trim(); // taking typeName for rowHandle
