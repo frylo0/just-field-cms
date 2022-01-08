@@ -20,6 +20,15 @@
       background: #555
       color: $-c1
       margin-bottom: 0 !important
+      
+      svg
+         animation: propeller 5s linear infinite
+      @keyframes propeller
+         0%
+            transform: rotate(360deg)
+         100%
+            transform: rotate(0deg)
+
 
    &__logged-as
       background: #555 left top url('./../../Attach/Images/diag-dash.png')
