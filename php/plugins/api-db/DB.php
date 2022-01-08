@@ -18,11 +18,6 @@ namespace JustField {
          return new DBItem($this->orm, '1', '');
       }
 
-      function get_item_data($id)
-      {
-         return new DBItem($this->orm, $id, '');
-      }
-
       function at_path(string $path)
       {
          $root = $this->get_root();
@@ -35,6 +30,17 @@ namespace JustField {
       function at_id($id)
       {
          return new DBItem($this->orm, $id, '');
+      }
+
+      function move_field($field_id, $target_parent_id) {
+         // creating DBItems
+         $field = new DBItem($this->orm, $field_id);
+         $target_parent = new DBItem($this->orm, $target_parent_id);
+
+         // moving field using DBItem API
+         $field->move_to($target_parent);
+
+         return $field;
       }
    };
 };
