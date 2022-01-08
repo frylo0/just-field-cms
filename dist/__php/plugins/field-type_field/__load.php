@@ -49,40 +49,12 @@ namespace JustField {
          return $item_value;
       }
 
-      static function render_item(DBItem $child) { ?>
-         <tr class="item_T_field" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id"><?= $child->id ?></td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="<?= htmlspecialChars($child->key) ?>">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="<?= htmlspecialchars($child->name) ?>">
-            </td>
-            <td class="w100 p0" colname="value">
-               <input placeholder="Input value..." value="<?= htmlspecialchars($child->value) ?>">
-            </td>
-            <td colname="type" colspan="2"><?= $child->type->name ?></td>
-            <td class="tac" colname="permission">edit</td>
-         </tr>
+      static function render_value(DBItem $child) { ?>
+         <input placeholder="Input value..." value="<?= htmlspecialchars($child->value) ?>">
       <?php }
 
-      static function render_template() { ?>
-         <tr class="item_T_field" data-item-id="{id}" data-item-type="{type}">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id">{id}</td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="{key}">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="{name}">
-            </td>
-            <td class="w100 p0" colname="value">
-               <input placeholder="Input value..." value="{value}">
-            </td>
-            <td colname="type" colspan="2">{type}</td>
-            <td class="tac" colname="permission">{permission}</td>
-         </tr>
+      static function render_value_template() { ?>
+         <input placeholder="Input value..." value="{value}">
       <?php }
 
       static function render_addictive_templates() {

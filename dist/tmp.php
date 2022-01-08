@@ -42,6 +42,11 @@
          
          <input type="submit" value="send">
 
+         <?php
+         $nesters = $db->at_id(603)->get_nesters();
+         var_dump($nesters);
+         ?>
+
       </form>
       
    </body>

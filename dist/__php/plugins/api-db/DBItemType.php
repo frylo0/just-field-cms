@@ -12,6 +12,7 @@ namespace JustField {
 
          $this->id = $id;
          $this->is_basic = $data['type_is-basic'] == '1' ? true : false;
+         $this->has_children = $data['type_has-children'] == '1' ? true : false;
          $this->name = $data['type_name'];
          if ($data['type_name'] == 'NULL')
             $this->description = null;

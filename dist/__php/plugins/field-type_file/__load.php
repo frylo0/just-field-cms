@@ -76,13 +76,14 @@ namespace JustField {
       }
 
       function get_value() {
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          $src = $this->type_table_orm->select('`file_src`')->where("`id_file` = '{$this->id}'")()[0]['file_src'];
 
          $ret = new \stdClass();
          $ret->name = $src;
-         $ret->src = $src ? $assets_folder . $src : '';
+         $date_now = time();
+         $ret->src = $src ? $reg->path_to_jf_php_folder . $assets_folder . $src . "?t=$date_now" : '';
 
          return $ret;
       }
@@ -98,86 +99,44 @@ namespace JustField {
          return $item_value->src;
       }
 
-      static function render_item(DBItem $child) { ?>
-
-         <tr
-            class="item_T_file"
-            data-item-id="<?=$child->id?>"
-            data-item-type="<?= $child->type->name ?>"
-         >
-            <td colname='order' class="table__order row jcc aic cup" >
-               <img src="../__attach/Images/up-down.svg" draggable="false" />
-            </td>
-            <td colname='id' class="tac"><?= $child->id ?></td>
-            <td colname='key' class="p0">
-               <input placeholder='Input key...' value="<?= htmlspecialChars($child->key) ?>" />
-            </td>
-            <td colname='name' class="p0">
-               <input placeholder='Input name...' value="<?= htmlspecialChars($child->name) ?>" />
-            </td>
-            <td colname="value" class="w100 p0">
-               <div class="row">
-                  <?php if ($child->value->src) : ?>
-                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button">
-                        <a href="<?= $child->value->src ?>" download="">
-                           Download
-                        </a>
-                     </button>
-                  <?php else : ?>
-                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button" disabled="disabled">
-                        <a href="" download="">
-                           Download
-                        </a>
-                     </button>
-                  <?php endif; ?>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__upload-button">
-                     Upload
-                  </button>
-                  <form class="dn item_T_file__file-form">
-                     <input class="item_T_file__file" type="file" name="file" accept="*" />
-                  </form>
-               </div>
-            <td colname='type' colspan=2><?= $child->type->name ?></td>
-            <td colname='permission' class="tac">edit</td>
-         </tr>
-
+      static function render_value(DBItem $child) { ?>
+         <div class="row">
+            <?php if ($child->value->src) : ?>
+               <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button">
+                  <a href="<?= $child->value->src ?>" download="">
+                     Download
+                  </a>
+               </button>
+            <?php else : ?>
+               <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button" disabled="disabled">
+                  <a href="" download="">
+                     Download
+                  </a>
+               </button>
+            <?php endif; ?>
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__upload-button">
+               Upload
+            </button>
+            <form class="dn item_T_file__file-form">
+               <input class="item_T_file__file" type="file" name="file" accept="*" />
+            </form>
+         </div>
       <?php }
 
-      static function render_template() { ?>
-
-         <tr
-            class="item_T_file"
-            data-item-id="{id}"
-            data-item-type="{type}"
-         >
-            <td colname='order' class="table__order row jcc aic cup" >
-               <img src="../__attach/Images/up-down.svg" draggable="false" />
-            </td>
-            <td colname='id' class="tac">{id}</td>
-            <td colname='key' class="p0">
-               <input placeholder='Input key...' value="{key}" />
-            </td>
-            <td colname='name' class="p0">
-               <input placeholder='Input name...' value="{name}" />
-            </td>
-            <td colname="value" class="w100 p0">
-               <div class="row">
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button" disabled="disabled">
-                     <a href="{value}" download="">
-                        Download
-                     </a>
-                  </button>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__upload-button">
-                     Upload
-                  </button>
-                  <form class="dn item_T_file__file-form">
-                     <input class="item_T_file__file" type="file" name="file" accept="*" />
-                  </form>
-               </div>
-            <td colname='type' colspan=2>{type}</td>
-            <td colname='permission' class="tac">edit</td>
-         </tr>
-
+      static function render_value_template() { ?>
+         <div class="row">
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__download-button" disabled="disabled">
+               <a href="{value}" download="">
+                  Download
+               </a>
+            </button>
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_file__upload-button">
+               Upload
+            </button>
+            <form class="dn item_T_file__file-form">
+               <input class="item_T_file__file" type="file" name="file" accept="*" />
+            </form>
+         </div>
       <?php }
 
       static function render_addictive_templates() {

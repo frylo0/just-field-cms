@@ -28,6 +28,9 @@ function query_update ($key, $value) {
 };
 
 $types = $orm->table('type')->select('*')();
+
+use JustField\DBItem as DBItem;
+
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -107,10 +110,10 @@ if ($is_url_match)
       </div><?php if ($_GET['view'] == 'tree') : ?>
       <div class="page_path row aic w100 pl1">
         <?php
-$full_path = (array_key_exists('path', $_GET) ? $_GET['path'] : '');
+$full_path = (array_key_exists('p', $_GET) ? $_GET['p'] : '');
 $curr_path_i = 0;
-if (array_key_exists('curr_path_i', $_GET))
-   $curr_path_i = $_GET['curr_path_i'];
+if (array_key_exists('pi', $_GET))
+   $curr_path_i = $_GET['pi'];
 $curr_path_i = intval($curr_path_i);
 
 $parts = explode('/', $full_path);
@@ -137,7 +140,7 @@ if (count($parts) == 1 && $parts[0] == '')
 array_unshift($parts, '/');
 $i = 0;
 ?><?php foreach ($parts as $part): ?>
-<?php $is_curr = ($i == $curr_path_i); ?><a class="<?= $is_curr ? 'page_path__part_curr' : '' ?> page_path__part tdn" href="<?= query_update('curr_path_i', $i) ?>"><?= $part ?></a><?php $i++; ?>
+<?php $is_curr = ($i == $curr_path_i); ?><a class="<?= $is_curr ? 'page_path__part_curr' : '' ?> page_path__part tdn" href="<?= query_update('pi', $i) ?>"><?= $part ?></a><?php $i++; ?>
 <?php endforeach; ?>
       </div>
       <div class="page_content ova w100"><script> var templates = {}; </script>
@@ -145,7 +148,7 @@ $i = 0;
 <?php $type_name = $curr_type['type_name']; ?>
 <?php if (array_key_exists($type_name, $reg->DB->type)) : ?>
 <template id="template_T_<?= $type_name ?>">
-<?php $reg->DB->type[$type_name]::render_template($global); ?>
+<?php DBItem::render($type_name); ?>
 </template>
 <script>templates['<?= $type_name ?>'] = document.getElementById('template_T_<?= $type_name ?>');</script>
 <?php $reg->DB->type[$type_name]::render_addictive_templates(); ?>
@@ -155,7 +158,7 @@ $i = 0;
 <?php endforeach; ?>
 <?php $is_data = true; ?>
 <?php $parent = $db->at_path($path); ?>
-        <table class="table" data-update-link="./../scripts/?script=field-update" data-parent-id="<?= $parent->id ?>">
+        <table class="table" data-update-link="./../scripts/?script=field-update" data-render-link="./../scripts/?script=field-render" data-value-render-link="./../scripts/?script=field-value-render" data-parent-id="<?= $parent->id ?>">
           <thead>
             <tr>
               <td>Order</td>
@@ -172,7 +175,7 @@ $i = 0;
 <?php $is_data = false; ?>
 <?php else : ?>
 <?php foreach ($children as $child) : ?>
-<?php $reg->DB->type[$child->type->name]::render_item($child, $global); ?>
+<?php DBItem::render($child->type->name, $child); ?>
 <?php endforeach; ?>
 <?php endif; ?>
           </tbody>
@@ -181,15 +184,32 @@ $i = 0;
       </div><?php elseif ($_GET['view'] == 'type') : ?>type<?php endif; ?>
       <div class="page_foot-panel w100 row jcsb">
         <div class="row">
-          <button class="box p1 box_mode_dark button tal cup brad0 page_button-add rel" data-add-link="./../scripts/?script=field-add">Add
-            <div class="page_button-add__content abs col top0 left0 dn"><?php foreach ($types as $curr_type) : ?>
+          <button class="box p1 box_mode_dark button tal cup brad0 page_button_with-content page_button-add rel" data-add-link="./../scripts/?script=field-add">Add
+            <div class="page_button__content abs col top0 left0 dn"><?php foreach ($types as $curr_type) : ?>
               <div class="box p1 box_mode_dark page_button-add__type" data-id="<?= $curr_type['id_type'] ?>"><?= $curr_type['type_name'] ?>
               </div><?php endforeach; ?>
             </div>
           </button>
-          <button class="box p1 box_mode_dark button tal cup brad0 page_button-delete" data-delete-link="./../scripts/?script=field-delete">Delete<span class="dn" style="color: #6CF6FF88" id="button-delete-count"> (<span>0</span>)</span>
+          <button class="box p1 box_mode_dark button tal cup brad0 page_button-delete" data-delete-link="./../scripts/?script=field-delete">Delete<span class="dn" style="color: #6CF6FF88" id="button-delete-count"> (0)</span>
           </button>
-          <button class="box p1 box_mode_dark button tal cup brad0 page_button-duplicate" data-duplicate-link="./../scripts/?script=field-duplicate">Duplicate<span class="dn" style="color: #6CF6FF88" id="button-duplicate-count"> (<span>0</span>)</span>
+          <button class="box p1 box_mode_dark button tal cup brad0 page_button-duplicate" data-duplicate-link="./../scripts/?script=field-duplicate">Duplicate<span class="dn" style="color: #6CF6FF88" id="button-duplicate-count"> (0)</span>
+          </button><?php
+$move = ''; $move_arr = [];
+if (array_key_exists('-jf_move', $_COOKIE))
+   $move = $_COOKIE['-jf_move'];
+if ($move != '')
+   $move_arr = explode(',', $move);
+$move_count = count($move_arr);
+?>
+          <button class="box p1 box_mode_dark button tal cup brad0 page_button-move <?= ( $move ? 'dn' : '' ) ?>" data-move-link="./../scripts/?script=field-move">Move<span class="dn" style="color: #6CF6FF88" id="button-move-count"> (0)</span>
+          </button>
+          <button class="box p1 box_mode_light button tal cup brad0 page_button_with-content page_button-move-controls rel <?= ( $move ? '' : 'dn' ) ?>">Move<span style="color: #6e00ffa6" id="button-move-controls-count"><?= ( $move ? " ($move_count)" : ' (0)' ) ?></span>
+            <div class="page_button__content abs col top0 left0 dn">
+              <div class="box p1 box_mode_dark page_button-move-here" data-move-link="./../scripts/?script=field-move">Here
+              </div>
+              <div class="box p1 box_mode_dark page_button-move-cancel">Cancel
+              </div>
+            </div>
           </button>
         </div>
         <div class="row">
