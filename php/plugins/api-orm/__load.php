@@ -1,10 +1,17 @@
 <?php
+$orm_mysqli = null;
+
+function orm_mysqli_init($host, $user, $pass, $db_name) {
+   global $orm_mysqli;
+   $orm_mysqli =  new mysqli($host, $user, $pass, $db_name);
+
+   if ($orm_mysqli->connect_error) {
+      die('ORM mysqli connection error (' . $orm_mysqli->connect_errno . ') '
+         . $orm_mysqli->connect_error);
+   }
+}
 class ORM {
    var $db;
-   var $host;
-   var $user;
-   var $pass;
-   var $db_name;
 
    var $is_log = false;
    var $is_simulate = false;
@@ -17,26 +24,21 @@ class ORM {
    var $table_name;
    var $table_name_raw;
 
-   function __construct($host, $user, $pass, $db_name)
+   function __construct($host = null, $user = null, $pass = null, $db_name = null)
    {
-      $this->host = $host;
-      $this->user = $user;
-      $this->pass = $pass;
-      $this->db_name = $db_name;
+      global $orm_mysqli;
 
-      $this->db = new mysqli($this->host, $this->user, $this->pass, $this->db_name);
-
-      if ($this->db->connect_error) {
-         die('Ошибка подключения (' . $this->db->connect_errno . ') '
-            . $this->db->connect_error);
+      if ($host !== null) {
+         orm_mysqli_init($host, $user, $pass, $db_name);
       }
 
+      $this->db = $orm_mysqli;
       $this->conditions = '';
    }
 
    // CONFIG
    function __clone() {
-      $new_orm = new ORM($this->host, $this->user, $this->pass, $this->db_name);
+      $new_orm = new ORM();
 
       $new_orm->is_log = $this->is_log;
 
@@ -163,8 +165,12 @@ class ORM {
    // Private
    private function query($sql, $fetch_type = null)
    {
+      $this->conditions = '';
+      $this->last_operation = '';
+      $this->last_operation_args = [];
+
       if ($this->is_log)
-         $this->console_log('ORM SQL: ' . $sql . ' ; fetch_type: ' . $fetch_type);
+         $this->console_log('[ ORM SQL: (fetch_type: ' . $fetch_type.') ]\n' . $sql);
       $res = $this->db->query($sql);
       if ($fetch_type && !is_bool($res))
          return $res->fetch_all($fetch_type);
