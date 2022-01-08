@@ -3,18 +3,24 @@ $(document).ready(() => {
    const template = document.getElementById('template_T_object').content.cloneNode(true);
    const templateHref = $('[colname="value"] > a', template.firstElementChild).attr('href');
 
-   function item_T_object_handle(context, usePrefix = false) {
-      $(`${usePrefix ? pref : ''} [colname="key"] > input`, context).on('keyup', action(`keyup: ${pref} key input`));
-      $(`${usePrefix ? pref : ''} .table__order`, context).on('pointerdown', action(`pointerdown: .table order`));
-   }
+   when('rowHandle: object', tr => {
+      if (!tr.classList.contains('item_T_mirror')) { // if not mirror
+         $('[colname="key"] > input', tr).on('keyup', action(`keyup: ${pref} key input`));
+      }
+   });
 
    when(`keyup: ${pref} key input`, e => {
       const key = e.target.value;
-      $(e.target).parents(pref).find('[colname="value"] > a').attr('href', templateHref.replace(/\{key\}/g, key));
+      let pathI = window.state.path.split('/').length + 1;
+      if (window.state.path == '')
+         pathI = 1;
+      const targetHref = templateHref
+         .replace(/\{key\}/g, key)
+         .replace(/\{path\}/g, (window.state.path == '' ? '' : window.state.path + '/'))
+         .replace(/\{path_i\}/g, pathI);
+      $tr = $(e.target).parents(pref)
+      $tr.find('[colname="value"] > a').attr('href', targetHref);
+      // same page mirrors update
+      $(`.item_T_mirror [colname="value"][data-item-id="${$tr.attr('data-item-id')}"] > a`).attr('href', targetHref);
    });
-
-   item_T_object_handle(document, true);
-   when('rowHandle: object', tr => item_T_object_handle(tr));
-
-   window.item_T_object_handle = item_T_object_handle;
 });
