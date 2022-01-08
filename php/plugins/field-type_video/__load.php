@@ -76,13 +76,14 @@ namespace JustField {
       }
 
       function get_value() {
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          $src = $this->type_table_orm->select('`video_src`')->where("`id_video` = '{$this->id}'")()[0]['video_src'];
 
          $ret = new \stdClass();
          $ret->name = $src;
-         $ret->src = $src ? $assets_folder . $src : '';
+         $date_now = time();
+         $ret->src = $src ? $reg->path_to_jf_php_folder . $assets_folder . $src . "?t=$date_now" : '';
 
          return $ret;
       }
@@ -98,78 +99,48 @@ namespace JustField {
          return $item_value->src;
       }
 
-      static function render_item(DBItem $child) { ?>
-         <tr class="item_T_video" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="table__order row jcc aic cup" colname="order">
-               <img src="../__attach/Images/up-down.svg" draggable="false">
-            </td>
-            <td class="tac" colname="id"><?= $child->id ?></td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="<?= htmlspecialChars($child->key) ?>">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="<?= htmlspecialChars($child->name) ?>">
-            </td>
-            <td class="w100 p0" colname="value">
-               <div class="row">
-                  <?php if ($child->value->src) : ?>
-                     <div class="item_T_video__thumbnail row jcc aic">
-                        <video>
-                           <source src="<?= $child->value->src ?>"></source>
-                        </video>
-                     </div>
-                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" data-mfp-src="<?= $child->value->src ?>">Show
-                     </button>
-                  <?php else : ?>
-                     <div class="item_T_video__thumbnail item_T_video__thumbnail_free row jcc aic">
-                        <video class="dn">
-                           <source src=""></source>
-                        </video>
-                     </div>
-                     <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" data-mfp-src="" disabled="disabled">Show
-                     </button>
-                  <?php endif; ?>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__upload-button">Upload
-                  </button>
-                  <form class="dn item_T_video__file-form">
-                     <input class="item_T_video__file" type="file" name="video" accept="video/*">
-                  </form>
+      static function render_value(DBItem $child) { ?>
+         <div class="row">
+            <?php if ($child->value->src) : ?>
+               <div class="item_T_video__thumbnail row jcc aic">
+                  <video>
+                     <source src="<?= $child->value->src ?>"></source>
+                  </video>
                </div>
-            </td>
-            <td colname="type" colspan="2"><?= $child->type->name ?></td>
-            <td class="tac" colname="permission">edit</td>
-         </tr>
+               <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" data-mfp-src="<?= $child->value->src ?>">Show
+               </button>
+            <?php else : ?>
+               <div class="item_T_video__thumbnail item_T_video__thumbnail_free row jcc aic">
+                  <video class="dn">
+                     <source src=""></source>
+                  </video>
+               </div>
+               <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" data-mfp-src="" disabled="disabled">Show
+               </button>
+            <?php endif; ?>
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__upload-button">Upload
+            </button>
+            <form class="dn item_T_video__file-form">
+               <input class="item_T_video__file" type="file" name="video" accept="video/*">
+            </form>
+         </div>
       <?php }
 
-      static function render_template() { ?>
-         <tr class="item_T_video" data-item-id="{id}" data-item-type="{type}">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id">{id}</td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="{key}">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="{name}">
-            </td>
-            <td class="w100 p0" colname="value">
-               <div class="row">
-                  <div class="item_T_video__thumbnail item_T_video__thumbnail_free row jcc aic">
-                     <video class="dn">
-                        <source src=""></source>
-                     </video>
-                  </div>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" href="{value}" disabled="disabled">Show
-                  </button>
-                  <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__upload-button">Upload
-                  </button>
-                  <form class="dn item_T_video__file-form">
-                     <input class="item_T_video__file" type="file" name="video" accept="video/*">
-                  </form>
-               </div>
-            </td>
-            <td colname="type" colspan="2">{type}</td>
-            <td class="tac" colname="permission">edit</td>
-         </tr>
+      static function render_value_template() { ?>
+         <div class="row">
+            <div class="item_T_video__thumbnail item_T_video__thumbnail_free row jcc aic">
+               <video class="dn">
+                  <source src=""></source>
+               </video>
+            </div>
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__show-button" href="{value}" disabled="disabled">Show
+            </button>
+            <button class="box p1 box_mode_dark button tal cup brad0 item_T_video__upload-button">Upload
+            </button>
+            <form class="dn item_T_video__file-form">
+               <input class="item_T_video__file" type="file" name="video" accept="video/*">
+            </form>
+         </div>
       <?php }
 
       static function render_addictive_templates() {

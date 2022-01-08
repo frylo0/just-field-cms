@@ -106,42 +106,16 @@ namespace JustField {
          return $item_value->html;
       }
 
-      static function render_item(DBItem $child) { ?>
-         <tr class="item_T_text" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id"><?= $child->id ?></td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="<?= htmlspecialChars($child->key) ?>">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="<?= htmlspecialChars($child->name) ?>">
-            </td>
-            <td class="w100 p0" colname="value">
-               <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value->value ?>" data-item-id="<?= $child->id ?>">Text editor
-               </button>
-            </td>
-            <td colname="type" colspan="2"><?= $child->type->name ?></td>
-            <td class="tac" colname="permission">edit</td>
-         </tr>
+      static function render_value(DBItem $child) { ?>
+         <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="<?= $child->value->value ?>" data-item-id="<?= $child->id ?>">
+            Text editor
+         </button>
       <?php }
 
-      static function render_template() { ?>
-         <tr class="item_T_text" data-item-id="{id}" data-item-type="{type}">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id">{id}</td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="{key}">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="{name}">
-            </td>
-            <td class="w100 p0" colname="value">
-               <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}" data-item-id="{id}">Text editor
-               </button>
-            </td>
-            <td colname="type" colspan="2">{type}</td>
-            <td class="tac" colname="permission">{permission}</td>
-         </tr>
+      static function render_value_template() { ?>
+         <button class="box p1 box_mode_dark button tal cup brad0 w100" data-value="{value}" data-item-id="{id}">
+            Text editor
+         </button>
       <?php }
 
       static function render_addictive_templates() { ?>

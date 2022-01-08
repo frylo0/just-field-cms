@@ -100,66 +100,17 @@ namespace JustField {
          return $item_value;
       }
 
-      static function render_item(DBItem $child, array $global) { ?>
+      static function render_value(DBItem $child) { ?>
          <?php
-         $path_parts = $global['path_parts'];
-         $path = $global['path'];
+         $path = substr($child->path, 1);
+         $path_parts = explode('/', $path);
+         $path_i = count($path_parts);
          ?>
-         <tr class="item_T_object" data-item-id="<?= $child->id ?>" data-item-type="<?= $child->type->name ?>">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id"><?= $child->id ?></td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="<?= htmlspecialChars($child->key) ?>">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="<?= htmlspecialChars($child->name) ?>">
-            </td>
-            <td class="w100 p0" colname="value">
-               <?php
-               $path_i = count($path_parts) + 1;
-               $loc_path = '';
-               if ($path == '') :
-                  $loc_path = $child->key;
-               else :
-                  $loc_path = "{$path}/{$child->key}";
-               endif;
-               ?>
-               <a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>">Open</a>
-            </td>
-            <td colname="type" colspan="2"><?= $child->type->name ?></td>
-            <td class="tac" colname="permission">edit</td>
-         </tr>
+            <a class="link p1 db" href="./../field?view=tree&p=<?= $path ?>&pi=<?= $path_i ?>">Open</a>
       <?php }
 
-      static function render_template($global) { ?>
-         <?php
-         $path_parts = $global['path_parts'];
-         $path = $global['path'];
-         ?>
-         <tr class="item_T_object" data-item-id="{id}" data-item-type="{type}">
-            <td class="table__order row jcc aic cup" colname="order"><img src="../__attach/Images/up-down.svg" draggable="false"></td>
-            <td class="tac" colname="id">{id}</td>
-            <td class="p0" colname="key">
-               <input placeholder="Input key..." value="{key}">
-            </td>
-            <td class="p0" colname="name">
-               <input placeholder="Input name..." value="{name}">
-            </td>
-            <td class="w100 p0" colname="value">
-               <?php
-               $path_i = count($path_parts) + 1;
-               $loc_path = '';
-               if ($path == '') :
-                  $loc_path = '{key}';
-               else :
-                  $loc_path = "{$path}/{key}";
-               endif;
-               ?>
-               <a class="link p1 db" href="./../field?view=tree&path=<?= $loc_path ?>&curr_path_i=<?= $path_i ?>">Open</a>
-            </td>
-            <td colname="type" colspan="2">{type}</td>
-            <td class="tac" colname="permission">{permission}</td>
-         </tr>
+      static function render_value_template() { ?>
+         <a class="link p1 db" href="./../field?view=tree&p={path}{key}&pi={path_i}">Open</a>
       <?php }
 
       static function render_addictive_templates() {
