@@ -66,7 +66,7 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
          let pre = document.createElement('pre');
          pre.innerHTML = await resFetch.text();
          pre.className = 'php-error';
-         pre.style = 'padding: 1em;';
+         pre.style = 'padding: 1em; margin-top: 0;';
          document.querySelectorAll('.php-error').forEach(el => el.remove());
 
          $(pre).appendTo($wrapper);
@@ -78,7 +78,29 @@ async function fetchJsonOk(startMessage, fetchUrl, fetchOptions = {}) {
       $statusbar.dotAnimation.stop('Ready');
       if (res.status == 'OK') {
          console.log(startMessage + ' OK');
+         action('fetchJsonOk success')(fetchUrl, ifBodyFromDataToJson(fetchOptions), res);
          resolve(res);
+         
+         function ifBodyFromDataToJson(options) {
+            const formData = options.body;
+            if (formData instanceof FormData) {
+               var object = {};
+               formData.forEach((value, key) => {
+                  // Reflect.has in favor of: object.hasOwnProperty(key)
+                  if (!Reflect.has(object, key)) {
+                     object[key] = value;
+                     return;
+                  }
+                  if (!Array.isArray(object[key])) {
+                     object[key] = [object[key]];
+                  }
+                  object[key].push(value);
+               });
+               options.body = object;
+               return options;
+            }
+            else return options;
+         }
       }
       else {
          let message = `When ${startMessage} item at URL, res.status was not "OK": ${fetchUrl}`;
