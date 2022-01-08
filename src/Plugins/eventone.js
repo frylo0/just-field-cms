@@ -14,7 +14,8 @@ function action(label, inPlaceCallback) {
 
   return function (...args) {
     if (__EVENTONE__[label]) // giving shorten name
-      __EVENTONE__[label].forEach(([, reactor]) => reactor(...args));
+      for (let [, reactor] of __EVENTONE__[label])
+        reactor(...args);
     else console.warn(`EVENTONE: Calling action of not defined label (${label})`);
   };
 }
