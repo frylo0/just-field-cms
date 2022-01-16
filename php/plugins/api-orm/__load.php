@@ -78,6 +78,22 @@ class ORM {
    }
 
 
+   function is_need_log($sql, $log_callback) {
+      $sql = str_replace("\n", ' ', $sql);
+
+      if ($this->is_log)
+         if (is_array($this->is_log)) {
+            foreach ($this->is_log as $query_regex) {
+               if (preg_match($query_regex, $sql)) {
+                  $log_callback();
+               }
+            }
+         }
+         else
+            $log_callback();
+   }
+
+
    // QUERY TO DB
    function __invoke($fetch_type = MYSQLI_ASSOC)
    {
@@ -87,7 +103,7 @@ class ORM {
 
       switch ($this->last_operation) {
          case 'select':
-            $sql = "SELECT {$this->selector} FROM `{$this->table_name}` WHERE {$where_str};";
+            $sql = "SELECT\n  {$this->selector}\nFROM\n  `{$this->table_name}`\nWHERE\n  {$where_str};";
             break;
 
          case 'update':
@@ -95,30 +111,30 @@ class ORM {
 
             foreach ($assoc as $key => $val) {
                $val = $this->get_val($val);
-               $query_str .= "`$key` = $val, ";
+               $query_str .= "`$key` = $val,\n  ";
             }
-            $query_str = mb_substr($query_str, 0, mb_strlen($query_str) - 2);
+            $query_str = mb_substr($query_str, 0, mb_strlen($query_str) - 4);
 
-            $sql = "UPDATE `{$this->table_name}` SET {$query_str} WHERE {$where_str};";
+            $sql = "UPDATE\n  `{$this->table_name}`\nSET\n  {$query_str}\nWHERE\n  {$where_str};";
             break;
 
          case 'insert':
             $keys = array_keys($assoc);
             $vals = array_values($assoc);
 
-            $keys_str = '`' . implode('`, `', $keys) . '`';
+            $keys_str = '`' . implode("`,\n  `", $keys) . '`';
             $vals_str = '';
             foreach ($vals as $val) {
                $val = $this->get_val($val);
-               $vals_str .= "$val, ";
+               $vals_str .= "$val,\n  ";
             }
-            $vals_str = mb_substr($vals_str, 0, mb_strlen($vals_str) - 2);
+            $vals_str = mb_substr($vals_str, 0, mb_strlen($vals_str) - 4);
 
-            $sql = "INSERT INTO `{$this->table_name}` ({$keys_str}) VALUES ({$vals_str});";
+            $sql = "INSERT INTO  `{$this->table_name}` (\n  {$keys_str}\n) VALUES (\n  {$vals_str}\n);";
             break;
 
          case 'delete':
-            $sql = "DELETE FROM `{$this->table_name}` WHERE {$where_str};";
+            $sql = "DELETE FROM\n  `{$this->table_name}`\nWHERE\n  {$where_str};";
             break;
 
          default;
@@ -165,17 +181,41 @@ class ORM {
    // Private
    private function query($sql, $fetch_type = null)
    {
+
       $this->conditions = '';
       $this->last_operation = '';
       $this->last_operation_args = [];
 
-      if ($this->is_log)
-         $this->console_log('[ ORM SQL: (fetch_type: ' . $fetch_type.') ]\n' . $sql);
       $res = $this->db->query($sql);
-      if ($fetch_type && !is_bool($res))
-         return $res->fetch_all($fetch_type);
-      else
-         return $res;
+
+      if ($fetch_type && !is_bool($res)) {
+         $ret = $res->fetch_all($fetch_type);
+
+         $this->is_need_log($sql, function () use ($sql, $ret) {
+            $first_word = strtok($sql, "\n");
+            $first_word = strtok($first_word, " ");
+
+            $line = str_repeat('-', strlen("ORM : $first_word"));
+
+            $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . print_r($ret, true));
+         });
+         
+         return $ret;
+      }
+      else {
+         $ret = $res;
+
+         $this->is_need_log($sql, function () use ($sql, $ret) {
+            $first_word = strtok($sql, "\n");
+            $first_word = strtok($first_word, " ");
+
+            $line = str_repeat('-', strlen("ORM : $first_word"));
+
+            $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . (is_bool($ret) && $ret ? 'true' : 'false'));
+         });
+
+         return $ret;
+      }
    }
 
    private function gen_conditions_string()
@@ -199,6 +239,12 @@ class ORM {
          if ($val === null) return 'NULL';
          return $val;
       }
+   }
+
+   // static
+   static function string_starts_with($string, $startString) {
+      $len = strlen($startString);
+      return (substr($string, 0, $len) === $startString);
    }
 }
 
