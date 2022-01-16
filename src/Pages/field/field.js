@@ -11,6 +11,7 @@ import './../../Blocks/item_T_file/item_T_file';
 import './../../Blocks/item_T_audio/item_T_audio';
 import './../../Blocks/item_T_video/item_T_video';
 import './../../Blocks/item_T_mirror/item_T_mirror';
+import './../../Blocks/item_T_excel/item_T_excel';
 
 
 // Code libs and plugins
@@ -90,10 +91,10 @@ $(document).ready(() => {
    })
 
    $buttonAddType.on('click', async e => {
-      const fetchUrl = fieldAddLink + `&type-id=${e.target.dataset.id}&path=${window.state.path}`;
+      const fetchUrl = fieldAddLink + `&type-id=${e.currentTarget.dataset.id}&path=${window.state.path}`;
       const res = await fetchJsonOk('Adding', fetchUrl);
 
-      const typeName = e.target.textContent.trim();
+      const typeName = e.currentTarget.querySelector('span').textContent.trim().toLowerCase();
 
       createRow(res.id, typeName);
    });

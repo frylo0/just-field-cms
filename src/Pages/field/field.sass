@@ -11,6 +11,7 @@
 @import ../../Blocks/item_T_audio/item_T_audio
 @import ../../Blocks/item_T_video/item_T_video
 @import ../../Blocks/item_T_mirror/item_T_mirror
+@import ../../Blocks/item_T_excel/item_T_excel
 
 
 main
@@ -65,8 +66,28 @@ main
 .page_button
    &__content
       transform: translateY(-100%)
+      max-height: calc(100vh - 7em)
+      overflow: visible auto
       > *
          min-width: 10em
+      &::-webkit-scrollbar
+         width: 5px
+         height: 0px
+      &::-webkit-scrollbar-thumb
+         background: $-c2-50
    &-add
       &__type
+         display: flex
+         align-items: center
+         &-icon
+            display: flex
+            justify-content: center
+            align-items: center
+            width: 1em
+            height: 1em
+            margin-right: 1.25em
+            margin-left: 0.25em
+            img
+               width: 1.25em
+               height: 1.25em
 
