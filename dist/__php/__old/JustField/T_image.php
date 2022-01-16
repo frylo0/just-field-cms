@@ -46,14 +46,14 @@ namespace JustField {
 
       function update($value)
       {
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          $old_file = $this->get_value()['src'];
          if (file_exists($old_file)) unlink($old_file);
 
          $ext = strtolower(pathinfo($value['name'], PATHINFO_EXTENSION));
          $target_name = "{$this->id}.{$ext}";
-         $target_file = "$assets_folder/$target_name";
+         $target_file = $reg->path_to_jf_php_folder . "$assets_folder/$target_name";
 
          move_uploaded_file($value['tmp_name'], $target_file);
 
@@ -74,7 +74,7 @@ namespace JustField {
 
          $ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
          $target_name = "{$this->id}.{$ext}";
-         $target_file = "$assets_folder/$target_name";
+         $target_file = $reg->path_to_jf_php_folder . "$assets_folder/$target_name";
 
          if (file_exists($image_src)) {
             file_put_contents($target_file, file_get_contents($image_src));

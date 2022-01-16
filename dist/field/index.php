@@ -186,7 +186,9 @@ $i = 0;
         <div class="row">
           <button class="box p1 box_mode_dark button tal cup brad0 page_button_with-content page_button-add rel" data-add-link="./../scripts/?script=field-add">Add
             <div class="page_button__content abs col top0 left0 dn"><?php foreach ($types as $curr_type) : ?>
-              <div class="box p1 box_mode_dark page_button-add__type" data-id="<?= $curr_type['id_type'] ?>"><?= $curr_type['type_name'] ?>
+<?php $type = $curr_type['type_name']; ?>
+              <div class="box p1 box_mode_dark page_button-add__type" data-id="<?= $curr_type['id_type'] ?>"> 
+                <div class="page_button-add__type-icon"><?php if ($curr_type['type_icon']) : ?><img src="../__php/plugins/field-type_<?= $type ?>/<?= $curr_type['type_icon'] ?>"><?php endif; ?></div><span><?= strtoupper(substr($type, 0, 1)) . substr($type, 1) ?></span>
               </div><?php endforeach; ?>
             </div>
           </button>

@@ -32,7 +32,7 @@ namespace JustField {
          }
       }
 
-      function get_children(DBItem $item) {
+      function get_children(DBItem $item, bool $is_capture_local = true) {
          $value = $item->value;
          if (!$value) return null;
 
@@ -49,8 +49,12 @@ namespace JustField {
             foreach ($res as $row)
                $children_mixed[$row['id_db-item']] = new DBItem($this->orm, $row['id_db-item']);
 
-            foreach (explode(',', $value) as $id)
-               array_push($children, $children_mixed[$id]);
+            foreach (explode(',', $value) as $id) {
+               $item = $children_mixed[$id];
+               if (!$is_capture_local && $item->type->is_local)
+                  continue;
+               array_push($children, $item);
+            }
             
             return $children;
          }

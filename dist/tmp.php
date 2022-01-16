@@ -1,9 +1,10 @@
-<?php require '../php/jf.php'; ?>
+<?php require '__php/jf.php'; ?>
 
 <html>
    
    <head>
       <title>Sending HTML email using PHP</title>
+      <link rel="stylesheet" href="tmp.css">
    </head>
    
    <body>
@@ -33,7 +34,7 @@
          }
       ?>
 
-      <form action="./tmp.php" method="post">
+      <!--<form action="./tmp.php" method="post">
 
          <input type="text" name="from" id="" placeholder="from"><br>
          <input type="text" name="to" id="" placeholder="to"><br>
@@ -42,12 +43,36 @@
          
          <input type="submit" value="send">
 
-         <?php
-         $nesters = $db->at_id(42)->get_children();
-         var_dump($nesters);
-         ?>
+      </form>-->
+      
+      <?php
+      // STOP: ADDING viewed and bought counters to all products
 
-      </form>
+      $products_all = [];
+
+      $root = $db->get_root()->walker;
+      $products_all = array_merge($products_all,  $root->pages->consult->types('children')  );
+      $products_all = array_merge($products_all,  $root->pages->consult->rating('children')  );
+      $products_all = array_merge($products_all,  $root->pages->event('children')  );
+      $products_all = array_merge($products_all,  $root->pages->shop('children')  );
+
+      //foreach ($products_all as $product) {
+      //   echo $product->key.': '.$product->name.'<br>';
+
+      //   $field = $product->add_field($db->type_id('field'));
+      //   $field->update('key', 'viewed_count');
+      //   $field->update('name', 'Просмотрено');
+      //   $field->update('value', '0');
+
+      //   $field = $product->add_field($db->type_id('field'));
+      //   $field->update('key', 'bought_count');
+      //   $field->update('name', 'Куплено');
+      //   $field->update('value', '0');
+
+      //   echo $product->key.': '.$product->name.': success<br>';
+      //}
+
+      ?>
       
    </body>
 </html>

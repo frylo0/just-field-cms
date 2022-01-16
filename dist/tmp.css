@@ -1,0 +1,34 @@
+table, td {
+   border: 1px solid #aaa;
+}
+table {
+   border-collapse: collapse;
+}
+td {
+   padding: 0.25em;
+}
+td:empty {
+   background: #aaaaaa55;
+}
+thead td, tr td:nth-child(1) {
+   font-weight: bold;
+   text-align: center;
+   background: #333;
+   color: #aaa;
+}
+
+button {
+   border: 1px solid #aaa;
+   border-right: none;
+   padding: 1em;
+   color: #aaa;
+   background: #555;
+   cursor: pointer;
+}
+button:last-child {
+   border: 1px solid #aaa;
+}
+.table-sheet-button_current {
+   background: #aaa;
+   color: #000;
+}

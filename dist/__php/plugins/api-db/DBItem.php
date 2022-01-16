@@ -2,50 +2,212 @@
 
 namespace JustField {
 
+   use Exception;
+
+   class DBItemPropRegister {
+      private DBItem $item;
+
+      function __construct(DBItem $item) {
+         $this->item = $item;
+      }
+
+      function __get($path)
+      {
+         return $this->item->at_path($path);
+      }
+      function __set($path, $value)
+      {
+         return $this->item->at_path($path)->update('value', $value);
+      }
+      function __call($name, $args) {
+         throw new Exception("DBItem->prop->{$name} call error. Props can are not callable.");
+      }
+   };
+
+   class DBItemPathWalkerNull {
+      function __get($name) {
+         return new DBItemPathWalkerNull();
+      }
+      function __set($name, $value) {
+         throw new \Error('Trying to set value to DBItemPathWalkerNull, this property don\'t exists.');
+      }
+      function __call($name, $args) {
+         // if value taking
+         if (!array_key_exists(0, $args) || !$args[0]) {
+            return null;
+         } else // else return null walker
+            return $this;
+      }
+      function __toString() {
+         return '';
+      }
+   }
+   class DBItemPathWalker {
+      private DBItem $item;
+      function __construct($item) {
+         $this->item = $item;
+      }
+
+      function __get($name) {
+         return new DBItemPathWalker($this->item->at_path($name));
+      }
+
+      function __call($name, $args) {
+         // if walker modifier given
+         if (array_key_exists(0, $args)) {
+            if ($args[0] == 'item') // if taking item
+               return $this->item->at_path($name);
+            else if ($args[0] == 'exists') // if check path existence
+               if ($this->item->has_path($name)) // if path exists then return walker
+                  return new DBItemPathWalker($this->item->at_path($name));
+               else
+                  return new DBItemPathWalkerNull(); // if no such path then return null walker
+            else if ($args[0] == 'children') // if taking children
+               return $this->item->at_path($name)->get_children();
+         } else
+            return $this->item->at_path($name)->value;
+      }
+
+      function __toString() {
+         return $this->item->__toString();
+      }
+   }
+
    /**
-    * Required type methods
-    *
-    * + TYPE->create() - creates new field in type table
-    *      @returns new field id
-    * + TYPE->remove(DBItem $this) - removes field value from field type table
-    *      @returns none 
-    *
-    * + TYPE->get_value(int $field_id) - takes field value in type table by id in this table
-    *      @returns field value
-    * + TYPE->get_children(DBItem $this) - get children of field or null if no children
-    *      @returns { array<DBItem> | null } children
-    * + TYPE->get_child(DBItem $this, string $key) - get child with key or null if no children or no such key 
-    *      @returns { DBItem | null } child with key
-    *
-    * + TYPE->update(DBItem $this, ValueSet $value_set) - updates value of this field
-    *      ValueSet: [ 'value' => string, '_FILES' => $_FILES ]
-    *      @returns none
-    *
-    * + TYPE->duplicate_value_to(DBItem $field, DBItem $new_field) - duplicates field value in field type table
-    *      @returns none 
+    * @property string $key The key of item. Used to specify paths. Have to be unique within one parent.
+    * @property string $name Understandable for user field description. Can be not unique.
+    * @property string $path Global item path in data base.
+    * @property DBItemType $type Item db-type info, such as type name and so on.
+    * @property DBItemType|null $subtype Item db-subtype info, such as subtype name an so on.
+    * @property string $value_id The content of db-item_value property. Can be T_{type} table id or something else. To reach value use "value" property.
+    * @property mixed $value The value of item. Content depend on T_{type} behaviour.
+    * @property string $parent_id id_db-item of parent element.
+    * @property DBItem $parent The parent item.
+    * 
+    * @property \ORM $orm Data base ORM, with connection, to execute queries.
+    * @property mixed $id Item id_db-item.
+    * @property DBItemPathWalker $walker Entry point to "walker" mode. Very useful when you output data in html.
     */
 
    class DBItem
    {
-      var $orm;
-      var $id;
+      private $_orm;
+      private $_id;
 
-      var $key;
-      var $name;
-      var $path;
+      private DBItemPropRegister $_props; // useful path getter by getter setter
+      private DBItemPathWalker $_walker;
 
-      var DBItemType $type;
-      var $subtype; // DBItemType | null
-
-      var $value_id;
-      var $value;
-
-      var $parent_id; // ak. parent
-
-      function __construct($orm, $id)
+      function __construct(\ORM $orm, $id)
       {
-         $this->refresh_with_args($id, $orm);
+         $this->_orm = $orm;
+         $this->_id = $id;
+         $this->_props = new DBItemPropRegister($this);
+         $this->_walker = new DBItemPathWalker($this);
+
+         $type_name = $this->magic_get('type')->name;
+         $behaviour = $this->get_type_behaviour($type_name);
+
+         if (method_exists(get_class($behaviour), 'on_construct')) {
+            $this->api = new \JustFieldRegister();
+            $behaviour::on_construct($this->api, $this);
+         }
       }
+
+
+      private function get_orm_db_item_prop($prop) {
+         $this->orm->table('db-item');
+         $res = $this->orm->select("`db-item_$prop`")->where("`id_db-item` = '{$this->id}'")()[0]["db-item_$prop"];
+         return $res;
+      }
+      private function set_orm_db_item_prop($prop, $value) {
+         $res = $this->orm->update(["db-item_$prop" => $value])->where("`id_db-item` = '{$this->id}'")();
+         return $res;
+      }
+
+      
+      private function magic_get($prop) {
+         $target_prop = $prop; // because some props has few props with different names
+         switch ($prop) {
+            case 'type':
+            case 'subtype':
+               $target_prop = 'value-'.$target_prop; // value-type, value-subtype
+               $res = $this->get_orm_db_item_prop($target_prop);
+
+               if ($res == '') // if no type
+                  return null;
+               else // else if type
+                  return new DBItemType($this->orm, $res);
+               break;
+
+            case 'value_id':
+               $target_prop = 'value';
+               return $this->get_orm_db_item_prop($target_prop);
+               break;
+            case 'parent_id':
+               $target_prop = 'parent';
+               return $this->get_orm_db_item_prop($target_prop);
+               break;
+
+            case 'key':
+            case 'name':
+            case 'path':
+               return $this->get_orm_db_item_prop($target_prop);
+               break;
+
+            case 'parent':
+               $res = $this->get_orm_db_item_prop('parent');
+               return new DBItem($this->orm, $res);
+               break;
+            case 'value':
+               $res = $this->get_orm_db_item_prop('value');
+               return $this->get_value($res);
+               break;
+
+            case 'id':
+               return $this->_id; break;
+            case 'orm':
+               return $this->_orm; break;
+            case 'props':
+               return $this->_props; break;
+            case 'walker':
+               return $this->_walker; break;
+               
+            default:
+               return $this->{$prop};
+               break;
+         };
+      }
+
+      private function magic_set($prop, $value) {
+         // TODO: fix unlogic functional, use magic_get as ideal
+         $target_prop = $prop;
+         switch ($prop) {
+            case 'key':
+            case 'name':
+            case 'parent':
+            case 'path':
+            case 'value':
+               $this->update($target_prop, $value);
+               break;
+            case 'id':
+            case 'orm':
+            case 'props':
+               throw new \Error("Dear fritylo, to set '$prop', please define magic_set method functionality first.");
+               break;
+            default:
+               return $this->{$prop} = $value;
+               break;
+         };
+      }
+
+
+      function __get($prop) {
+         return $this->magic_get($prop);
+      }
+      function __set($prop, $value) {
+         return $this->magic_set($prop, $value);
+      }
+      
 
       /**
        * Factory function to get behaviour *(consist get_value, create, remove, and so on methods)* for target type. In process of getting behaviour generate T_type object and set an ID to it.
@@ -69,50 +231,11 @@ namespace JustField {
          return $behaviour;
       }
 
-      private function get_value($item_data, $type_name)
+      private function get_value($db_item_value, $type_name = null)
       {
-         $value = $item_data['db-item_value'];
-
-         return $this->get_type_behaviour($type_name)->get_value($value);
-      }
-
-      
-      function refresh() {
-         $this->refresh_with_args($this->id, $this->orm);
-      }
-
-      private function refresh_with_args($id, $orm) {
-         $this->orm = $orm;
-         $this->id = $id;
-
-         $data = $this->orm->from('db-item')->select('*')->where("`id_db-item` = '$id'")();
-         if ($data === false || count($data) == 0) {
-            var_dump($data);
-            $this->orm->is_simulate = true;
-            $sql = $this->orm->from('db-item')->select('*')->where("`id_db-item` = '$id'")();
-            throw new \Exception("No data in $id in JustField\\DBItem::__construct ( $sql )");
-         }
-         $data = $data[0];
-
-         $this->key = $data['db-item_key'];
-         $this->name = $data['db-item_name'];
-
-         $this->path = $data['db-item_path'];
-
-         if ($data['db-item_value-type'] == '')
-            $this->type = null;
-         else
-            $this->type = new DBItemType($orm, $data['db-item_value-type']);
-         if ($data['db-item_value-subtype'] == '')
-            $this->subtype = null;
-         else
-            $this->subtype = new DBItemType($orm, $data['db-item_value-subtype']);
-
-         $this->value = $this->get_value($data, $this->type->name);
-         $this->value_id = $data['db-item_value'];
-
-         $this->parent = $data['db-item_parent'];
-         $this->parent_id = $this->parent;
+         if ($type_name === null)
+            $type_name = $this->type->name;
+         return $this->get_type_behaviour($type_name)->get_value($db_item_value);
       }
 
 
@@ -130,7 +253,12 @@ namespace JustField {
       function get_children()
       {
          if (!$this->value) return null;
-         return $this->get_type_behaviour()->get_children($this);
+         return $this->get_type_behaviour()->get_children($this, false); // false - don't capture local admin items
+      }
+      function get_children_all()
+      {
+         if (!$this->value) return null;
+         return $this->get_type_behaviour()->get_children($this, true); // true - capture local admin items
       }
       function get_child(string $key)
       {
@@ -173,13 +301,27 @@ namespace JustField {
             throw new \Error("No field found at path '{$this_path}/{$path}'. Reached when DBItem('{$this->path}')->at_path('$path').");
          }
       }
+      
+      function has_path(string $path) {
+         if (!$path) return $this;
+
+         $this_path = $this->path == '/' ? '' : $this->path;
+
+         $res = $this->orm->select('`id_db-item` as \'id\'')->where("`db-item_path` = '{$this_path}/{$path}'")();
+         if ($res) {
+            $target_id = $res[0]['id'];
+            return $target_id;
+         }
+         else {
+            return false;
+         }
+      }
 
       /**
        * @return string $new_field_id
        */
       function add_field($field_type_id)
       {
-         //echo '<script>/*' . "1: Adding type id: $field_type_id" . '*/</script>';
          $type = new DBItemType($this->orm, $field_type_id);
 
          // put value to T table
@@ -205,7 +347,7 @@ namespace JustField {
             array_push($children, $new_field_id);
          });
 
-         return $new_field_id;
+         return new DBItem($this->orm, $new_field_id);
       }
 
       function update($key, $value)
@@ -218,8 +360,6 @@ namespace JustField {
 
                $value_set = ['value' => $value, '_FILES' => $files];
                $res = $this->get_type_behaviour()->update($this, $value_set);
-               // refresh item to update value prop
-               $this->refresh();
                return $res;
                break;
 
@@ -241,16 +381,12 @@ namespace JustField {
                throw new \Exception("Error: DBItem::update(\$key=$key, \$value=$value) - unexpected key ($key)");
          };
          if ($key == 'key') {
-            // refresh item to props take new value
-            $this->refresh();
             $this->update_path();
             
             $nesters = $this->get_nesters();
             foreach ($nesters as $nester)
                $nester->update_path();
          }
-         // refresh item to props take new value
-         $this->refresh();
       }
       function update_path() {
          // self path update
@@ -294,7 +430,7 @@ namespace JustField {
       /** @return string $new_field_id */
       function duplicate()
       {
-         return DBItem::duplicate_field_to($this, new DBItem($this->orm, $this->parent));
+         return DBItem::duplicate_field_to($this, new DBItem($this->orm, $this->parent_id));
       }
 
       /** 
@@ -308,8 +444,7 @@ namespace JustField {
 
          // adding new field of target type in db_item scope, value is free and no data duplicate in T_table
          /** @var string $new_field_id */
-         $new_field_id = $target_parent->add_field($field->type->id);
-         $new_field = new DBItem($orm, $new_field_id);
+         $new_field = $target_parent->add_field($field->type->id);
 
          // copy key and name of target field in db_item scope
          $field_data = [
@@ -346,11 +481,6 @@ namespace JustField {
             });
          });
 
-         // $target_parent can be same to $old_parent if same place move
-         if ($target_parent->id == $this->parent_id) {
-            // then need to update $target_parent->value after $old_parent->update('value')
-            $target_parent->refresh();
-         }
          // adding this field id to new parent value
          $target_parent->update_children_value(
          function (&$children) use ($self) {

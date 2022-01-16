@@ -92,7 +92,8 @@ if (!isset($_SESSION['id'])) {
          $from_get($path, 'path');
          
          $db->orm->is_log = false;
-         $new_field_id = $db->at_path($path)->add_field($field_type_id);
+         $new_field = $db->at_path($path)->add_field($field_type_id);
+         $new_field_id = $new_field->id;
 
          echo '{ "status": "OK", "id": "'.$new_field_id.'"}';
 

@@ -2,7 +2,7 @@
    <?php global $db, $reg; ?>
 
    <?php $newsletters = $db->at_path('mailing')->get_children(); ?>
-   <?php $is_data = count($newsletters) > 1; // 1 for template element ?>
+   <?php $is_data = $newsletters ? count($newsletters) > 1 : false; // 1 for template element ?>
 
    <?php if ($is_data) : ?>
 
