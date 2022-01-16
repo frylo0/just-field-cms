@@ -59,11 +59,17 @@ namespace JustField {
       }
 
       function get_value() {
+         global $reg;
+
          $res = $this->type_table_orm->select('text_value, text_html')->where("`id_text` = '{$this->id}'")()[0];
+
+         $html = $res['text_html'];
+         $html = str_replace('../__assets/', $reg->path_to_jf_php_folder . '../__assets/', $html);
+         $html = str_replace('..\/__assets\/', $reg->path_to_jf_php_folder . '..\/__assets\/', $html);
 
          $ret = new \stdClass();
          $ret->value = $res['text_value'];
-         $ret->html = $res['text_html'];
+         $ret->html = $html;
 
          return $ret;
       }
@@ -73,23 +79,24 @@ namespace JustField {
          deleteDir(T_text::$assets_folder . $this->id);
       }
 
-      function duplicate_value_to(DBItem $field, DBItem $new_field) {
-         function replace_id($old_string, $old_id, $new_id) {
-            $new_string = $old_string;
-            $new_string = str_replace("__assets/T_text/$old_id/", "__assets/T_text/$new_id/", $new_string);
-            $new_string = str_replace("__assets\\/T_text\\/$old_id\\/", "__assets\\/T_text\\/$new_id\\/", $new_string);
-            return $new_string;
-         }
+      private static function _duplicate_replace_id($old_string, $old_id, $new_id) {
+         $new_string = $old_string;
+         $new_string = str_replace("__assets/T_text/$old_id/", "__assets/T_text/$new_id/", $new_string);
+         $new_string = str_replace("__assets\\/T_text\\/$old_id\\/", "__assets\\/T_text\\/$new_id\\/", $new_string);
+         return $new_string;
+      }
 
+
+      function duplicate_value_to(DBItem $field, DBItem $new_field) {
          $new_field->update('value', json_encode([
             'value' => json_decode(
-               replace_id(
+               T_text::_duplicate_replace_id(
                   html_entity_decode($field->value->value),
                   $field->value_id,
                   $new_field->value_id
                )
             ),
-            'html' => replace_id(
+            'html' => T_text::_duplicate_replace_id(
                $field->value->html,
                $field->value_id,
                $new_field->value_id

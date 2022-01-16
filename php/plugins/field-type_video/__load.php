@@ -35,7 +35,7 @@ namespace JustField {
 
       function update(DBItem $item, $value) {
          $value = $value['_FILES'];
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          if ($value['error'] != UPLOAD_ERR_OK)
             throw new UploadException($value['error']);
@@ -45,7 +45,7 @@ namespace JustField {
 
          $ext = strtolower(pathinfo($value['name'], PATHINFO_EXTENSION));
          $target_name = "v{$this->id}.{$ext}";
-         $target_file = "$assets_folder$target_name"; // assets_folder has '/' at end
+         $target_file = $reg->path_to_jf_php_folder . "$assets_folder$target_name"; // assets_folder has '/' at end
 
          move_uploaded_file($value['tmp_name'], $target_file);
          chmod($target_file, 0777);
@@ -55,15 +55,15 @@ namespace JustField {
       }
 
       function duplicate_value_to(DBItem $field, DBItem $new_field) {
-         global $assets_folder;
+         global $assets_folder, $reg;
 
          $video_value = $field->value;
-         $video_src = $video_value->src;
+         $video_src = strpos($video_value->src, '?') ? strtok($video_value->src, '?') : $video_value->src;
          $video_name = $video_value->name;
 
          $ext = strtolower(pathinfo($video_name, PATHINFO_EXTENSION));
          $target_name = "v{$new_field->value_id}.{$ext}";
-         $target_file = "$assets_folder$target_name"; // assets folder already have '/' at end
+         $target_file = $reg->path_to_jf_php_folder . "$assets_folder$target_name"; // assets folder already have '/' at end
 
          if (file_exists($video_src)) {
             file_put_contents($target_file, file_get_contents($video_src)); // copy file contents to new field file
