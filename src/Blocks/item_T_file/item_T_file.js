@@ -31,9 +31,4 @@ $(document).ready(() => {
       $buttonDownload.find('a').attr('href', res.data); // updating link on download button
       $buttonDownload.removeAttr('disabled');
    });
-
-   window.item_T_file_handle = function (row) {
-      action(`${pref} init`)(0, row);
-   };
-   when('rowHandle: file', tr => window.item_T_file_handle(tr));
 });
