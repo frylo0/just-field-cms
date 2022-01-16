@@ -26,7 +26,10 @@ function item_T_text_blocksToHTML(blocks) {
       items = '';
       switch (block.type) {
          case 'paragraph':
-            res += `<p style="text-align: ${block.tunes.alignment.alignment}">${block.data.text}</p>`;
+            let align = block.tunes.alignment.alignment;
+            if (align == 'left')
+               align = '';
+            res += `<p style="text-align: ${align}">${block.data.text}</p>`;
             break;
 
          case 'header':
@@ -99,7 +102,7 @@ function item_T_text_blocksToHTML(blocks) {
             
          case 'image':
             res += `
-            <figure>
+            <figure class="${block.data.cation ? '' : 'figure_no-caption'}">
                <img 
                   src="${block.data.file.url}" 
                   width="${block.data.stretched ? '100%' : ''}"
@@ -437,6 +440,7 @@ function item_T_text_initEditor() {
       },
       async onBlockDelete(block) {
          // on editor delete block
+         if (!block) return;
          switch (block.type) {
             case 'image':
                const fileUrl = block.data.file.url;
