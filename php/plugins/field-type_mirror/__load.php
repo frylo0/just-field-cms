@@ -49,7 +49,6 @@ namespace JustField {
 
                // taking DBItem for render_value
                $item = $args['item'];
-               $item->refresh();
 
                ob_start();
                // now render_value works like mirror target method
