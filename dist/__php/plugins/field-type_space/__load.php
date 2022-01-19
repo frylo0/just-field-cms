@@ -14,7 +14,7 @@ namespace JustField {
       }
 
       function set_id($id) {
-         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '$id'")()[0]['db-item_value'];
+         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $id)()[0]['db-item_value'];
          $this->id = $type_table_id;
       }
 
@@ -30,11 +30,11 @@ namespace JustField {
       }
 
       function update(DBItem $item, array $value) {
-         $this->type_table_orm->update(['space_value' => $value['value']])->where("`id_space` = '{$this->id}'")();
+         $this->type_table_orm->update(['space_value' => '?'])->where("`id_space` = ?")->bind('si', $value['value'], $this->id)();
       }
 
       function get_value() {
-         return $this->type_table_orm->select('space_value')->where("`id_space` = '{$this->id}'")()[0]['space_value'];
+         return $this->type_table_orm->select('space_value')->where("`id_space` = ?")->bind('i', $this->id)()[0]['space_value'];
       }
 
       function remove() {

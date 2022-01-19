@@ -21,12 +21,12 @@ namespace JustField {
       }
 
       function update(DBItem $item, $value) {
-         $this->orm->update(['db-item_value' => $value['value']])->where("`id_db-item` = '{$this->id}'")();
+         $this->orm->update(['db-item_value' => '?'])->where("`id_db-item` = ?")->bind('si', $value['value'], $this->id)();
       }
 
       function get_value($data = null) {
          if (!$data)
-            return $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+            return $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $this->id)()[0]['db-item_value'];
          else {
             return $data;
          }
@@ -50,6 +50,11 @@ namespace JustField {
                $children_mixed[$row['id_db-item']] = new DBItem($this->orm, $row['id_db-item']);
 
             foreach (explode(',', $value) as $id) {
+               // check if child array crashed
+               if (!$id) {
+                  throw new \Error("T_object->get_children(): DBItem({$item->path}) Value crashed, and don't responds children array. Children value: \"$value\".");
+                  return;
+               }
                $item = $children_mixed[$id];
                if (!$is_capture_local && $item->type->is_local)
                   continue;

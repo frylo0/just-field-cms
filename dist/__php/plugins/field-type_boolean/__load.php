@@ -14,7 +14,7 @@ namespace JustField {
       }
 
       function set_id($id) {
-         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '$id'")()[0]['db-item_value'];
+         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $id)()[0]['db-item_value'];
          $this->id = $type_table_id;
       }
 
@@ -30,11 +30,11 @@ namespace JustField {
       }
 
       function update(DBItem $item, array $value) {
-         $this->type_table_orm->update(['boolean_value' => $value['value']])->where("`id_boolean` = '{$this->id}'")();
+         $this->type_table_orm->update(['boolean_value' => '?'])->where("`id_boolean` = ?")->bind('ii', $value['value'], $this->id)();
       }
 
       function get_value() {
-         return $this->type_table_orm->select('boolean_value')->where("`id_boolean` = '{$this->id}'")()[0]['boolean_value'];
+         return $this->type_table_orm->select('boolean_value')->where("`id_boolean` = ?")->bind('i', $this->id)()[0]['boolean_value'];
       }
 
       function remove() {

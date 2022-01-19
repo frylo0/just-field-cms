@@ -24,6 +24,10 @@ class ORM {
    var $table_name;
    var $table_name_raw;
 
+   var $is_bind = false;
+   var $bind_types;
+   var $bind_vars;
+
    function __construct($host = null, $user = null, $pass = null, $db_name = null)
    {
       global $orm_mysqli;
@@ -49,10 +53,15 @@ class ORM {
       $new_orm->table_name_raw = $this->table_name_raw;
       $new_orm->is_simulate = $this->is_simulate;
 
+      $new_orm->is_bind = $this->is_bind;
+      $new_orm->bind_types = $this->bind_types;
+      $new_orm->bind_vars = $this->bind_vars;
+
       return $new_orm;
    }
 
    function from($table) {
+      $this->is_bind = false;
       $this->conditions = '';
       $this->table_name_raw = $table;
       $this->table_name = $this->table_prefix . $table;
@@ -69,7 +78,8 @@ class ORM {
    }
    function where_id($id)
    {
-      $this->conditions = "`id_{$this->table_name_raw}` = '$id'";
+      $this->conditions = "`id_{$this->table_name_raw}` = ?";
+      $this->bind('i', $id);
       return $this;
    }
 
@@ -177,44 +187,70 @@ class ORM {
       return $this;
    }
 
+   function bind($types, ...$vars) {
+      $this->is_bind = true;
+      $this->bind_types = $types;
+      $this->bind_vars = $vars;
+      return $this;
+   }
+
 
    // Private
    private function query($sql, $fetch_type = null)
    {
-
       $this->conditions = '';
       $this->last_operation = '';
       $this->last_operation_args = [];
 
-      $res = $this->db->query($sql);
+      $stmt = $this->db->prepare($sql);
 
-      if ($fetch_type && !is_bool($res)) {
-         $ret = $res->fetch_all($fetch_type);
-
-         $this->is_need_log($sql, function () use ($sql, $ret) {
-            $first_word = strtok($sql, "\n");
-            $first_word = strtok($first_word, " ");
-
-            $line = str_repeat('-', strlen("ORM : $first_word"));
-
-            $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . print_r($ret, true));
-         });
-         
-         return $ret;
+      if (!$stmt) {
+         throw new Error('ORM: Statement preparing error. SQL:'."\n".$sql);
       }
+
+      if ($this->is_bind) {
+         $bind_res = $stmt->bind_param($this->bind_types, ...$this->bind_vars);
+         if (!$bind_res)
+            throw new Error('ORM: Variable binding error, $stmt->bind_param(\''.$this->bind_types.'\', '.implode(',', $this->bind_vars).'), with SQL:'.$sql );
+      }
+      $this->is_bind = false;
+
+      // if execution OK
+      if ($stmt->execute()) {
+         $res = $stmt->get_result();
+
+         if ($fetch_type && !is_bool($res)) {
+            $ret = $res->fetch_all($fetch_type);
+
+            $this->is_need_log($sql, function () use ($sql, $ret) {
+               $first_word = strtok($sql, "\n");
+               $first_word = strtok($first_word, " ");
+
+               $line = str_repeat('-', strlen("ORM : $first_word"));
+
+               $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . print_r($ret, true));
+            });
+            
+            return $ret;
+         }
+         else {
+            $ret = $res;
+
+            $this->is_need_log($sql, function () use ($sql, $ret) {
+               $first_word = strtok($sql, "\n");
+               $first_word = strtok($first_word, " ");
+
+               $line = str_repeat('-', strlen("ORM : $first_word"));
+
+               $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . (is_bool($ret) && $ret ? 'true' : 'false'));
+            });
+
+            return $ret;
+         }
+      }
+      // if execution Error
       else {
-         $ret = $res;
-
-         $this->is_need_log($sql, function () use ($sql, $ret) {
-            $first_word = strtok($sql, "\n");
-            $first_word = strtok($first_word, " ");
-
-            $line = str_repeat('-', strlen("ORM : $first_word"));
-
-            $this->console_log("$line\nORM : $first_word\nSQL\n{$sql}\nRES\n" . (is_bool($ret) && $ret ? 'true' : 'false'));
-         });
-
-         return $ret;
+         throw new Error('SQL execution error.');
       }
    }
 
@@ -233,8 +269,12 @@ class ORM {
 
    private function get_val($val) {
       if (is_string($val)) {
-         $val = $this->db->escape_string($val);
-         return "'$val'";
+         if ($val == '?')
+            return '?';
+         else {
+            $val = $this->db->escape_string($val);
+            return "'$val'";
+         }
       } else {
          if ($val === null) return 'NULL';
          return $val;

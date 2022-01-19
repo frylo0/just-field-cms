@@ -51,7 +51,7 @@ include ../../bundle.pug
             $password = $_POST['password'];
 
             $db->orm->is_log = false;
-            $id = $db->orm->from('account')->select('id_account')->where("account_login = '$login' AND account_password = '$password'")();
+            $id = $db->orm->from('account')->select('id_account')->where("account_login = ? AND account_password = ?")->bind('ss', $login, $password)();
 
             if (!$id):
                $_SESSION['login_error'] = 'uncorrect login or password';

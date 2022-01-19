@@ -47,7 +47,7 @@ namespace JustField {
          $table_name_begin = $this->orm->table_name_raw;
          $this->orm->from('type');
 
-         $res = $this->orm->select('id_type')->where("`type_name` = '$name'")();
+         $res = $this->orm->select('id_type')->where("`type_name` = ?")->bind('s', $name)();
 
          $ret = null;
          if ($res)

@@ -19,7 +19,7 @@ namespace JustField {
       }
 
       function set_id($id) {
-         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '$id'")()[0]['db-item_value'];
+         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $id)()[0]['db-item_value'];
          $this->id = $type_table_id;
       }
 
@@ -61,7 +61,7 @@ namespace JustField {
       function get_value() {
          global $reg;
 
-         $res = $this->type_table_orm->select('text_value, text_html')->where("`id_text` = '{$this->id}'")()[0];
+         $res = $this->type_table_orm->select('text_value, text_html')->where("`id_text` = ?")->bind('i', $this->id)()[0];
 
          $html = $res['text_html'];
          $html = str_replace('../__assets/', $reg->path_to_jf_php_folder . '../__assets/', $html);

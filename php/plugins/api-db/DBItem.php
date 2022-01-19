@@ -116,11 +116,11 @@ namespace JustField {
 
       private function get_orm_db_item_prop($prop) {
          $this->orm->table('db-item');
-         $res = $this->orm->select("`db-item_$prop`")->where("`id_db-item` = '{$this->id}'")()[0]["db-item_$prop"];
+         $res = $this->orm->select("`db-item_$prop`")->where("`id_db-item` = ?")->bind('i', $this->id)()[0]["db-item_$prop"];
          return $res;
       }
       private function set_orm_db_item_prop($prop, $value) {
-         $res = $this->orm->update(["db-item_$prop" => $value])->where("`id_db-item` = '{$this->id}'")();
+         $res = $this->orm->update(["db-item_$prop" => '?'])->where("`id_db-item` = ?")->bind('si', $value, $this->id)();
          return $res;
       }
 
@@ -292,7 +292,7 @@ namespace JustField {
 
          $this_path = $this->path == '/' ? '' : $this->path;
 
-         $res = $this->orm->select('`id_db-item` as \'id\'')->where("`db-item_path` = '{$this_path}/{$path}'")();
+         $res = $this->orm->select('`id_db-item` as \'id\'')->where("`db-item_path` = ?")->bind('s', $this_path.'/'.$path)();
          if ($res) {
             $target_id = $res[0]['id'];
             return new DBItem($this->orm, $target_id);
@@ -307,7 +307,7 @@ namespace JustField {
 
          $this_path = $this->path == '/' ? '' : $this->path;
 
-         $res = $this->orm->select('`id_db-item` as \'id\'')->where("`db-item_path` = '{$this_path}/{$path}'")();
+         $res = $this->orm->select('`id_db-item` as \'id\'')->where("`db-item_path` = ?")->bind('s', $this_path.'/'.$path)();
          if ($res) {
             $target_id = $res[0]['id'];
             return $target_id;
@@ -398,7 +398,7 @@ namespace JustField {
       }
       function update_children_value($callback) {
          // updating self value (special for duplicate method)
-         $value = $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+         $value = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $this->id)()[0]['db-item_value'];
          if ($value == '') // if object is free
             $value = [];
          else // if object has children
@@ -407,7 +407,7 @@ namespace JustField {
          $callback($value);
 
          // update current field
-         $this->orm->from('db-item')->update(['db-item_value' => implode(',', $value)])->where("`id_db-item` = '{$this->id}'")();
+         $this->orm->from('db-item')->update(['db-item_value' => '?'])->where("`id_db-item` = ?")->bind('si', implode(',', $value), $this->id)();
       }
 
       function remove()
@@ -462,7 +462,7 @@ namespace JustField {
          $duplicate_res = $field->get_type_behaviour()->duplicate_value_to($field, $new_field);
 
          $ret = new \stdClass();
-         $ret->new_field_id = $new_field_id;
+         $ret->new_field_id = $new_field->id;
          $ret->duplicate_res = $duplicate_res;
 
          return $ret;

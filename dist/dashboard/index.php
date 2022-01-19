@@ -16,7 +16,7 @@ if (!isset($_SESSION['id'])) {
    exit("<meta http-equiv='refresh' content='0; url=./../login'>");
    die;
 }?><?php
-$user_info = $orm->from('account')->select('*')->where("id_account = '{$_SESSION['id']}'")()[0];?><!DOCTYPE html>
+$user_info = $orm->from('account')->select('*')->where("id_account = ?")->bind('i', $_SESSION['id'])()[0];?><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">

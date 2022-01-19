@@ -17,7 +17,7 @@ namespace JustField {
       }
 
       function set_id($id) {
-         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '$id'")()[0]['db-item_value'];
+         $type_table_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $id)()[0]['db-item_value'];
          $this->id = $type_table_id;
       }
 
@@ -49,7 +49,7 @@ namespace JustField {
          move_uploaded_file($value['tmp_name'], $target_file);
          chmod($target_file, 0777);
 
-         $this->type_table_orm->update(['excel_src' => $target_name])->where("`id_excel` = '{$this->id}'")();
+         $this->type_table_orm->update(['excel_src' => '?'])->where("`id_excel` = ?")->bind('si', $target_name, $this->id)();
          return $target_file;
       }
 
@@ -68,7 +68,7 @@ namespace JustField {
             file_put_contents($target_file, file_get_contents($file_src)); // copy file contents to new field file
             chmod($target_file, 0777);
 
-            $this->type_table_orm->update(['excel_src' => $target_name])->where("`id_excel` = '{$new_field->value_id}'")();
+            $this->type_table_orm->update(['excel_src' => '?'])->where("`id_excel` = ?")->bind('si', $target_name, $new_field->value_id)();
          }
 
          return $target_file;
@@ -77,7 +77,7 @@ namespace JustField {
       function get_value() {
          global $assets_folder, $reg;
 
-         $src = $this->type_table_orm->select('`excel_src`')->where("`id_excel` = '{$this->id}'")()[0]['excel_src'];
+         $src = $this->type_table_orm->select('`excel_src`')->where("`id_excel` = ?")->bind('i', $this->id)()[0]['excel_src'];
 
          $ret = new \stdClass();
          $ret->name = $src;

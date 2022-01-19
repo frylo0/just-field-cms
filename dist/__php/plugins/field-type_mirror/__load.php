@@ -12,11 +12,11 @@ namespace JustField {
       }
 
       function _has_target($args, $callback_is_target, $callback_no_target) {
-         $target_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+         $target_id = $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $this->id)()[0]['db-item_value'];
 
          $target_field = null;
          if ($target_id) {
-            $is_target_found = count($this->orm->select('`id_db-item`')->where("`id_db-item` = '{$target_id}'")());
+            $is_target_found = count($this->orm->select('`id_db-item`')->where("`id_db-item` = ?")->bind('i', $target_id)());
             if ($is_target_found) {
                $target_field = new DBItem($this->orm, $target_id);
                return $callback_is_target($args, $this, $target_field);
@@ -45,7 +45,7 @@ namespace JustField {
             function ($args, T_mirror $self) {
                // updating self value
                $target_id = $args['value']['value'];
-               $self->orm->update(['db-item_value' => $target_id])->where("`id_db-item` = '{$self->id}'")();
+               $self->orm->update(['db-item_value' => '?'])->where("`id_db-item` = ?")->bind('ii', $target_id, $self->id)();
 
                // taking DBItem for render_value
                $item = $args['item'];
@@ -66,7 +66,7 @@ namespace JustField {
                return $target->value;
             },
             function ($args, T_mirror $self) {
-               return $this->orm->select('`db-item_value`')->where("`id_db-item` = '{$this->id}'")()[0]['db-item_value'];
+               return $this->orm->select('`db-item_value`')->where("`id_db-item` = ?")->bind('i', $this->id)()[0]['db-item_value'];
             }
          );
       }

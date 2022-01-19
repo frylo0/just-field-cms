@@ -24,11 +24,11 @@ namespace JustField {
 
       private function get_orm_db_item_type_prop($prop) {
          $this->orm->table('type');
-         $res = $this->orm->select("`type_$prop`")->where("`id_type` = '{$this->id}'")()[0]["type_$prop"];
+         $res = $this->orm->select("`type_$prop`")->where("`id_type` = ?")->bind('i', $this->id)()[0]["type_$prop"];
          return $res;
       }
       private function set_orm_db_item_prop($prop, $value) {
-         $res = $this->orm->update(["type_$prop" => $value])->where("`id_type` = '{$this->id}'")();
+         $res = $this->orm->update(["type_$prop" => '?'])->where("`id_type` = ?")->bind('si', $value, $this->id)();
          return $res;
       }
 
